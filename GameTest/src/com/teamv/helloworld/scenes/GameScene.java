@@ -37,7 +37,7 @@ public class GameScene extends BaseScene
 //        }
         
         gemboard = new Gemboard();
-        gemboard.attach(this);
+        gemboard.attachToScene(this);
         
     }
 

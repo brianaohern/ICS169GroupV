@@ -12,11 +12,18 @@ public class Gem {
 	
 	public Sprite gemSprite;
 	
-	int startingY = 960;
+	private final int RADIUS = 150;
+	private int startingY = 1920/2 + RADIUS;
+	private int buffer = 3;
 	
 	public Gem(int col, int row){
-		gemSprite = new Sprite(col * 180, startingY + row * 180, ResourcesManager.getInstance().game_region, ResourcesManager.getInstance().vbom);
-		gemSprite.setWidth(180);
-		gemSprite.setHeight(180);
+		gemSprite = new Sprite(col * (RADIUS + buffer) + buffer, startingY + row * (RADIUS + buffer) + buffer, ResourcesManager.getInstance().game_region, ResourcesManager.getInstance().vbom);
+		gemSprite.setWidth(RADIUS);
+		gemSprite.setHeight(RADIUS);
+		
+		//if odd
+		if(col%2 != 0){
+			gemSprite.setY(gemSprite.getY() + RADIUS/2);
+		}
 	}
 }
