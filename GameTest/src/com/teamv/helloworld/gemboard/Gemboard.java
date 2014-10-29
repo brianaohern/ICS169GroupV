@@ -33,6 +33,7 @@ public class Gemboard {
 					break;
 				}
 				// ELSE attach the entity
+				gameScene.registerTouchArea(grid[x][y].gemSprite);
 				gameScene.attachChild(grid[x][y].gemSprite);
 			}
 		}

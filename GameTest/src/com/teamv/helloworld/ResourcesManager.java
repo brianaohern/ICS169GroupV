@@ -111,7 +111,7 @@ public class ResourcesManager
     private void loadGameGraphics()
     {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-        gameTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 886, 887, TextureOptions.DEFAULT);
+        gameTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 220, 220, TextureOptions.DEFAULT);
         game_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "circle.png", 0, 0);
         gameTextureAtlas.load();    
     }
