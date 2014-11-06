@@ -1,0 +1,58 @@
+package com.teamv.capstone.gemboard.gems;
+
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.TouchEvent;
+import org.andengine.util.color.Color;
+
+import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.gemboard.Gemboard;
+
+public class YellowGem extends Gem{
+
+	public YellowGem(int col, int row) {
+		super(col, row);
+		
+		gemSprite.setColor(Color.YELLOW);
+	}
+
+	protected void setSprite(){
+		gemSprite = new Sprite(col * (RADIUS + buffer) + buffer, startingY + row * (RADIUS + buffer) + buffer,
+				ResourcesManager.getInstance().game_region, ResourcesManager.getInstance().vbom){
+			
+			@Override
+		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
+		    {
+				// when finger touches gem
+		        if (pSceneTouchEvent.isActionDown())
+		        {
+		        	start.setX(gemSprite.getX() + RADIUS/2);
+		        	start.setY(gemSprite.getY() + RADIUS/2);
+		        }
+		        if (pSceneTouchEvent.isActionMove()){
+		        	end.setX(gemSprite.getX() + RADIUS/2);
+		        	end.setY(gemSprite.getY() + RADIUS/2);
+		        	
+		        	drawLine(this.getVertexBufferObjectManager());
+		        }
+		        // when finger releases gem
+		        if (pSceneTouchEvent.isActionUp())
+		        {
+		        	drawLine(this.getVertexBufferObjectManager());
+		        	Gemboard.connectedGems.clear();
+		        }
+		        return true;
+		    };
+		};
+	}
+	
+	protected void onDestroy() {
+		
+	}
+	
+	protected boolean sameColor(Gem gem) {
+		if(gem instanceof YellowGem){
+			return true;
+		}
+		return false;
+	}
+}

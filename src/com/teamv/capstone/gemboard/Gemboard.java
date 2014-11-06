@@ -1,18 +1,37 @@
 package com.teamv.capstone.gemboard;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.teamv.capstone.BaseScene;
+import com.teamv.capstone.gemboard.gems.*;
 
 public class Gemboard {
 	
+	static Pointf start, end;
+	
 	// array of gems
 	private Gem[][] grid;
+	// array of connected gems
+	public static ArrayList<Gem> connectedGems;
 	
 	private int cols = 7;
 	private int rows = 5;
 	
+	private Random random;
+	
 	public Gemboard(){
 		grid = new Gem[cols][rows];
+		random = new Random();
+		start = new Pointf(0, 0);
+		end = new Pointf(0, 0);
 		
+		connectedGems = new ArrayList<Gem>();
+		
+		resetBoard();
+	}
+	
+	public void resetBoard(){
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				// if odd and last row, don't add gem
@@ -20,7 +39,23 @@ public class Gemboard {
 					break;
 				}
 				// else add gem
-				grid[x][y] = new Gem(x, y);
+				switch(random.nextInt(4)){
+				case 0:
+					grid[x][y] = new BlueGem(x, y);
+					break;
+				case 1:
+					grid[x][y] = new GreenGem(x, y);
+					break;
+				case 2:
+					grid[x][y] = new RedGem(x, y);
+					break;
+				case 3:
+					grid[x][y] = new YellowGem(x, y);
+					break;
+				default:
+					// in case something happens
+					grid[x][y] = new RedGem(x, y);
+				}
 			}
 		}
 	}
@@ -38,4 +73,13 @@ public class Gemboard {
 			}
 		}
 	}
+	
+	public static Pointf getStartPoint(){
+		return start;
+	}
+	
+	public static Pointf getEndPoint(){
+		return end;
+	}
+	
 }
