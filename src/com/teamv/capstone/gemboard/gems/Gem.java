@@ -57,11 +57,11 @@ public abstract class Gem{
     	float tempX = (start.getX() - end.getX()) * (start.getX() - end.getX());
     	float tempY = (start.getY() - end.getY()) * (start.getY() - end.getY());
     	float distance = (float) Math.sqrt(tempX + tempY);
-    	System.out.println("distance: " + distance);
     	
     	// use radius to detect range!
     	if(distance <= RADIUS*1.5){
     		
+    		System.out.println("acceptable distance: " + distance);
     		// not connected 
     		// list is not empty AND check for same color
     		if(!isConnected && 

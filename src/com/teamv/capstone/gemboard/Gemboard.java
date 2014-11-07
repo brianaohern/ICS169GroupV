@@ -19,8 +19,8 @@ public class Gemboard{
 
 	public static ArrayList<Line> lines;
 	
-	private int cols = 7;
-	private int rows = 5;
+	private static int cols = 7;
+	private static int rows = 5;
 	
 	private Random random;
 	
@@ -73,7 +73,6 @@ public class Gemboard{
 					gameScene.registerTouchArea(grid[x][y].gemSprite);
 					gameScene.attachChild(grid[x][y].gemSprite);
 				}
-				
 			}
 		}
 	}
@@ -93,11 +92,27 @@ public class Gemboard{
 	public static void executeGems() {
 		for(Gem gem : connectedGems){
 			gem.destroyGem();
+			grid[gem.getCol()][gem.getRow()] = null;
 			gem = null;
 		}
 		for(Line line : lines){
 			line.detachSelf();
 		}
 		connectedGems.clear();
+		
+		System.out.println("GEMS LEFT IN GEMBOARD: " + gemboardSize());
+	}
+	
+	private static int gemboardSize(){
+		int gems = 0;
+		for(int x = 0; x < cols; x++){
+			for(int y = 0; y < rows; y++){
+				// DON'T REFER TO EMPTY SPACE
+				if(grid[x][y] != null){
+					gems++;
+				}
+			}
+		}
+		return gems;
 	}
 }
