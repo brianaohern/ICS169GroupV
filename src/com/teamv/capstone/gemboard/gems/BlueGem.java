@@ -40,7 +40,7 @@ public class BlueGem extends Gem{
 		        if (pSceneTouchEvent.isActionUp())
 		        {
 		        	drawLine(this.getVertexBufferObjectManager());
-		        	Gemboard.connectedGems.clear();
+		        	Gemboard.executeGems();
 		        }
 		        return true;
 		    };
@@ -48,9 +48,8 @@ public class BlueGem extends Gem{
 	}
 
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		
+	public void destroyGem() {
+		gemSprite.detachSelf();
 	}
 	
 	protected boolean sameColor(Gem gem) {

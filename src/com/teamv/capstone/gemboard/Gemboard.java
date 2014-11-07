@@ -3,6 +3,8 @@ package com.teamv.capstone.gemboard;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.andengine.entity.primitive.Line;
+
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.gemboard.gems.*;
 
@@ -14,6 +16,8 @@ public class Gemboard{
 	private static Gem[][] grid;
 	// array of connected gems
 	public static ArrayList<Gem> connectedGems;
+
+	public static ArrayList<Line> lines;
 	
 	private int cols = 7;
 	private int rows = 5;
@@ -27,6 +31,7 @@ public class Gemboard{
 		end = new Pointf(0, 0);
 		
 		connectedGems = new ArrayList<Gem>();
+		lines = new ArrayList<Line>();
 		
 		resetBoard();
 	}
@@ -64,12 +69,11 @@ public class Gemboard{
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				// DON'T REFER TO EMPTY SPACE
-				if(x%2 != 0 && y == rows - 1){
-					break;
+				if(grid[x][y] != null){
+					gameScene.registerTouchArea(grid[x][y].gemSprite);
+					gameScene.attachChild(grid[x][y].gemSprite);
 				}
-				// ELSE attach the entity
-				gameScene.registerTouchArea(grid[x][y].gemSprite);
-				gameScene.attachChild(grid[x][y].gemSprite);
+				
 			}
 		}
 	}
@@ -84,5 +88,16 @@ public class Gemboard{
 
 	public static void startList(int c, int r) {
 		connectedGems.add(grid[c][r]);
+	}
+
+	public static void executeGems() {
+		for(Gem gem : connectedGems){
+			gem.destroyGem();
+			gem = null;
+		}
+		for(Line line : lines){
+			line.detachSelf();
+		}
+		connectedGems.clear();
 	}
 }

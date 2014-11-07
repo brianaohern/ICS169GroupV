@@ -47,7 +47,7 @@ public abstract class Gem{
 	protected abstract void setSprite();
 	
 	// what happens when gem dies
-	protected abstract void onDestroy();
+	public abstract void destroyGem();
 	
 	// determines if the gems are the same
 	protected abstract boolean sameColor(Gem gem);
@@ -69,11 +69,12 @@ public abstract class Gem{
     			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)))
     			){
     					
-	        	final Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY(), vbom);
+	        	Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY(), vbom);
 
-	            line.setLineWidth(5);
-	            line.setColor(Color.BLACK);
+	        	line.setLineWidth(5);
+	        	line.setColor(Color.BLACK);
 	            SceneManager.getInstance().getCurrentScene().attachChild(line);
+	            Gemboard.lines.add(line);
 	            
 	            start.setX(gemSprite.getX() + RADIUS/2);
 	        	start.setY(gemSprite.getY() + RADIUS/2);

@@ -40,7 +40,8 @@ public class GreenGem extends Gem{
 		        if (pSceneTouchEvent.isActionUp())
 		        {
 		        	drawLine(this.getVertexBufferObjectManager());
-		        	Gemboard.connectedGems.clear();
+		        	//Gemboard.connectedGems.clear();
+		        	Gemboard.executeGems();
 		        }
 		        return true;
 		    };
@@ -48,9 +49,8 @@ public class GreenGem extends Gem{
 	}
 
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		
+	public void destroyGem() {
+		gemSprite.detachSelf();
 	}
 	
 	protected boolean sameColor(Gem gem) {
