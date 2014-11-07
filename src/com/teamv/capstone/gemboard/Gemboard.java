@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.andengine.entity.primitive.Line;
+import org.andengine.entity.scene.IOnSceneTouchListener;
+import org.andengine.entity.scene.Scene;
+import org.andengine.input.touch.TouchEvent;
 
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.gemboard.gems.*;
 
-public class Gemboard{
+public class Gemboard implements IOnSceneTouchListener{
 	
 	static Pointf start, end;
 	
@@ -72,6 +75,7 @@ public class Gemboard{
 				if(grid[x][y] != null){
 					gameScene.registerTouchArea(grid[x][y].gemSprite);
 					gameScene.attachChild(grid[x][y].gemSprite);
+					gameScene.setOnSceneTouchListener(this);
 				}
 			}
 		}
@@ -90,16 +94,18 @@ public class Gemboard{
 	}
 
 	public static void executeGems() {
-		for(Gem gem : connectedGems){
-			gem.destroyGem();
-			grid[gem.getCol()][gem.getRow()] = null;
-			gem = null;
+		System.out.println("GEM CHAIN SIZE: " + connectedGems.size());
+		if(connectedGems.size() >= 3){
+			for(Gem gem : connectedGems){
+				gem.destroyGem();
+				grid[gem.getCol()][gem.getRow()] = null;
+				gem = null;
+			}
 		}
 		for(Line line : lines){
 			line.detachSelf();
 		}
 		connectedGems.clear();
-		
 		System.out.println("GEMS LEFT IN GEMBOARD: " + gemboardSize());
 	}
 	
@@ -114,5 +120,13 @@ public class Gemboard{
 			}
 		}
 		return gems;
+	}
+
+	@Override
+	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+		if (pSceneTouchEvent.isActionUp()){
+			executeGems();
+		}
+		return false;
 	}
 }

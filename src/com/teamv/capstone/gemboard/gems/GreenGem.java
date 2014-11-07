@@ -40,7 +40,6 @@ public class GreenGem extends Gem{
 		        if (pSceneTouchEvent.isActionUp())
 		        {
 		        	drawLine(this.getVertexBufferObjectManager());
-		        	//Gemboard.connectedGems.clear();
 		        	Gemboard.executeGems();
 		        }
 		        return true;

@@ -18,7 +18,6 @@ public abstract class Gem{
 	protected int buffer = 3;
 	
 	protected int col, row;
-	protected boolean isConnected;
 	protected Pointf start, end;
 	
 	public Gem(int col, int row){
@@ -62,13 +61,14 @@ public abstract class Gem{
     	if(distance <= RADIUS*1.5){
     		
     		System.out.println("acceptable distance: " + distance);
-    		// not connected 
-    		// list is not empty AND check for same color
-    		if(!isConnected && 
-    			(!Gemboard.connectedGems.isEmpty() &&
-    			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)))
-    			){
-    					
+    		
+    		// gem list is not empty
+    		// gem is matching colors
+    		// gem is not already in the chain
+    		if( !Gemboard.connectedGems.isEmpty() &&
+    			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
+    			!Gemboard.connectedGems.contains(this)){
+    			
 	        	Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY(), vbom);
 
 	        	line.setLineWidth(5);
@@ -78,7 +78,6 @@ public abstract class Gem{
 	            
 	            start.setX(gemSprite.getX() + RADIUS/2);
 	        	start.setY(gemSprite.getY() + RADIUS/2);
-	        	isConnected = true;
 	        	
 	        	Gemboard.connectedGems.add(this);
         	}
