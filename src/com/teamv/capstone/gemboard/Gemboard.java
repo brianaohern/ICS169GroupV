@@ -6,12 +6,12 @@ import java.util.Random;
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.gemboard.gems.*;
 
-public class Gemboard {
+public class Gemboard{
 	
 	static Pointf start, end;
 	
 	// array of gems
-	private Gem[][] grid;
+	private static Gem[][] grid;
 	// array of connected gems
 	public static ArrayList<Gem> connectedGems;
 	
@@ -81,5 +81,8 @@ public class Gemboard {
 	public static Pointf getEndPoint(){
 		return end;
 	}
-	
+
+	public static void startList(int c, int r) {
+		connectedGems.add(grid[c][r]);
+	}
 }

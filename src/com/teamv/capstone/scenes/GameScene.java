@@ -20,7 +20,6 @@ public class GameScene extends BaseScene
 	private PhysicsWorld physicsWorld;
 	
 	private Gemboard gemboard;
-	private Gem gem;
 	
     @Override
     public void createScene()
@@ -28,11 +27,6 @@ public class GameScene extends BaseScene
     	createBackground();
         createHUD();
         createPhysics();
-        
-//        for(int i = 0; i < 6; i++){
-//        	gem = new Gem(i, 0);
-//        	this.attachChild(gem.gemSprite);
-//        }
         
         gemboard = new Gemboard();
         gemboard.attachToScene(this);

@@ -9,7 +9,7 @@ import com.teamv.capstone.SceneManager;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.gemboard.Pointf;
 
-public abstract class Gem {
+public abstract class Gem{
 
 	public Sprite gemSprite;
 	
@@ -62,10 +62,10 @@ public abstract class Gem {
     	// use radius to detect range!
     	if(distance <= RADIUS*1.5){
     		
-    		// not connected AND list is empty
-    		// not connected AND same color
+    		// not connected 
+    		// list is not empty AND check for same color
     		if(!isConnected && 
-    			(Gemboard.connectedGems.isEmpty() ||
+    			(!Gemboard.connectedGems.isEmpty() &&
     			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)))
     			){
     					

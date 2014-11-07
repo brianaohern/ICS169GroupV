@@ -25,12 +25,14 @@ public class RedGem extends Gem{
 				// when finger touches gem
 		        if (pSceneTouchEvent.isActionDown())
 		        {
-		        	start.setX(gemSprite.getX() + RADIUS/2);
-		        	start.setY(gemSprite.getY() + RADIUS/2);
+		        	start.set(gemSprite.getX() + RADIUS/2, gemSprite.getY() + RADIUS/2);
+		        	
+		        	int c = (int) ((gemSprite.getX() - buffer) / (RADIUS + buffer));
+		        	int r = (int) ((gemSprite.getY() - buffer - startingY) / (RADIUS + buffer));
+		        	Gemboard.startList(c, r);
 		        }
 		        if (pSceneTouchEvent.isActionMove()){
-		        	end.setX(gemSprite.getX() + RADIUS/2);
-		        	end.setY(gemSprite.getY() + RADIUS/2);
+		        	end.set(gemSprite.getX() + RADIUS/2, gemSprite.getY() + RADIUS/2);
 		        	
 		        	drawLine(this.getVertexBufferObjectManager());
 		        }
