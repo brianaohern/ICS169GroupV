@@ -2,10 +2,13 @@ package com.teamv.capstone.gemboard.gems;
 
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
 import com.teamv.capstone.BaseScene;
+import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.SceneManager;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.gemboard.Pointf;
@@ -28,13 +31,18 @@ public abstract class Gem{
 		
 		start = Gemboard.getStartPoint();
 		end = Gemboard.getEndPoint();
+	}
+	
+	public void update(int col, int row){
+		this.col = col;
+		this.row = row;
 		
-		// initiates gem sprite and interaction
-		setSprite();
-		
-		// gem size, which is constant for now
-		gemSprite.setWidth(RADIUS);
-		gemSprite.setHeight(RADIUS);
+		update();
+	}
+	
+	public void update(){
+		gemSprite.setX(col * (RADIUS + buffer) + buffer);
+		gemSprite.setY(startingY + row * (RADIUS + buffer) + buffer);
 		
 		// if odd, stagger location by half of radius
 		if(col%2 != 0){
@@ -42,23 +50,63 @@ public abstract class Gem{
 		}
 	}
 	
-	public void update(int col, int row){
-		this.col = col;
-		this.row = row;
+	public void drop(){
+		row = row + 1;
 		
-		gemSprite.setX(col * (RADIUS + buffer) + buffer);
-		gemSprite.setY(startingY + row * (RADIUS + buffer) + buffer);
+		update();
+	}
+	
+	// each gem should set their sprite in this method
+	// this is important as setting sprite also includes setting their user interaction
+	protected void setSprite(ITextureRegion sprite){
+		gemSprite = new Sprite(col * (RADIUS + buffer) + buffer, startingY + row * (RADIUS + buffer) + buffer,
+				sprite, ResourcesManager.getInstance().vbom){
+			
+			@Override
+		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
+		    {
+				// when finger touches gem
+		        if (pSceneTouchEvent.isActionDown())
+		        {
+		        	start.set(gemSprite.getX() + RADIUS/2, gemSprite.getY() + RADIUS/2);
+		        	
+		        	int c = (int) ((gemSprite.getX() - buffer) / (RADIUS + buffer));
+		        	int r = (int) ((gemSprite.getY() - buffer - startingY) / (RADIUS + buffer));
+		        	Gemboard.startList(c, r);
+		        }
+		        if (pSceneTouchEvent.isActionMove()){
+		        	end.set(gemSprite.getX() + RADIUS/2, gemSprite.getY() + RADIUS/2);
+		        	
+		        	drawLine(this.getVertexBufferObjectManager());
+		        }
+		        // when finger releases gem
+		        if (pSceneTouchEvent.isActionUp())
+		        {
+		        	drawLine(this.getVertexBufferObjectManager());
+		        	Gemboard.executeGems();
+		        }
+		        return true;
+		    };
+		};
+		
+		////////////////////////////////
+		// SIZE AND STUFF
+		////////////////////////////////
+		
+		// gem size, which is constant for now
+		gemSprite.setWidth(RADIUS);
+		gemSprite.setHeight(RADIUS);
+				
+		// if odd, stagger location by half of radius
 		if(col%2 != 0){
 			gemSprite.setY(gemSprite.getY() + RADIUS/2);
 		}
 	}
 	
-	// each gem should set their sprite in this method
-	// this is important as setting sprite also includes setting their user interaction
-	protected abstract void setSprite();
-	
 	// what happens when gem dies
-	public abstract void destroyGem();
+	public void destroyGem(){
+		gemSprite.detachSelf();
+	}
 	
 	// determines if the gems are the same
 	protected abstract boolean sameColor(Gem gem);
@@ -72,7 +120,7 @@ public abstract class Gem{
     	// use radius to detect range!
     	if(distance <= RADIUS*1.5){
     		
-    		System.out.println("acceptable distance: " + distance);
+    		//System.out.println("acceptable distance: " + distance);
     		
     		// gem list is not empty
     		// gem is matching colors
