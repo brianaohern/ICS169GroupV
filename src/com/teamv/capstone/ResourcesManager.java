@@ -50,7 +50,10 @@ public class ResourcesManager
     public Font font;
     
     //game
-    public ITextureRegion game_region;
+    public ITextureRegion red_gem;
+    public ITextureRegion blue_gem;
+    public ITextureRegion green_gem;
+    public ITextureRegion yellow_gem;
     private BitmapTextureAtlas gameTextureAtlas;
     
     //---------------------------------------------
@@ -110,9 +113,12 @@ public class ResourcesManager
 
     private void loadGameGraphics()
     {
-    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-        gameTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 220, 220, TextureOptions.DEFAULT);
-        game_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "circle.png", 0, 0);
+    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/gems/");
+        gameTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 500, 500, TextureOptions.BILINEAR);
+        red_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "fire_red.png", 0, 0);
+        green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "leaf_green.png", 250, 0);
+        blue_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "water_blue.png", 0, 250);
+        yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "sun_yellow.png", 250, 250);
         gameTextureAtlas.load();    
     }
     

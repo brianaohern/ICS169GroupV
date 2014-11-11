@@ -42,6 +42,17 @@ public abstract class Gem{
 		}
 	}
 	
+	public void update(int col, int row){
+		this.col = col;
+		this.row = row;
+		
+		gemSprite.setX(col * (RADIUS + buffer) + buffer);
+		gemSprite.setY(startingY + row * (RADIUS + buffer) + buffer);
+		if(col%2 != 0){
+			gemSprite.setY(gemSprite.getY() + RADIUS/2);
+		}
+	}
+	
 	// each gem should set their sprite in this method
 	// this is important as setting sprite also includes setting their user interaction
 	protected abstract void setSprite();
@@ -85,10 +96,9 @@ public abstract class Gem{
     	}
 	}
 	
-	
 	public void attachToScene(BaseScene gameScene){
-		if(gemSprite != null)
-			gameScene.attachChild(gemSprite);
+		gameScene.registerTouchArea(gemSprite);
+		gameScene.attachChild(gemSprite);
 	}
 	
 	///////////////////////////////////////////

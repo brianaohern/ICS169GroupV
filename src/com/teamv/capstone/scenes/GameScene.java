@@ -54,7 +54,10 @@ public class GameScene extends BaseScene
     
     private void createBackground()
     {
-        setBackground(new Background(Color.WHITE));
+    	float r = 99.0f	/255;
+    	float g = 33.0f	/255;
+    	float b = 10.0f	/255;
+        setBackground(new Background(r, g, b));
     }
 
     

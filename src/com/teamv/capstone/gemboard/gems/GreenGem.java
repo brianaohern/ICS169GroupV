@@ -12,12 +12,12 @@ public class GreenGem extends Gem{
 	public GreenGem(int col, int row) {
 		super(col, row);
 		
-		gemSprite.setColor(Color.GREEN);
+		//gemSprite.setColor(Color.GREEN);
 	}
 
 	protected void setSprite(){
 		gemSprite = new Sprite(col * (RADIUS + buffer) + buffer, startingY + row * (RADIUS + buffer) + buffer,
-				ResourcesManager.getInstance().game_region, ResourcesManager.getInstance().vbom){
+				ResourcesManager.getInstance().green_gem, ResourcesManager.getInstance().vbom){
 			
 			@Override
 		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 

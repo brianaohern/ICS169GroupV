@@ -12,12 +12,12 @@ public class BlueGem extends Gem{
 	public BlueGem(int col, int row) {
 		super(col, row);
 		
-		gemSprite.setColor(Color.BLUE);
+		//gemSprite.setColor(Color.BLUE);
 	}
 
 	protected void setSprite(){
 		gemSprite = new Sprite(col * (RADIUS + buffer) + buffer, startingY + row * (RADIUS + buffer) + buffer,
-				ResourcesManager.getInstance().game_region, ResourcesManager.getInstance().vbom){
+				ResourcesManager.getInstance().blue_gem, ResourcesManager.getInstance().vbom){
 			
 			@Override
 		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
