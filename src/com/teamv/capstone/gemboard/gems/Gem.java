@@ -5,6 +5,7 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
+import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.SceneManager;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.gemboard.Pointf;
@@ -82,6 +83,12 @@ public abstract class Gem{
 	        	Gemboard.connectedGems.add(this);
         	}
     	}
+	}
+	
+	
+	public void attachToScene(BaseScene gameScene){
+		if(gemSprite != null)
+			gameScene.attachChild(gemSprite);
 	}
 	
 	///////////////////////////////////////////
