@@ -104,7 +104,9 @@ public abstract class Gem{
 	}
 	
 	// what happens when gem dies
-	public void destroyGem(){
+	public void onDie(){
+		gemSprite.dispose();
+		SceneManager.getInstance().getCurrentScene().unregisterTouchArea(gemSprite);
 		gemSprite.detachSelf();
 	}
 	
@@ -148,6 +150,11 @@ public abstract class Gem{
 		gameScene.registerTouchArea(gemSprite);
 		gameScene.attachChild(gemSprite);
 	}
+	
+//	public void detachToScene(BaseScene gameScene){
+//		gameScene.unregisterTouchArea(gemSprite);
+//		gameScene.detachChild(gemSprite);
+//	}
 	
 	///////////////////////////////////////////
 	// SETTERS AND GETTERS

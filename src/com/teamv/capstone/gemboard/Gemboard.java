@@ -81,6 +81,7 @@ public class Gemboard implements IOnSceneTouchListener{
 		}
 	}
 	
+	
 	public static Pointf getStartPoint(){
 		return start;
 	}
@@ -114,15 +115,15 @@ public class Gemboard implements IOnSceneTouchListener{
 	private static void dropGem(Gem gem){
 		for(int i = gem.getRow(); i > 0; i--){
 			grid[gem.getCol()][i] = grid[gem.getCol()][i - 1];
-			
+	
 			grid[gem.getCol()][i].drop();
 		}
 		
-		//grid[gem.getCol()][0] = randomGem(gem.getCol(), 0);
-		grid[gem.getCol()][0] = new RedGem(gem.getCol(), 0);
+		grid[gem.getCol()][0] = randomGem(gem.getCol(), 0);
+		//grid[gem.getCol()][0] = new RedGem(gem.getCol(), 0);
 		grid[gem.getCol()][0].attachToScene(SceneManager.getInstance().getCurrentScene());
 		
-		gem.destroyGem();
+		gem.onDie();
 		gem = null;
 	}
 	
