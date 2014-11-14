@@ -17,6 +17,7 @@ import org.andengine.ui.activity.BaseGameActivity;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.KeyEvent;
+import android.view.View;
 
 /**
  * @author Mateusz Mysliwiec
@@ -26,6 +27,7 @@ import android.view.KeyEvent;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB) public class GameActivity extends BaseGameActivity
 {
 	private Camera camera;
+	@SuppressWarnings("unused")
 	private ResourcesManager resourcesManager;
 	
     public EngineOptions onCreateEngineOptions()
@@ -71,7 +73,7 @@ import android.view.KeyEvent;
     protected void onDestroy()
     {
     	super.onDestroy();
-            System.exit(0);	
+        System.exit(0);	
     }
     
     @Override
@@ -82,5 +84,21 @@ import android.view.KeyEvent;
             SceneManager.getInstance().getCurrentScene().onBackKeyPressed();
         }
         return false; 
+    }
+    
+    public synchronized void onWindowFocusChanged(boolean pHasWindowFocus) {
+        super.onWindowFocusChanged(pHasWindowFocus);
+        if (pHasWindowFocus) {
+            if (Build.VERSION.SDK_INT >= 19) {
+                int uiOptions
+                        = 256 // View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | 4096 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+            }
+        }
     }
 }

@@ -114,11 +114,13 @@ public class ResourcesManager
     private void loadGameGraphics()
     {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/gems/");
-        gameTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 500, 500, TextureOptions.BILINEAR);
+        gameTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 484, 488, TextureOptions.BILINEAR);
         red_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "fire_red.png", 0, 0);
-        green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "leaf_green.png", 250, 0);
-        blue_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "water_blue.png", 0, 250);
-        yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "sun_yellow.png", 250, 250);
+        blue_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "water_blue.png", 228, 0);
+        yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "sun_yellow.png", 0, 244);
+        green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "leaf_green.png", 240, 244);
+        
+        
         gameTextureAtlas.load();    
     }
     

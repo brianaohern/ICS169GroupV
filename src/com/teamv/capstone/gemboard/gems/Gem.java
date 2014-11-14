@@ -33,13 +33,7 @@ public abstract class Gem{
 		end = Gemboard.getEndPoint();
 	}
 	
-	public void update(int col, int row){
-		this.col = col;
-		this.row = row;
-		
-		update();
-	}
-	
+	// update gem variables
 	public void update(){
 		gemSprite.setX(col * (RADIUS + buffer) + buffer);
 		gemSprite.setY(startingY + row * (RADIUS + buffer) + buffer);
@@ -50,9 +44,17 @@ public abstract class Gem{
 		}
 	}
 	
+	// update gem variables given col/row
+	// can remove this if not used
+	public void update(int col, int row){
+		this.col = col;
+		this.row = row;
+		update();
+	}
+	
+	// drop the gem, so row++
 	public void drop(){
 		row = row + 1;
-		
 		update();
 	}
 	
@@ -114,35 +116,26 @@ public abstract class Gem{
 	protected abstract boolean sameColor(Gem gem);
 	
 	protected void drawLine(VertexBufferObjectManager vbom){
-		// distance formula
-    	float tempX = (start.getX() - end.getX()) * (start.getX() - end.getX());
-    	float tempY = (start.getY() - end.getY()) * (start.getY() - end.getY());
-    	float distance = (float) Math.sqrt(tempX + tempY);
-    	
-    	// use radius to detect range!
-    	if(distance <= RADIUS*1.5){
-    		
-    		//System.out.println("acceptable distance: " + distance);
-    		
-    		// gem list is not empty
-    		// gem is matching colors
-    		// gem is not already in the chain
-    		if( !Gemboard.connectedGems.isEmpty() &&
-    			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
-    			!Gemboard.connectedGems.contains(this)){
-    			
-	        	Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY(), vbom);
+    	// location is adjacent to gem
+		// gem list is not empty
+		// gem is matching colors
+		// gem is not already in the chain
+		if( isAdjacent(start.getX(), end.getX(), start.getY(), end.getY()) &&
+			!Gemboard.connectedGems.isEmpty() &&
+			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
+			!Gemboard.connectedGems.contains(this)){
+			
+        	Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY(), vbom);
 
-	        	line.setLineWidth(5);
-	        	line.setColor(Color.BLACK);
-	            SceneManager.getInstance().getCurrentScene().attachChild(line);
-	            Gemboard.lines.add(line);
-	            
-	            start.setX(gemSprite.getX() + RADIUS/2);
-	        	start.setY(gemSprite.getY() + RADIUS/2);
-	        	
-	        	Gemboard.connectedGems.add(this);
-        	}
+        	line.setLineWidth(5);
+        	line.setColor(Color.BLACK);
+            SceneManager.getInstance().getCurrentScene().attachChild(line);
+            Gemboard.lines.add(line);
+            
+            start.setX(gemSprite.getX() + RADIUS/2);
+        	start.setY(gemSprite.getY() + RADIUS/2);
+        	
+        	Gemboard.connectedGems.add(this);
     	}
 	}
 	
@@ -151,10 +144,21 @@ public abstract class Gem{
 		gameScene.attachChild(gemSprite);
 	}
 	
-//	public void detachToScene(BaseScene gameScene){
-//		gameScene.unregisterTouchArea(gemSprite);
-//		gameScene.detachChild(gemSprite);
-//	}
+	// used for drawing lines
+	private boolean isAdjacent(float x1, float x2, float y1, float y2){
+		// distance formula
+		float x = x1 - x2;
+		float y = y1 - y2;
+		float distance = (float) Math.sqrt(x*x + y*y);
+    	
+    	return distance < RADIUS * 1.5;		
+	}
+	
+	// used publicly for gem adjacency
+	public boolean isAdjacent(Gem gem){
+    	return isAdjacent(	gemSprite.getX(), gem.gemSprite.getX(), 
+    						gemSprite.getY(), gem.gemSprite.getY());
+	}
 	
 	///////////////////////////////////////////
 	// SETTERS AND GETTERS
