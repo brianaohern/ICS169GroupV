@@ -10,13 +10,6 @@ public class GreenGem extends Gem{
 		setSprite(ResourcesManager.getInstance().green_gem);
 	}
 	
-	protected boolean sameColor(Gem gem) {
-		if(gem instanceof GreenGem){
-			return true;
-		}
-		return false;
-	}
-	
 	public String toString(){
 		return "Green";
 	}

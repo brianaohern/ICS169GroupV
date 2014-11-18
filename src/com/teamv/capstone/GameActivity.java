@@ -53,7 +53,7 @@ import android.view.View;
 
     public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws IOException
     {
-        mEngine.registerUpdateHandler(new TimerHandler(2f, new ITimerCallback() 
+        mEngine.registerUpdateHandler(new TimerHandler(0.5f, new ITimerCallback() 
         {
                 public void onTimePassed(final TimerHandler pTimerHandler) 
                 {

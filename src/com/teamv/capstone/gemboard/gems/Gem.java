@@ -91,10 +91,6 @@ public abstract class Gem{
 		    };
 		};
 		
-		////////////////////////////////
-		// SIZE AND STUFF
-		////////////////////////////////
-		
 		// gem size, which is constant for now
 		gemSprite.setWidth(RADIUS);
 		gemSprite.setHeight(RADIUS);
@@ -105,22 +101,26 @@ public abstract class Gem{
 		}
 	}
 	
-	// what happens when gem dies
-	public void onDie(){
-		gemSprite.dispose();
-		SceneManager.getInstance().getCurrentScene().unregisterTouchArea(gemSprite);
-		gemSprite.detachSelf();
+	// used to attach gem sprites to gameScene
+	public void attachToScene(BaseScene gameScene){
+		gameScene.registerTouchArea(gemSprite);
+		gameScene.attachChild(gemSprite);
 	}
 	
-	// determines if the gems are the same
-	protected abstract boolean sameColor(Gem gem);
+	// what happens when gem dies, cleans up
+	public void onDie(){
+		SceneManager.getInstance().getCurrentScene().unregisterTouchArea(gemSprite);
+		gemSprite.detachSelf();
+		gemSprite.dispose();
+	}
 	
 	protected void drawLine(VertexBufferObjectManager vbom){
+		
     	// location is adjacent to gem
 		// gem list is not empty
 		// gem is matching colors
 		// gem is not already in the chain
-		if( isAdjacent(start.getX(), end.getX(), start.getY(), end.getY()) &&
+		if( isAdjacent() &&
 			!Gemboard.connectedGems.isEmpty() &&
 			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
 			!Gemboard.connectedGems.contains(this)){
@@ -132,6 +132,7 @@ public abstract class Gem{
             SceneManager.getInstance().getCurrentScene().attachChild(line);
             Gemboard.lines.add(line);
             
+            // set point to middle of gem
             start.setX(gemSprite.getX() + RADIUS/2);
         	start.setY(gemSprite.getY() + RADIUS/2);
         	
@@ -139,12 +140,15 @@ public abstract class Gem{
     	}
 	}
 	
-	public void attachToScene(BaseScene gameScene){
-		gameScene.registerTouchArea(gemSprite);
-		gameScene.attachChild(gemSprite);
+	// determines if the gems are the same
+	protected boolean sameColor(Gem gem) {
+		if(this.toString().equals(gem.toString())){
+			return true;
+		}
+		return false;
 	}
 	
-	// used for drawing lines
+	// used for drawing lines; the basic math
 	private boolean isAdjacent(float x1, float x2, float y1, float y2){
 		// distance formula
 		float x = x1 - x2;
@@ -154,7 +158,12 @@ public abstract class Gem{
     	return distance < RADIUS * 1.5;		
 	}
 	
-	// used publicly for gem adjacency
+	// used for drawing lines, can be combined with the other isAdjacents
+	private boolean isAdjacent(){
+		return isAdjacent(start.getX(), end.getX(), start.getY(), end.getY());
+	}
+	
+	// used publicly for gem adjacency, remove if not needed
 	public boolean isAdjacent(Gem gem){
     	return isAdjacent(	gemSprite.getX(), gem.gemSprite.getX(), 
     						gemSprite.getY(), gem.gemSprite.getY());

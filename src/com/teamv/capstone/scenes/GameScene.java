@@ -1,8 +1,6 @@
 package com.teamv.capstone.scenes;
 
-import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.scene.background.Background;
-import org.andengine.entity.text.Text;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
@@ -10,13 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.SceneManager.SceneType;
 import com.teamv.capstone.gemboard.Gemboard;
-import com.teamv.capstone.gemboard.gems.Gem;
 
 public class GameScene extends BaseScene
 {
 	///VARIABLES
-	private HUD gameHUD;
-	private Text scoreText;
+	//private HUD gameHUD;
+	//private Text scoreText;
 	private PhysicsWorld physicsWorld;
 	
 	private Gemboard gemboard;
@@ -28,8 +25,8 @@ public class GameScene extends BaseScene
         createHUD();
         createPhysics();
         
-        gemboard = new Gemboard();
-        gemboard.attachToScene(this);
+        gemboard = new Gemboard(this);
+        this.setOnSceneTouchListener(gemboard);
     }
 
     @Override
@@ -54,10 +51,10 @@ public class GameScene extends BaseScene
     
     private void createBackground()
     {
-    	float r = 99.0f	/255;
-    	float g = 33.0f	/255;
-    	float b = 10.0f	/255;
-        //setBackground(new Background(r, g, b));
+//    	float r = 99.0f	/255;
+//    	float g = 33.0f	/255;
+//    	float b = 10.0f	/255;
+//      setBackground(new Background(r, g, b));
         setBackground(new Background(Color.BLACK));
     }
 

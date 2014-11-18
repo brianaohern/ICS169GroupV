@@ -14,10 +14,11 @@ import com.teamv.capstone.gemboard.gems.*;
 
 public class Gemboard implements IOnSceneTouchListener{
 	
-	static Pointf start, end;
+	private static Pointf start, end;
 	
 	// array of gems
 	private static Gem[][] grid;
+	private static BaseScene gameScene;
 	// array of connected gems
 	public static ArrayList<Gem> connectedGems;
 
@@ -28,7 +29,8 @@ public class Gemboard implements IOnSceneTouchListener{
 	
 	private static Random random;
 	
-	public Gemboard(){
+	public Gemboard(BaseScene gameScene){
+		Gemboard.gameScene = gameScene;
 		grid = new Gem[cols][rows];
 		random = new Random();
 		start = new Pointf(0, 0);
@@ -40,47 +42,22 @@ public class Gemboard implements IOnSceneTouchListener{
 		resetBoard();
 	}
 	
-	public void resetBoard(){
+	public static void resetBoard(){
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				// if odd and last row, don't add gem
 				if(x%2 != 0 && y == rows - 1){
 					break;
 				}
-				// else add gem
-				switch(random.nextInt(4)){
-				case 0:
-					grid[x][y] = new BlueGem(x, y);
-					break;
-				case 1:
-					grid[x][y] = new GreenGem(x, y);
-					break;
-				case 2:
-					grid[x][y] = new RedGem(x, y);
-					break;
-				case 3:
-					grid[x][y] = new YellowGem(x, y);
-					break;
-				default:
-					// in case something happens
-					grid[x][y] = new RedGem(x, y);
+				// clean up if there's anything else in there
+				else if(grid[x][y] != null){
+					grid[x][y].onDie();
 				}
+				grid[x][y] = randomGem(x, y);
+				grid[x][y].attachToScene(gameScene);
 			}
 		}
 	}
-	
-	public void attachToScene(BaseScene gameScene){
-		for(int x = 0; x < cols; x++){
-			for(int y = 0; y < rows; y++){
-				// DON'T REFER TO EMPTY SPACE
-				if(grid[x][y] != null){
-					grid[x][y].attachToScene(gameScene);
-					gameScene.setOnSceneTouchListener(this);
-				}
-			}
-		}
-	}
-	
 	
 	public static Pointf getStartPoint(){
 		return start;
@@ -107,6 +84,10 @@ public class Gemboard implements IOnSceneTouchListener{
 		
 		connectedGems.clear();
 		//printAll();
+		
+		if(hasNoMoreMoves()){
+			resetBoard();
+		}
 	}
 	
 	// drops every gem above the parameter gem, then drop a new gem
@@ -121,6 +102,7 @@ public class Gemboard implements IOnSceneTouchListener{
 		}
 		
 		grid[col][0] = randomGem(col, 0);
+		//grid[col][0] = new RandGem(col, 0);
 		grid[col][0].attachToScene(SceneManager.getInstance().getCurrentScene());
 		
 		gem.onDie();
@@ -150,6 +132,58 @@ public class Gemboard implements IOnSceneTouchListener{
 		}
 		// in case something goes wrong, return red
 		return new RedGem(col, row);
+	}
+	
+	private static boolean hasNoMoreMoves(){
+		for(int x = 0; x < cols; x++){
+			for(int y = 0; y < rows; y++){
+				if(grid[x][y] != null){
+					int count = 0;
+					String gemType = grid[x][y].toString();
+					
+					// x, y+1	BOTTOM
+					if(y+1 < rows){
+						count += checkGem(x, y+1, gemType);
+					}
+					// x, y-1	TOP
+					if(y-1 >= 0){
+						count += checkGem(x, y-1, gemType);
+					}
+					// x-1, y	TOP LEFT
+					if(x-1 >= 0){
+						count += checkGem(x-1, y, gemType);
+					}
+					// x-1, y+1	BOTTOM LEFT
+					if(x-1 >= 0 && y+1 < rows){
+						count += checkGem(x-1, y+1, gemType);
+					}
+					// x+1, y	TOP RIGHT
+					if(x+1 < cols){
+						count += checkGem(x+1, y, gemType);
+					}
+					// x+1, y+1	BOTTOM RIGHT
+					if(x+1 < cols && y+1 < rows){
+						count += checkGem(x+1, y+1, gemType);
+					}
+
+					if(count >= 2){
+						return false;
+					}
+				}
+			}
+		}
+		System.out.println("NO MORE MOVES");
+		return true;
+	}
+	
+	private static int checkGem(int c, int r, String type){
+		if(r ==  4 && c%2 != 0){
+			return 0;
+		}
+		else if(grid[c][r].toString().equals(type)){
+			return 1;
+		}
+		return 0;
 	}
 	
 	//////////////////////////////////////////////////
