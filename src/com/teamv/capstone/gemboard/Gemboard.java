@@ -39,7 +39,9 @@ public class Gemboard implements IOnSceneTouchListener{
 		connectedGems = new ArrayList<Gem>();
 		lines = new ArrayList<Line>();
 		
-		resetBoard();
+		// while the gemboard has no possible moves, reset the board
+		while(hasNoMoreMoves())
+			resetBoard();
 	}
 	
 	public static void resetBoard(){
@@ -51,7 +53,7 @@ public class Gemboard implements IOnSceneTouchListener{
 				}
 				// clean up if there's anything else in there
 				else if(grid[x][y] != null){
-					grid[x][y].onDie();
+					grid[x][y].onDie(gameScene);
 				}
 				grid[x][y] = randomGem(x, y);
 				grid[x][y].attachToScene(gameScene);
@@ -86,6 +88,7 @@ public class Gemboard implements IOnSceneTouchListener{
 		//printAll();
 		
 		if(hasNoMoreMoves()){
+			System.out.println("NO MORE MOVES");
 			resetBoard();
 		}
 	}
@@ -105,7 +108,7 @@ public class Gemboard implements IOnSceneTouchListener{
 		//grid[col][0] = new RandGem(col, 0);
 		grid[col][0].attachToScene(SceneManager.getInstance().getCurrentScene());
 		
-		gem.onDie();
+		gem.onDie(gameScene);
 		gem = null;
 	}
 	
@@ -142,45 +145,36 @@ public class Gemboard implements IOnSceneTouchListener{
 					String gemType = grid[x][y].toString();
 					
 					// x, y+1	BOTTOM
-					if(y+1 < rows){
-						count += checkGem(x, y+1, gemType);
-					}
+					count += checkGem(x, y+1, gemType);
 					// x, y-1	TOP
-					if(y-1 >= 0){
-						count += checkGem(x, y-1, gemType);
-					}
+					count += checkGem(x, y-1, gemType);
 					// x-1, y	TOP LEFT
-					if(x-1 >= 0){
-						count += checkGem(x-1, y, gemType);
-					}
+					count += checkGem(x-1, y, gemType);
 					// x-1, y+1	BOTTOM LEFT
-					if(x-1 >= 0 && y+1 < rows){
-						count += checkGem(x-1, y+1, gemType);
-					}
+					count += checkGem(x-1, y+1, gemType);
 					// x+1, y	TOP RIGHT
-					if(x+1 < cols){
-						count += checkGem(x+1, y, gemType);
-					}
+					count += checkGem(x+1, y, gemType);
 					// x+1, y+1	BOTTOM RIGHT
-					if(x+1 < cols && y+1 < rows){
-						count += checkGem(x+1, y+1, gemType);
-					}
-
+					count += checkGem(x+1, y+1, gemType);
+					
+//					System.out.print("COUNT SIZE IS: " + count);
+//					System.out.println(" AT  COL " + x + ", ROW " + y);
+					
 					if(count >= 2){
 						return false;
 					}
 				}
 			}
 		}
-		System.out.println("NO MORE MOVES");
 		return true;
 	}
 	
 	private static int checkGem(int c, int r, String type){
-		if(r ==  4 && c%2 != 0){
+		if(		(c < 0 || r < 0) ||
+				(c >= cols || r >= rows)){
 			return 0;
 		}
-		else if(grid[c][r].toString().equals(type)){
+		else if(grid[c][r] != null && grid[c][r].toString().equals(type)){
 			return 1;
 		}
 		return 0;

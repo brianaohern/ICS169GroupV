@@ -108,8 +108,8 @@ public abstract class Gem{
 	}
 	
 	// what happens when gem dies, cleans up
-	public void onDie(){
-		SceneManager.getInstance().getCurrentScene().unregisterTouchArea(gemSprite);
+	public void onDie(BaseScene gameScene){
+		gameScene.unregisterTouchArea(gemSprite);
 		gemSprite.detachSelf();
 		gemSprite.dispose();
 	}
