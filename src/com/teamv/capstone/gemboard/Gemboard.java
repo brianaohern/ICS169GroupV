@@ -27,6 +27,11 @@ public class Gemboard implements IOnSceneTouchListener{
 	private static int cols = 7;
 	private static int rows = 5;
 	
+	// GEM variables
+	public static int RADIUS = 1080/cols - 1080%cols;
+	public static int startingY = 1920/2 + RADIUS;
+	public static int buffer = 2;
+	
 	private static Random random;
 	
 	public Gemboard(BaseScene gameScene){

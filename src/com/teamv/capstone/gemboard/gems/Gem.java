@@ -17,9 +17,9 @@ public abstract class Gem{
 
 	public Sprite gemSprite;
 	
-	protected final int RADIUS = 150;
-	protected int startingY = 1920/2 + RADIUS;
-	protected int buffer = 3;
+	protected final int RADIUS 	= Gemboard.RADIUS;
+	protected int startingY 	= Gemboard.startingY;
+	protected int buffer 		= Gemboard.buffer;
 	
 	protected int col, row;
 	protected Pointf start, end;
@@ -35,7 +35,7 @@ public abstract class Gem{
 	
 	// update gem variables
 	public void update(){
-		gemSprite.setX(col * (RADIUS + buffer) + buffer);
+		gemSprite.setX(col * RADIUS);
 		gemSprite.setY(startingY + row * (RADIUS + buffer) + buffer);
 		
 		// if odd, stagger location by half of radius
@@ -61,7 +61,7 @@ public abstract class Gem{
 	// each gem should set their sprite in this method
 	// this is important as setting sprite also includes setting their user interaction
 	protected void setSprite(ITextureRegion sprite){
-		gemSprite = new Sprite(col * (RADIUS + buffer) + buffer, startingY + row * (RADIUS + buffer) + buffer,
+		gemSprite = new Sprite(col * RADIUS, startingY + row * (RADIUS + buffer) + buffer,
 				sprite, ResourcesManager.getInstance().vbom){
 			
 			@Override
@@ -72,7 +72,7 @@ public abstract class Gem{
 		        {
 		        	start.set(gemSprite.getX() + RADIUS/2, gemSprite.getY() + RADIUS/2);
 		        	
-		        	int c = (int) ((gemSprite.getX() - buffer) / (RADIUS + buffer));
+		        	int c = (int) (gemSprite.getX() / RADIUS);
 		        	int r = (int) ((gemSprite.getY() - buffer - startingY) / (RADIUS + buffer));
 		        	Gemboard.startList(c, r);
 		        }
