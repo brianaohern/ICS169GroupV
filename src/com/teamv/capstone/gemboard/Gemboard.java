@@ -144,21 +144,18 @@ public class Gemboard implements IOnSceneTouchListener{
 					int count = 0;
 					String gemType = grid[x][y].toString();
 					
-					// x, y+1	BOTTOM
 					count += checkGem(x, y+1, gemType);
-					// x, y-1	TOP
 					count += checkGem(x, y-1, gemType);
-					// x-1, y	TOP LEFT
-					count += checkGem(x-1, y, gemType);
-					// x-1, y+1	BOTTOM LEFT
-					count += checkGem(x-1, y+1, gemType);
-					// x+1, y	TOP RIGHT
 					count += checkGem(x+1, y, gemType);
-					// x+1, y+1	BOTTOM RIGHT
-					count += checkGem(x+1, y+1, gemType);
+					count += checkGem(x-1, y, gemType);
 					
-//					System.out.print("COUNT SIZE IS: " + count);
-//					System.out.println(" AT  COL " + x + ", ROW " + y);
+					if(x%2 == 0){
+						count += checkGem(x-1, y-1, gemType);
+						count += checkGem(x+1, y-1, gemType);
+					} else{
+						count += checkGem(x-1, y+1, gemType);
+						count += checkGem(x+1, y+1, gemType);
+					}
 					
 					if(count >= 2){
 						return false;
