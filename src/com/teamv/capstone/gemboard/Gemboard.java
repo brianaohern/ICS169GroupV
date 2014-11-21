@@ -6,10 +6,12 @@ import java.util.Random;
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
+import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.util.color.Color;
 
 import com.teamv.capstone.BaseScene;
-import com.teamv.capstone.SceneManager;
+import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.gemboard.gems.*;
 
 public class Gemboard implements IOnSceneTouchListener{
@@ -19,6 +21,8 @@ public class Gemboard implements IOnSceneTouchListener{
 	// array of gems
 	private static Gem[][] grid;
 	private static BaseScene gameScene;
+	private static PhysicsWorld physicsWorld;
+	
 	// array of connected gems
 	public static ArrayList<Gem> connectedGems;
 
@@ -28,14 +32,15 @@ public class Gemboard implements IOnSceneTouchListener{
 	private static int rows = 5;
 	
 	// GEM variables
-	public static int RADIUS = 1080/cols - 1080%cols;
-	public static int startingY = 1920/2 + RADIUS;
-	public static int buffer = 2;
+	public static final int RADIUS 	= 1080/cols - 1080%cols;
+	public static final int STARTY	= 1920/2 + RADIUS;
 	
 	private static Random random;
 	
-	public Gemboard(BaseScene gameScene){
+	public Gemboard(BaseScene gameScene, PhysicsWorld physicsWorld){
 		Gemboard.gameScene = gameScene;
+		Gemboard.physicsWorld = physicsWorld;
+		
 		grid = new Gem[cols][rows];
 		random = new Random();
 		start = new Pointf(0, 0);
@@ -47,6 +52,8 @@ public class Gemboard implements IOnSceneTouchListener{
 		// while the gemboard has no possible moves, reset the board
 		while(hasNoMoreMoves())
 			resetBoard();
+		
+		drawGrid();
 	}
 	
 	public static void resetBoard(){
@@ -58,26 +65,14 @@ public class Gemboard implements IOnSceneTouchListener{
 				}
 				// clean up if there's anything else in there
 				else if(grid[x][y] != null){
-					grid[x][y].onDie(gameScene);
+					detachGem(grid[x][y]);
 				}
 				grid[x][y] = randomGem(x, y);
-				grid[x][y].attachToScene(gameScene);
+				attachGem(grid[x][y]);
 			}
 		}
 	}
 	
-	public static Pointf getStartPoint(){
-		return start;
-	}
-	
-	public static Pointf getEndPoint(){
-		return end;
-	}
-
-	public static void startList(int c, int r) {
-		connectedGems.add(grid[c][r]);
-	}
-
 	public static void executeGems() {
 		
 		if(connectedGems.size() >= 3){
@@ -96,25 +91,33 @@ public class Gemboard implements IOnSceneTouchListener{
 			System.out.println("NO MORE MOVES");
 			resetBoard();
 		}
+		drawGrid();
 	}
 	
 	// drops every gem above the parameter gem, then drop a new gem
 	private static void dropGem(Gem gem){
-		// column of gem
 		int col = gem.getCol();
 		
 		for(int i = gem.getRow(); i > 0; i--){
 			grid[col][i] = grid[col][i - 1];
-	
 			grid[col][i].drop();
 		}
 		
 		grid[col][0] = randomGem(col, 0);
-		//grid[col][0] = new RandGem(col, 0);
-		grid[col][0].attachToScene(SceneManager.getInstance().getCurrentScene());
+		attachGem(grid[col][0]);
 		
-		gem.onDie(gameScene);
+		detachGem(gem);
 		gem = null;
+	}
+	
+	private static void attachGem(Gem gem){
+		gameScene.attachChild(gem);
+		gameScene.registerTouchArea(gem);
+	}
+	
+	private static void detachGem(Gem gem){
+		gameScene.unregisterTouchArea(gem);
+		gem.onDie();
 	}
 	
 	@Override
@@ -127,19 +130,25 @@ public class Gemboard implements IOnSceneTouchListener{
 	
 	// return random gem
 	private static Gem randomGem(int col, int row){
+		float x = col * RADIUS;
+		float y = STARTY + row * (RADIUS);
+		if(col%2 != 0){
+			y += RADIUS/2;
+		}
+		
 		// add gems and whatnot in here
 		switch(random.nextInt(4)){
 		case 0:
-			return new BlueGem(col, row);
+			return new BlueGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 1:
-			return new GreenGem(col, row);
+			return new GreenGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 2:
-			return new YellowGem(col, row);
+			return new YellowGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 3:
-			return new RedGem(col, row);
+			return new RedGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		}
 		// in case something goes wrong, return red
-		return new RedGem(col, row);
+		return new RedGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
 	
 	private static boolean hasNoMoreMoves(){
@@ -180,6 +189,22 @@ public class Gemboard implements IOnSceneTouchListener{
 			return 1;
 		}
 		return 0;
+	}
+	
+	public static void startList(int c, int r){
+		connectedGems.add(grid[c][r]);
+	}
+	
+	public void attachPhysics(){
+		
+	}
+	
+	public static Pointf getStartPoint(){
+		return start;
+	}
+	
+	public static Pointf getEndPoint(){
+		return end;
 	}
 	
 	//////////////////////////////////////////////////
@@ -223,5 +248,21 @@ public class Gemboard implements IOnSceneTouchListener{
 			}
 		}
 		return gems;
+	}
+	
+	private static void drawGrid(){
+		for(int y = 0; y <= rows; y++){
+			Line line = new Line(0, STARTY + y * RADIUS, 1080, STARTY + y * RADIUS, ResourcesManager.getInstance().vbom);
+	    	line.setLineWidth(10f);
+	    	line.setColor(Color.WHITE);
+	        gameScene.attachChild(line);
+		}
+		for(int x = 0; x <= cols; x++){
+			Line line = new Line(x * RADIUS, 0, x * RADIUS, 1920, ResourcesManager.getInstance().vbom);
+	    	line.setLineWidth(10f);
+	    	line.setColor(Color.WHITE);
+	        gameScene.attachChild(line);
+		}
+		
 	}
 }

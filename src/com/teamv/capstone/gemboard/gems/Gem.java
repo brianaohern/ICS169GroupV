@@ -2,124 +2,89 @@ package com.teamv.capstone.gemboard.gems;
 
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.extension.physics.box2d.PhysicsConnector;
+import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
-import com.teamv.capstone.BaseScene;
-import com.teamv.capstone.ResourcesManager;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.teamv.capstone.SceneManager;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.gemboard.Pointf;
 
-public abstract class Gem{
+public abstract class Gem extends Sprite{
 
-	public Sprite gemSprite;
+	protected Pointf start		= Gemboard.getStartPoint();
+	protected Pointf end		= Gemboard.getEndPoint();
+	private Body body;
+	private boolean isDropping = false;
+	private float targetY;
 	
-	protected final int RADIUS 	= Gemboard.RADIUS;
-	protected int startingY 	= Gemboard.startingY;
-	protected int buffer 		= Gemboard.buffer;
-	
-	protected int col, row;
-	protected Pointf start, end;
-	
-	public Gem(int col, int row){
+	public Gem(float pX, float pY, ITextureRegion region, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld){
+		super(pX, pY, region, vbo);
 		
-		this.col = col;
-		this.row = row;
+		// gem size
+		setWidth(Gemboard.RADIUS);
+		setHeight(Gemboard.RADIUS);
 		
-		start = Gemboard.getStartPoint();
-		end = Gemboard.getEndPoint();
+		targetY = pY;
+		
+		createPhysics(physicsWorld);
 	}
 	
-	// update gem variables
-	public void update(){
-		gemSprite.setX(col * RADIUS);
-		gemSprite.setY(startingY + row * (RADIUS + buffer) + buffer);
-		
-		// if odd, stagger location by half of radius
-		if(col%2 != 0){
-			gemSprite.setY(gemSprite.getY() + RADIUS/2);
-		}
+	private void createPhysics(PhysicsWorld physicsWorld)
+	{        
+	    body = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.KinematicBody, PhysicsFactory.createFixtureDef(0.5f, 0, 0.5f));
+	    body.setFixedRotation(true);
+	    
+	    physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, body, true, false)
+	    {
+	        @Override
+	        public void onUpdate(float pSecondsElapsed)
+	        {
+	            super.onUpdate(pSecondsElapsed);
+	            
+	            if(mY >= targetY){
+            		isDropping = false;
+            	}
+	            if(isDropping){
+	            	body.setLinearVelocity(new Vector2(0, 15f));
+	            } else{
+	            	body.setLinearVelocity(new Vector2(0, 0));
+	            }
+	        }
+	    });
 	}
 	
-	// update gem variables given col/row
-	// can remove this if not used
-	public void update(int col, int row){
-		this.col = col;
-		this.row = row;
-		update();
-	}
-	
+	/*
+	 *	needed to align the gems since gravity doesn't pull perfectly 
+	 */
+//	private void alignGem(){
+//		
+//	}
+
 	// drop the gem, so row++
 	public void drop(){
-		row = row + 1;
-		update();
-	}
-	
-	// each gem should set their sprite in this method
-	// this is important as setting sprite also includes setting their user interaction
-	protected void setSprite(ITextureRegion sprite){
-		gemSprite = new Sprite(col * RADIUS, startingY + row * (RADIUS + buffer) + buffer,
-				sprite, ResourcesManager.getInstance().vbom){
-			
-			@Override
-		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
-		    {
-				// when finger touches gem
-		        if (pSceneTouchEvent.isActionDown())
-		        {
-		        	start.set(gemSprite.getX() + RADIUS/2, gemSprite.getY() + RADIUS/2);
-		        	
-		        	int c = (int) (gemSprite.getX() / RADIUS);
-		        	int r = (int) ((gemSprite.getY() - buffer - startingY) / (RADIUS + buffer));
-		        	Gemboard.startList(c, r);
-		        }
-		        if (pSceneTouchEvent.isActionMove()){
-		        	end.set(gemSprite.getX() + RADIUS/2, gemSprite.getY() + RADIUS/2);
-		        	
-		        	drawLine(this.getVertexBufferObjectManager());
-		        }
-		        // when finger releases gem
-		        if (pSceneTouchEvent.isActionUp())
-		        {
-		        	drawLine(this.getVertexBufferObjectManager());
-		        	Gemboard.executeGems();
-		        }
-		        return true;
-		    };
-		};
-		
-		// gem size, which is constant for now
-		gemSprite.setWidth(RADIUS);
-		gemSprite.setHeight(RADIUS);
-				
-		// if odd, stagger location by half of radius
-		if(col%2 != 0){
-			gemSprite.setY(gemSprite.getY() + RADIUS/2);
-		}
-	}
-	
-	// used to attach gem sprites to gameScene
-	public void attachToScene(BaseScene gameScene){
-		gameScene.registerTouchArea(gemSprite);
-		gameScene.attachChild(gemSprite);
+		this.setY(mY + Gemboard.RADIUS);
+		targetY = getY();
+		isDropping = true;
 	}
 	
 	// what happens when gem dies, cleans up
-	public void onDie(BaseScene gameScene){
-		gameScene.unregisterTouchArea(gemSprite);
-		gemSprite.detachSelf();
-		gemSprite.dispose();
+	public void onDie(){
+		this.detachSelf();
+		this.dispose();
 	}
 	
 	protected void drawLine(VertexBufferObjectManager vbom){
 		
-    	// location is adjacent to gem
-		// gem list is not empty
-		// gem is matching colors
-		// gem is not already in the chain
+    	/* location is adjacent to gem, gem list is not empty
+		 * gem is matching colors, gem is not already in the chain */
 		if( isAdjacent() &&
 			!Gemboard.connectedGems.isEmpty() &&
 			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
@@ -133,19 +98,45 @@ public abstract class Gem{
             Gemboard.lines.add(line);
             
             // set point to middle of gem
-            start.setX(gemSprite.getX() + RADIUS/2);
-        	start.setY(gemSprite.getY() + RADIUS/2);
+            start.setX(getX() + Gemboard.RADIUS/2);
+        	start.setY(getY() + Gemboard.RADIUS/2);
         	
         	Gemboard.connectedGems.add(this);
     	}
 	}
 	
+	@Override
+    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
+    {
+		if(!isDropping)
+		{
+			// when finger touches gem
+		    if (pSceneTouchEvent.isActionDown())
+		    {
+		    	start.set(mX + Gemboard.RADIUS/2, mY + Gemboard.RADIUS/2);
+		    	Gemboard.connectedGems.add(this);
+	        	System.out.println("Added " + this.getUserData());
+	        	System.out.println(start.getX() + " " + start.getY());
+		    }
+		    if (pSceneTouchEvent.isActionMove())
+		    {
+		    	end.set(mX + Gemboard.RADIUS/2, mY + Gemboard.RADIUS/2);
+	        	System.out.println(end.getX() + " " + end.getY());
+		    	drawLine(this.getVertexBufferObjectManager());
+		    }
+		    // when finger releases gem
+		    if (pSceneTouchEvent.isActionUp())
+		    {
+		    	drawLine(this.getVertexBufferObjectManager());
+		    	Gemboard.executeGems();
+		    }
+		}
+        return true;
+    };
+	
 	// determines if the gems are the same
 	protected boolean sameColor(Gem gem) {
-		if(this.toString().equals(gem.toString())){
-			return true;
-		}
-		return false;
+		return(this.getUserData().equals(gem.getUserData()));
 	}
 	
 	// used for drawing lines; the basic math
@@ -155,7 +146,7 @@ public abstract class Gem{
 		float y = y1 - y2;
 		float distance = (float) Math.sqrt(x*x + y*y);
     	
-    	return distance < RADIUS * 1.5;		
+    	return distance < Gemboard.RADIUS * 1.5;		
 	}
 	
 	// used for drawing lines, can be combined with the other isAdjacents
@@ -163,21 +154,17 @@ public abstract class Gem{
 		return isAdjacent(start.getX(), end.getX(), start.getY(), end.getY());
 	}
 	
-	// used publicly for gem adjacency, remove if not needed
-	public boolean isAdjacent(Gem gem){
-    	return isAdjacent(	gemSprite.getX(), gem.gemSprite.getX(), 
-    						gemSprite.getY(), gem.gemSprite.getY());
-	}
-	
 	///////////////////////////////////////////
 	// SETTERS AND GETTERS
 	///////////////////////////////////////////
 	
+//	float x = col * RADIUS;
+//	float y = STARTY + row * (RADIUS) + BUFFER;
 	public int getRow(){
-		return row;
+		return (int) ((mY - Gemboard.STARTY) / (Gemboard.RADIUS));
 	}
 	
 	public int getCol(){
-		return col;
+		return (int) (mX / Gemboard.RADIUS);
 	}
 }

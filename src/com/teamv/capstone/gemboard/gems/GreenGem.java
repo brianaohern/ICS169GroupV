@@ -1,16 +1,15 @@
 package com.teamv.capstone.gemboard.gems;
 
+import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
 import com.teamv.capstone.ResourcesManager;
 
 public class GreenGem extends Gem{
 
-	public GreenGem(int col, int row) {
-		super(col, row);
-		
-		setSprite(ResourcesManager.getInstance().green_gem);
-	}
-	
-	public String toString(){
-		return "Green";
+	public GreenGem(float pX, float pY, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld) {
+		super(pX, pY, ResourcesManager.getInstance().green_gem, vbo, physicsWorld);
+
+		setUserData("Green");
 	}
 }

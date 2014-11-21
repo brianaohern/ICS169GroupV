@@ -25,7 +25,7 @@ public class GameScene extends BaseScene
         createHUD();
         createPhysics();
         
-        gemboard = new Gemboard(this);
+        gemboard = new Gemboard(this, physicsWorld);
         this.setOnSceneTouchListener(gemboard);
     }
 
@@ -74,7 +74,7 @@ public class GameScene extends BaseScene
     
     private void createPhysics()
     {
-        physicsWorld = new FixedStepPhysicsWorld(60, new Vector2(0, -17), false); 
+        physicsWorld = new FixedStepPhysicsWorld(60, new Vector2(0, 0), false);
         registerUpdateHandler(physicsWorld);
     }
 }
