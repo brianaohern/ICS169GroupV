@@ -53,9 +53,10 @@ public abstract class Gem extends Sprite{
             		isDropping = false;
             	}
 	            if(isDropping){
-	            	body.setLinearVelocity(new Vector2(0, 15f));
+	            	body.setLinearVelocity(new Vector2(0, 50f));
 	            } else{
 	            	body.setLinearVelocity(new Vector2(0, 0));
+	            	alignGem();
 	            }
 	        }
 	    });
@@ -64,11 +65,14 @@ public abstract class Gem extends Sprite{
 	/*
 	 *	needed to align the gems since gravity doesn't pull perfectly 
 	 */
-//	private void alignGem(){
-//		
-//	}
+	private void alignGem(){
+		float y = Gemboard.STARTY + getRow() * (Gemboard.RADIUS);
+		if(getCol()%2 != 0){
+			y += Gemboard.RADIUS/2;
+		}
+		setY(y);
+	}
 
-	// drop the gem, so row++
 	public void drop(){
 		this.setY(mY + Gemboard.RADIUS);
 		targetY = getY();
@@ -79,30 +83,6 @@ public abstract class Gem extends Sprite{
 	public void onDie(){
 		this.detachSelf();
 		this.dispose();
-	}
-	
-	protected void drawLine(VertexBufferObjectManager vbom){
-		
-    	/* location is adjacent to gem, gem list is not empty
-		 * gem is matching colors, gem is not already in the chain */
-		if( isAdjacent() &&
-			!Gemboard.connectedGems.isEmpty() &&
-			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
-			!Gemboard.connectedGems.contains(this)){
-			
-        	Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY(), vbom);
-
-        	line.setLineWidth(5);
-        	line.setColor(Color.BLACK);
-            SceneManager.getInstance().getCurrentScene().attachChild(line);
-            Gemboard.lines.add(line);
-            
-            // set point to middle of gem
-            start.setX(getX() + Gemboard.RADIUS/2);
-        	start.setY(getY() + Gemboard.RADIUS/2);
-        	
-        	Gemboard.connectedGems.add(this);
-    	}
 	}
 	
 	@Override
@@ -133,6 +113,30 @@ public abstract class Gem extends Sprite{
 		}
         return true;
     };
+    
+	protected void drawLine(VertexBufferObjectManager vbom){
+		
+    	/* location is adjacent to gem, gem list is not empty
+		 * gem is matching colors, gem is not already in the chain */
+		if( isAdjacent() &&
+			!Gemboard.connectedGems.isEmpty() &&
+			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
+			!Gemboard.connectedGems.contains(this)){
+			
+        	Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY(), vbom);
+
+        	line.setLineWidth(5);
+        	line.setColor(Color.BLACK);
+            SceneManager.getInstance().getCurrentScene().attachChild(line);
+            Gemboard.lines.add(line);
+            
+            // set point to middle of gem
+            start.setX(getX() + Gemboard.RADIUS/2);
+        	start.setY(getY() + Gemboard.RADIUS/2);
+        	
+        	Gemboard.connectedGems.add(this);
+    	}
+	}
 	
 	// determines if the gems are the same
 	protected boolean sameColor(Gem gem) {
