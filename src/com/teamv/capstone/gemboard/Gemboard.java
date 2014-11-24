@@ -139,16 +139,15 @@ public class Gemboard implements IOnSceneTouchListener{
 		// add gems and whatnot in here
 		switch(random.nextInt(4)){
 		case 0:
-			return new BlueGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+			return new BlueGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 1:
-			return new GreenGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+			return new GreenGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 2:
-			return new YellowGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+			return new YellowGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 3:
-			return new RedGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+			return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		}
-		// in case something goes wrong, return red
-		return new RedGem(x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
 	
 	private static boolean hasNoMoreMoves(){

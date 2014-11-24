@@ -10,8 +10,8 @@ import com.teamv.capstone.ResourcesManager;
 // LOOKS LIKE A RED GEM THOUGH
 public class RandGem extends Gem{
 
-	public RandGem(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld) {
-		super(pX, pY, ResourcesManager.getInstance().red_gem, vbo, physicsWorld);
+	public RandGem(int col, int row, float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld) {
+		super(col, row, pX, pY, ResourcesManager.getInstance().red_gem, vbo, physicsWorld);
 	}
 
 	public String toString(){

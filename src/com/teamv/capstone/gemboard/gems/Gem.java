@@ -22,11 +22,15 @@ public abstract class Gem extends Sprite{
 	protected Pointf start		= Gemboard.getStartPoint();
 	protected Pointf end		= Gemboard.getEndPoint();
 	private Body body;
+	private int row, col;
 	private boolean isDropping = false;
 	private float targetY;
 	
-	public Gem(float pX, float pY, ITextureRegion region, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld){
+	public Gem(int col, int row, float pX, float pY, ITextureRegion region, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld){
 		super(pX, pY, region, vbo);
+		
+		this.col = col;
+		this.row = row;
 		
 		// gem size
 		setWidth(Gemboard.RADIUS);
@@ -66,14 +70,15 @@ public abstract class Gem extends Sprite{
 	 *	needed to align the gems since gravity doesn't pull perfectly 
 	 */
 	private void alignGem(){
-		float y = Gemboard.STARTY + getRow() * (Gemboard.RADIUS);
-		if(getCol()%2 != 0){
+		float y = Gemboard.STARTY + row * (Gemboard.RADIUS);
+		if(col%2 != 0){
 			y += Gemboard.RADIUS/2;
 		}
 		setY(y);
 	}
 
 	public void drop(){
+		row++;
 		this.setY(mY + Gemboard.RADIUS);
 		targetY = getY();
 		isDropping = true;
@@ -165,10 +170,10 @@ public abstract class Gem extends Sprite{
 //	float x = col * RADIUS;
 //	float y = STARTY + row * (RADIUS) + BUFFER;
 	public int getRow(){
-		return (int) ((mY - Gemboard.STARTY) / (Gemboard.RADIUS));
+		return row;
 	}
 	
 	public int getCol(){
-		return (int) (mX / Gemboard.RADIUS);
+		return col;
 	}
 }

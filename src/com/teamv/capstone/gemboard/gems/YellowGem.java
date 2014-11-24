@@ -7,8 +7,8 @@ import com.teamv.capstone.ResourcesManager;
 
 public class YellowGem extends Gem{
 
-	public YellowGem(float pX, float pY, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld) {
-		super(pX, pY, ResourcesManager.getInstance().yellow_gem, vbo, physicsWorld);
+	public YellowGem(int col, int row, float pX, float pY, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld) {
+		super(col, row, pX, pY, ResourcesManager.getInstance().yellow_gem, vbo, physicsWorld);
 		
 		setUserData("Yellow");
 	}

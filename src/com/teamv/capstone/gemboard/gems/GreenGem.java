@@ -7,8 +7,8 @@ import com.teamv.capstone.ResourcesManager;
 
 public class GreenGem extends Gem{
 
-	public GreenGem(float pX, float pY, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld) {
-		super(pX, pY, ResourcesManager.getInstance().green_gem, vbo, physicsWorld);
+	public GreenGem(int col, int row, float pX, float pY, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld) {
+		super(col, row, pX, pY, ResourcesManager.getInstance().green_gem, vbo, physicsWorld);
 
 		setUserData("Green");
 	}

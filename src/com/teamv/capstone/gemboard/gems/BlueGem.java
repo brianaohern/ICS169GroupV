@@ -7,8 +7,8 @@ import com.teamv.capstone.ResourcesManager;
 
 public class BlueGem extends Gem{
 
-	public BlueGem(float pX, float pY, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld) {
-		super(pX, pY, ResourcesManager.getInstance().blue_gem, vbo, physicsWorld);
+	public BlueGem(int col, int row, float pX, float pY, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld) {
+		super(col, row, pX, pY, ResourcesManager.getInstance().blue_gem, vbo, physicsWorld);
 
 		setUserData("Blue");
 	}
