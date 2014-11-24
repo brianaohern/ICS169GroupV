@@ -89,6 +89,7 @@ public class Gemboard implements IOnSceneTouchListener{
 		
 		if(hasNoMoreMoves()){
 			System.out.println("NO MORE MOVES");
+			ResourcesManager.getInstance().activity.gameToast("No more moves");
 			resetBoard();
 		}
 		drawGrid();
@@ -103,7 +104,13 @@ public class Gemboard implements IOnSceneTouchListener{
 			grid[col][i].drop();
 		}
 		
-		grid[col][0] = randomGem(col, 0);
+		float y = STARTY;
+		if(col%2 != 0){
+			y += RADIUS/2;
+		}
+		
+		//grid[col][0] = randomGem(col, 0);
+		grid[col][0] = new RandGem(col, 0, col * RADIUS, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		attachGem(grid[col][0]);
 		
 		detachGem(gem);
@@ -155,19 +162,19 @@ public class Gemboard implements IOnSceneTouchListener{
 			for(int y = 0; y < rows; y++){
 				if(grid[x][y] != null){
 					int count = 0;
-					String gemType = grid[x][y].toString();
+					Object userData = grid[x][y].getUserData();
 					
-					count += checkGem(x, y+1, gemType);
-					count += checkGem(x, y-1, gemType);
-					count += checkGem(x+1, y, gemType);
-					count += checkGem(x-1, y, gemType);
+					count += checkGem(x, y+1, userData);
+					count += checkGem(x, y-1, userData);
+					count += checkGem(x+1, y, userData);
+					count += checkGem(x-1, y, userData);
 					
 					if(x%2 == 0){
-						count += checkGem(x-1, y-1, gemType);
-						count += checkGem(x+1, y-1, gemType);
+						count += checkGem(x-1, y-1, userData);
+						count += checkGem(x+1, y-1, userData);
 					} else{
-						count += checkGem(x-1, y+1, gemType);
-						count += checkGem(x+1, y+1, gemType);
+						count += checkGem(x-1, y+1, userData);
+						count += checkGem(x+1, y+1, userData);
 					}
 					
 					if(count >= 2){
@@ -179,12 +186,12 @@ public class Gemboard implements IOnSceneTouchListener{
 		return true;
 	}
 	
-	private static int checkGem(int c, int r, String type){
+	private static int checkGem(int c, int r, Object userData){
 		if(		(c < 0 || r < 0) ||
 				(c >= cols || r >= rows)){
 			return 0;
 		}
-		else if(grid[c][r] != null && grid[c][r].toString().equals(type)){
+		else if(grid[c][r] != null && grid[c][r].getUserData().equals(userData)){
 			return 1;
 		}
 		return 0;

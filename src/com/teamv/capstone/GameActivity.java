@@ -18,6 +18,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * @author Mateusz Mysliwiec
@@ -100,5 +101,14 @@ import android.view.View;
                 getWindow().getDecorView().setSystemUiVisibility(uiOptions);
             }
         }
+    }
+    
+    public void gameToast(final String msg) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+               Toast.makeText(GameActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

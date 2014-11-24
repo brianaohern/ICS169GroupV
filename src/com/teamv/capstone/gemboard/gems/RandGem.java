@@ -1,6 +1,7 @@
 package com.teamv.capstone.gemboard.gems;
 
-import org.andengine.engine.camera.Camera;
+import java.util.Random;
+
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
@@ -10,11 +11,10 @@ import com.teamv.capstone.ResourcesManager;
 // LOOKS LIKE A RED GEM THOUGH
 public class RandGem extends Gem{
 
-	public RandGem(int col, int row, float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld) {
+	public RandGem(int col, int row, float pX, float pY, VertexBufferObjectManager vbo, PhysicsWorld physicsWorld) {
+		
 		super(col, row, pX, pY, ResourcesManager.getInstance().red_gem, vbo, physicsWorld);
-	}
-
-	public String toString(){
-		return "RANDOMRED" + super.toString();
+		
+		this.setUserData("RandomRed" + new Random().nextFloat());
 	}
 }
