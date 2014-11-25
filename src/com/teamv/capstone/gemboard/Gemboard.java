@@ -82,9 +82,12 @@ public class Gemboard implements IOnSceneTouchListener{
 		}
 		for(Line line : lines){
 			line.detachSelf();
+			line.dispose();
+			line = null;
 		}
 		
 		connectedGems.clear();
+		lines.clear();
 		//printAll();
 		
 		if(hasNoMoreMoves()){

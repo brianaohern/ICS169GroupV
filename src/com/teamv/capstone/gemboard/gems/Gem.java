@@ -13,6 +13,7 @@ import org.andengine.util.color.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.SceneManager;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.gemboard.Pointf;
@@ -141,18 +142,39 @@ public abstract class Gem extends Sprite{
         	
         	Gemboard.connectedGems.add(this);
     	}
-		else if (!Gemboard.connectedGems.isEmpty() &&
-				this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
-				Gemboard.connectedGems.contains(this) &&
-				this != Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) {
+		
+		/* gem list is not empty, gem is matching colors,
+		 * gem is already in the chain, gem is not at end of list */
+		else if ( !Gemboard.connectedGems.isEmpty() &&
+				  this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
+				  Gemboard.connectedGems.contains(this) &&
+				  this != Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) {
+			
 			// Store the location of this gem in connectedGems
 			int index = Gemboard.connectedGems.indexOf(this);
+			
+			// Iterate down the list to the gem you're on now
 			for (int i = Gemboard.connectedGems.size() - 1; i > index; i--) {
+				
+				// Remove each gem past current index from connectedGems
 				Gemboard.connectedGems.remove(i);
-				Line line = Gemboard.lines.get(i-1); 
+				
+				// Store the line
+				Line line = Gemboard.lines.get(i-1);
+				
+				// Remove the line from lines ArrayList
 				Gemboard.lines.remove(i-1);
+				
+				// Eliminate the line
 				line.detachSelf();
+				line.dispose();
+				line = null;
+				
+				// set point to middle of gem
+	            start.setX(getX() + Gemboard.RADIUS/2);
+	        	start.setY(getY() + Gemboard.RADIUS/2);
 			}
+			ResourcesManager.getInstance().activity.gameToast("Traced back to index " + index);
 		}
 	}
 	
