@@ -141,6 +141,19 @@ public abstract class Gem extends Sprite{
         	
         	Gemboard.connectedGems.add(this);
     	}
+		else if (!Gemboard.connectedGems.isEmpty() &&
+				this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
+				Gemboard.connectedGems.contains(this) &&
+				this != Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) {
+			// Store the location of this gem in connectedGems
+			int index = Gemboard.connectedGems.indexOf(this);
+			for (int i = Gemboard.connectedGems.size() - 1; i > index; i--) {
+				Gemboard.connectedGems.remove(i);
+				Line line = Gemboard.lines.get(i-1); 
+				Gemboard.lines.remove(i-1);
+				line.detachSelf();
+			}
+		}
 	}
 	
 	// determines if the gems are the same

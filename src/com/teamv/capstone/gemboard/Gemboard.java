@@ -53,7 +53,7 @@ public class Gemboard implements IOnSceneTouchListener{
 		while(hasNoMoreMoves())
 			resetBoard();
 		
-		drawGrid();
+		//drawGrid();
 	}
 	
 	public static void resetBoard(){
@@ -92,7 +92,7 @@ public class Gemboard implements IOnSceneTouchListener{
 			ResourcesManager.getInstance().activity.gameToast("No more moves");
 			resetBoard();
 		}
-		drawGrid();
+		//drawGrid();
 	}
 	
 	// drops every gem above the parameter gem, then drop a new gem
@@ -109,8 +109,8 @@ public class Gemboard implements IOnSceneTouchListener{
 			y += RADIUS/2;
 		}
 		
-		//grid[col][0] = randomGem(col, 0);
-		grid[col][0] = new RandGem(col, 0, col * RADIUS, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		grid[col][0] = randomGem(col, 0);
+		//grid[col][0] = new RandGem(col, 0, col * RADIUS, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		attachGem(grid[col][0]);
 		
 		detachGem(gem);
