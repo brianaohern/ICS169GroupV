@@ -13,7 +13,6 @@ import org.andengine.util.color.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.SceneManager;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.gemboard.Pointf;
@@ -132,7 +131,7 @@ public abstract class Gem extends Sprite{
         	Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY(), vbom);
 
         	line.setLineWidth(5);
-        	line.setColor(Color.BLACK);
+        	line.setColor(Color.YELLOW);
             SceneManager.getInstance().getCurrentScene().attachChild(line);
             Gemboard.lines.add(line);
             
@@ -174,7 +173,6 @@ public abstract class Gem extends Sprite{
 	            start.setX(getX() + Gemboard.RADIUS/2);
 	        	start.setY(getY() + Gemboard.RADIUS/2);
 			}
-			ResourcesManager.getInstance().activity.gameToast("Traced back to index " + index);
 		}
 	}
 	
