@@ -3,6 +3,7 @@ package com.teamv.capstone.gemboard;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
@@ -114,6 +115,7 @@ public class Gemboard implements IOnSceneTouchListener{
 		
 		grid[col][0] = randomGem(col, 0);
 		//grid[col][0] = new RandGem(col, 0, col * RADIUS, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		
 		attachGem(grid[col][0]);
 		
 		detachGem(gem);
@@ -122,6 +124,8 @@ public class Gemboard implements IOnSceneTouchListener{
 	
 	private static void attachGem(Gem gem){
 		gameScene.attachChild(gem);
+		gem.registerEntityModifier(new AlphaModifier((float)0.2, 0, 1));
+//		gem.registerEntityModifier(new AlphaModifier(1, 0, 1));
 		gameScene.registerTouchArea(gem);
 	}
 	
