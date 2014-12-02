@@ -30,3 +30,6 @@ proguard/
 Thumbs.db
 
 project.properties
+*.properties
+*.properties
+project.properties
