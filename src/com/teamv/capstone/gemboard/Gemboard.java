@@ -11,6 +11,7 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.color.Color;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.gemboard.gems.*;
@@ -108,11 +109,6 @@ public class Gemboard implements IOnSceneTouchListener{
 			grid[col][i].drop();
 		}
 		
-		float y = STARTY;
-		if(col%2 != 0){
-			y += RADIUS/2;
-		}
-		
 		grid[col][0] = randomGem(col, 0);
 		//grid[col][0] = new RandGem(col, 0, col * RADIUS, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		
@@ -131,6 +127,7 @@ public class Gemboard implements IOnSceneTouchListener{
 	
 	private static void detachGem(Gem gem){
 		gameScene.unregisterTouchArea(gem);
+		destroyBody(gem);
 		gem.onDie();
 	}
 	
@@ -202,6 +199,20 @@ public class Gemboard implements IOnSceneTouchListener{
 			return 1;
 		}
 		return 0;
+	}
+	
+	private static void destroyBody(final Gem gem)
+	{
+		ResourcesManager.getInstance().activity.runOnUpdateThread(new Runnable(){
+
+			@Override
+			public void run() {
+
+				final Body body = gem.body;
+				physicsWorld.unregisterPhysicsConnector(physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(gem));
+				physicsWorld.destroyBody(body);
+			}});
+
 	}
 	
 	public static void startList(int c, int r){

@@ -21,7 +21,7 @@ public abstract class Gem extends Sprite{
 
 	protected Pointf start		= Gemboard.getStartPoint();
 	protected Pointf end		= Gemboard.getEndPoint();
-	private Body body;
+	public Body body;
 	private int row, col;
 	private boolean isDropping = false;
 	private float targetY;
