@@ -100,7 +100,7 @@ public class ResourcesManager
     private void loadMenuFonts()
     {
         FontFactory.setAssetBasePath("font/");
-        final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 1080, 1920, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+        final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
         font = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "font.ttf", 50, true, Color.WHITE, 2, Color.BLACK);
         font.load();
@@ -120,12 +120,16 @@ public class ResourcesManager
         yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "sun_yellow.png", 0, 244);
         green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "leaf_green.png", 240, 244);
         
-        
         gameTextureAtlas.load();    
     }
     
     private void loadGameFonts()
     {
+    	FontFactory.setAssetBasePath("font/");
+        final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 1080, 1920, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+        font = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "font.ttf", 50, true, Color.WHITE, 2, Color.BLACK);
+        font.load();
     }
     
     private void loadGameAudio()

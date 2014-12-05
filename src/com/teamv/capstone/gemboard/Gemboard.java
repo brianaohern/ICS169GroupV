@@ -274,6 +274,11 @@ public class Gemboard implements IOnSceneTouchListener{
 		return gems;
 	}
 	
+	public int getGemCount(){
+		return gemboardSize();
+	}
+	
+	@SuppressWarnings("unused")
 	private static void drawGrid(){
 		for(int y = 0; y <= rows; y++){
 			Line line = new Line(0, STARTY + y * RADIUS, 1080, STARTY + y * RADIUS, ResourcesManager.getInstance().vbom);
