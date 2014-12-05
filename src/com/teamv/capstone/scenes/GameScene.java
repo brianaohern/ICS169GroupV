@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.SceneManager.SceneType;
+import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.gemboard.Gemboard;
 
 public class GameScene extends BaseScene
@@ -20,6 +21,7 @@ public class GameScene extends BaseScene
 	///VARIABLES
 	private PhysicsWorld physicsWorld;
 	private Gemboard gemboard;
+	private Battleground bg;
 	
     @Override
     public void createScene()
@@ -28,6 +30,7 @@ public class GameScene extends BaseScene
     	createDebuggerHUD();
         createPhysics();
         
+        bg = new Battleground(this);
         gemboard = new Gemboard(this, physicsWorld);
         this.setOnSceneTouchListener(gemboard);
     }

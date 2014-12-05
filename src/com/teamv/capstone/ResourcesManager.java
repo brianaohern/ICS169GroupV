@@ -49,12 +49,15 @@ public class ResourcesManager
     
     public Font font;
     
-    //game
+    //game.gems
     public ITextureRegion red_gem;
     public ITextureRegion blue_gem;
     public ITextureRegion green_gem;
     public ITextureRegion yellow_gem;
-    private BitmapTextureAtlas gameTextureAtlas;
+    private BitmapTextureAtlas gemsTextureAtlas;
+    //game.enemies
+    public ITextureRegion wolf;
+    private BitmapTextureAtlas wolfTextureAtlas;
     
     //---------------------------------------------
     // TEXTURES & TEXTURE REGIONS
@@ -113,14 +116,22 @@ public class ResourcesManager
 
     private void loadGameGraphics()
     {
+    	// game.gems
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/gems/");
-        gameTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 484, 488, TextureOptions.BILINEAR);
-        red_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "fire_red.png", 0, 0);
-        blue_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "water_blue.png", 228, 0);
-        yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "sun_yellow.png", 0, 244);
-        green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "leaf_green.png", 240, 244);
+        gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 484, 488, TextureOptions.BILINEAR);
+        red_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "fire_red.png", 0, 0);
+        blue_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "water_blue.png", 228, 0);
+        yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "sun_yellow.png", 0, 244);
+        green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "leaf_green.png", 240, 244);
+        gemsTextureAtlas.load();    
+        // end game.gems
         
-        gameTextureAtlas.load();    
+        // game.enemies
+        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/enemies/");
+        wolfTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 400, 278, TextureOptions.BILINEAR);
+        wolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(wolfTextureAtlas, activity, "wolfie.png", 0, 0);
+        wolfTextureAtlas.load();
+        //end game.enemies
     }
     
     private void loadGameFonts()

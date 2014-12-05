@@ -2,9 +2,10 @@ package com.teamv.capstone.game;
 
 import java.util.ArrayList;
 
-import org.andengine.extension.physics.box2d.PhysicsWorld;
-
+import com.teamv.capstone.BaseScene;
+import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.gemboard.gems.Gem;
+import com.teamv.capstone.scenes.GameScene;
 
 /*
  * Battleground contains the enemies and player
@@ -15,14 +16,19 @@ import com.teamv.capstone.gemboard.gems.Gem;
  */
 public class Battleground {
 	
+	GameScene gameScene;
 	ArrayList<Enemy> enemies;
 	ArrayList<Battle> level;
 	int currentBattle = 0;
 	Player player;
 	
-	public Battleground(PhysicsWorld physicsWorld){
+	
+	public Battleground(BaseScene gameScene){
+		this.gameScene = (GameScene) gameScene;
 		player = new Player();
 		enemies = new ArrayList<Enemy>();
+		enemies.add(new Enemy(ResourcesManager.getInstance().wolf, ResourcesManager.getInstance().vbom));
+		attachEnemies();
 	}
 	
 	public void nextBattle(Battle battle){
@@ -43,5 +49,11 @@ public class Battleground {
 //		}
 		damage += gems.size();
 		return damage;
+	}
+	
+	private void attachEnemies(){
+		for(Enemy enemy : enemies){
+			gameScene.attachChild(enemy);
+		}
 	}
 }
