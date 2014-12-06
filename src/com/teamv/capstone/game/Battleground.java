@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.gemboard.gems.Gem;
 import com.teamv.capstone.scenes.GameScene;
 
@@ -17,14 +18,16 @@ import com.teamv.capstone.scenes.GameScene;
 public class Battleground {
 	
 	GameScene gameScene;
-	ArrayList<Enemy> enemies;
+	Gemboard gemboard;
+	static ArrayList<Enemy> enemies;
 	ArrayList<Battle> level;
 	int currentBattle = 0;
 	Player player;
 	
 	
-	public Battleground(BaseScene gameScene){
+	public Battleground(BaseScene gameScene, Gemboard gemboard){
 		this.gameScene = (GameScene) gameScene;
+		this.gemboard = gemboard;
 		player = new Player();
 		enemies = new ArrayList<Enemy>();
 		enemies.add(new Enemy(ResourcesManager.getInstance().wolf, ResourcesManager.getInstance().vbom));
@@ -42,18 +45,27 @@ public class Battleground {
 		currentBattle++;
 	}
 	
-	public int calculateDamage(ArrayList<Gem> gems){
+	public static void enterBattle(ArrayList<Gem> gems){
+		if(enemies.size() <= 0)
+			return;
+		
 		int damage = 0;
-//		for(Gem gem : Gemboard.connectedGems){
-//			damage++;
-//		}
+		
+		// calculate damage...math, math
 		damage += gems.size();
-		return damage;
+		
+		// get target and attack
+		Enemy enemy = enemies.get(0);
+		
+		// attack enemy
+		enemy.takeDamage(damage);
 	}
+	
+
 	
 	private void attachEnemies(){
 		for(Enemy enemy : enemies){
-			gameScene.attachChild(enemy);
+			enemy.attachToScene(gameScene);
 		}
 	}
 }

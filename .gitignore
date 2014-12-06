@@ -31,3 +31,5 @@ Thumbs.db
 
 project.properties
 *.properties
+.settings/org.eclipse.ltk.core.refactoring.prefs
+.classpath

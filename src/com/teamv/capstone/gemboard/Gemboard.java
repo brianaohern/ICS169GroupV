@@ -14,6 +14,7 @@ import org.andengine.util.color.Color;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.gemboard.gems.*;
 
 public class Gemboard implements IOnSceneTouchListener{
@@ -76,8 +77,8 @@ public class Gemboard implements IOnSceneTouchListener{
 	}
 	
 	public static void executeGems() {
-		
 		if(connectedGems.size() >= 3){
+			Battleground.enterBattle(connectedGems);
 			for(Gem gem : connectedGems){
 				dropGem(gem);
 			}
