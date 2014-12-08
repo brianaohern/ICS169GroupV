@@ -44,23 +44,24 @@ public class Enemy extends Sprite{
 		health = startHealth;
 		
 		HPlength = (int) this.getWidth() - xBuffer;
-		hpText = new Text(start.x, start.y - (yBuffer + 20), ResourcesManager.getInstance().font, "HP:", "HP:".length() ,vbo);
-		turnText = new Text(start.x, start.y - (yBuffer + 80), ResourcesManager.getInstance().font, "Turns: 1", "Turns: X".length() ,vbo);
+		hpText = new Text(start.x, start.y - (yBuffer + 20), ResourcesManager.getInstance().font, "HP:", "HP:".length(), vbo);
+		turnText = new Text(start.x, start.y - (yBuffer + 80), ResourcesManager.getInstance().font, "Turns: 1", "Turns: X".length(), vbo);
 		
 		healthbar = new Rectangle(start.x + xBuffer, start.y - yBuffer, HPlength, 25, vbo);
-		healthbar.setColor(Color.GREEN);
+		healthbar.setColor(Color.RED);
 	}
+
 	
 	public void takeDamage(int damage){
 		health -= damage;
-		udpateHealthBar();
+		updateHealthBar();
 		if(health <= 0){
 			Battleground.enemies.remove(this);
 			onDie();
 		}
 	}
 	
-	public void udpateHealthBar(){
+	public void updateHealthBar(){
 		if(health < 0){
 			health = 0;
 		}
@@ -84,4 +85,5 @@ public class Enemy extends Sprite{
 		gameScene.attachChild(hpText);
 		gameScene.attachChild(turnText);
 	}
+	
 }

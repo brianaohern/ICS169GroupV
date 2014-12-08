@@ -28,7 +28,8 @@ public class Battleground {
 	public Battleground(BaseScene gameScene, Gemboard gemboard){
 		this.gameScene = (GameScene) gameScene;
 		this.gemboard = gemboard;
-		player = new Player();
+		player = new Player(ResourcesManager.getInstance().mainCharacter, ResourcesManager.getInstance().vbom);
+		player.attachToGameScene(this.gameScene);
 		enemies = new ArrayList<Enemy>();
 		enemies.add(new Enemy(ResourcesManager.getInstance().wolf, ResourcesManager.getInstance().vbom));
 		attachEnemies();
@@ -60,8 +61,6 @@ public class Battleground {
 		// attack enemy
 		enemy.takeDamage(damage);
 	}
-	
-
 	
 	private void attachEnemies(){
 		for(Enemy enemy : enemies){

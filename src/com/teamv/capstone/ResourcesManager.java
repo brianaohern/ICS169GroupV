@@ -58,6 +58,10 @@ public class ResourcesManager
     //game.enemies
     public ITextureRegion wolf;
     private BitmapTextureAtlas wolfTextureAtlas;
+    //game.player
+    public ITextureRegion mainCharacter;
+    private BitmapTextureAtlas mainCharacterTextureAtlas;
+    
     
     //---------------------------------------------
     // TEXTURES & TEXTURE REGIONS
@@ -132,6 +136,13 @@ public class ResourcesManager
         wolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(wolfTextureAtlas, activity, "wolfie.png", 0, 0);
         wolfTextureAtlas.load();
         //end game.enemies
+        
+        // game.player
+        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/player/");
+        mainCharacterTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 300, 500, TextureOptions.BILINEAR);
+        mainCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainCharacterTextureAtlas, activity, "player.png", 0, 0);
+        mainCharacterTextureAtlas.load();
+        //end game.player
     }
     
     private void loadGameFonts()
