@@ -33,3 +33,6 @@ project.properties
 *.properties
 .settings/org.eclipse.ltk.core.refactoring.prefs
 .classpath
+project.properties
+.classpath
+.settings/org.eclipse.jdt.core.prefs
