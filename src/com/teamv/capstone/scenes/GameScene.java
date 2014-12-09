@@ -9,6 +9,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSCounter;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.opengl.font.IFont;
 import org.andengine.util.color.Color;
 
 import com.badlogic.gdx.math.Vector2;
@@ -73,14 +74,17 @@ public class GameScene extends BaseScene
     {
     	final FPSCounter fpsCounter = new FPSCounter();
     	this.engine.registerUpdateHandler(fpsCounter);
-    	 
-    	final Text fpsText = new Text(40, 50, ResourcesManager.getInstance().font, "FPS:", "FPS: XXXXX".length(),vbom);
-    	final Text gemCount = new Text(40, 100, ResourcesManager.getInstance().font, "# of Gems:", "# of Gems: XXX".length() ,vbom);
-    	final Text gemChain = new Text(40, 150, ResourcesManager.getInstance().font, "Gems Chained:", "Gems Chained: XXX".length() ,vbom);
+    	
+    	IFont font = ResourcesManager.getInstance().font;
+    	final Text fpsText = new Text(40, 50, font, "FPS:", "FPS: XXXXX".length(),vbom);
+    	final Text gemCount = new Text(40, 100, font, "# of Gems:", "# of Gems: XXX".length() ,vbom);
+    	final Text gemChain = new Text(40, 150, font, "Gems Chained:", "Gems Chained: XXX".length() ,vbom);
+    	final Text numOfEnemies = new Text(40, 200, font, "Number of Enemies: ", "Number of Enemies: X".length(), vbom);
     	
     	this.attachChild(fpsText);
     	this.attachChild(gemCount);
     	this.attachChild(gemChain);
+    	this.attachChild(numOfEnemies);
     	 
     	this.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback()
     	{
@@ -90,6 +94,7 @@ public class GameScene extends BaseScene
     	        fpsText.setText("FPS: " + (int)fpsCounter.getFPS());
     	        gemCount.setText("# of Gems: " + gemboard.getGemCount());
     	        gemChain.setText("Gems Chained: " + Gemboard.connectedGems.size());
+    	        numOfEnemies.setText("Number of Enemies: " + bg.getNumOfEnemies());
     	    }
     	}));
     }

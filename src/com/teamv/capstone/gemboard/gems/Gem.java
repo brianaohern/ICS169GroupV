@@ -14,8 +14,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.teamv.capstone.SceneManager;
+import com.teamv.capstone.game.Pointf;
 import com.teamv.capstone.gemboard.Gemboard;
-import com.teamv.capstone.gemboard.Pointf;
 
 public abstract class Gem extends Sprite{
 
@@ -85,7 +85,7 @@ public abstract class Gem extends Sprite{
 	}
 	
 	// what happens when gem dies, cleans up
-	public void onDie(){
+	public void cleanUp(){
 		this.detachSelf();
 		this.dispose();
 	}
@@ -101,12 +101,12 @@ public abstract class Gem extends Sprite{
 		    	start.set(mX + Gemboard.RADIUS/2, mY + Gemboard.RADIUS/2);
 		    	Gemboard.connectedGems.add(this);
 	        	System.out.println("Added " + this.getUserData());
-	        	System.out.println(start.getX() + " " + start.getY());
+	        	System.out.println(start.x + " " + start.y);
 		    }
 		    if (pSceneTouchEvent.isActionMove())
 		    {
 		    	end.set(mX + Gemboard.RADIUS/2, mY + Gemboard.RADIUS/2);
-	        	System.out.println(end.getX() + " " + end.getY());
+	        	System.out.println(end.x + " " + end.y);
 		    	drawLine(this.getVertexBufferObjectManager());
 		    }
 		    // when finger releases gem
@@ -128,7 +128,7 @@ public abstract class Gem extends Sprite{
 			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
 			!Gemboard.connectedGems.contains(this)){
 			
-        	Line line = new Line(start.getX(), start.getY(), end.getX(), end.getY(), vbom);
+        	Line line = new Line(start.x, start.y, end.x, end.y, vbom);
 
         	line.setLineWidth(5);
         	line.setColor(Color.YELLOW);
@@ -193,7 +193,7 @@ public abstract class Gem extends Sprite{
 	
 	// used for drawing lines, can be combined with the other isAdjacents
 	private boolean isAdjacent(){
-		return isAdjacent(start.getX(), end.getX(), start.getY(), end.getY());
+		return isAdjacent(start.x, end.x, start.y, end.y);
 	}
 	
 	///////////////////////////////////////////

@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.game.Battleground;
+import com.teamv.capstone.game.Pointf;
 import com.teamv.capstone.gemboard.gems.*;
 
 public class Gemboard implements IOnSceneTouchListener{
@@ -129,7 +130,7 @@ public class Gemboard implements IOnSceneTouchListener{
 	private static void detachGem(Gem gem){
 		gameScene.unregisterTouchArea(gem);
 		destroyBody(gem);
-		gem.onDie();
+		gem.cleanUp();
 	}
 	
 	@Override
