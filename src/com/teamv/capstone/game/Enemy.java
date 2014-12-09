@@ -8,15 +8,12 @@ import org.andengine.util.color.Color;
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
 
-public class Enemy extends HealthBarEntity{
+public abstract class Enemy extends HealthBarEntity{
 
 	public static final int LEFTALIGN = 0;
 	public static final int RIGHTALIGN = 1;
 
 	int turnCounter;
-	float attack;
-	float defense;
-
 	private Text turnText;
 	private Point buffer;
 	

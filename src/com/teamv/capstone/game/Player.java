@@ -1,20 +1,17 @@
 package com.teamv.capstone.game;
 
-import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
-import com.teamv.capstone.BaseScene;
+import com.teamv.capstone.ResourcesManager;
 
 public class Player extends HealthBarEntity{
-	
-	private int attack;
 	
 	int healthBarBufferY = 50;
 	int healthBarPosY = 1920/2;
 	
-	public Player(float x, float y, ITextureRegion region, VertexBufferObjectManager vbo) {
-		super(x, y, region, vbo);
+	public Player(float x, float y, VertexBufferObjectManager vbo) {
+		super(x, y, ResourcesManager.getInstance().mainCharacter, vbo);
 	}
 	
 	public void init(){
@@ -41,14 +38,6 @@ public class Player extends HealthBarEntity{
 	
 	public void onDie(){
 		// TODO
-	}
-	
-	public void cleanUp(){
-		super.cleanUp();
-	}
-	
-	public void attachToScene(BaseScene gameScene){
-		super.attachToScene(gameScene);
 	}
 	
 	public int getPlayerAttack(){

@@ -1,4 +1,4 @@
-package com.teamv.capstone.gemboard.gems;
+package com.teamv.capstone.gemboard;
 
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.sprite.Sprite;
@@ -15,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.teamv.capstone.SceneManager;
 import com.teamv.capstone.game.Pointf;
-import com.teamv.capstone.gemboard.Gemboard;
 
 public abstract class Gem extends Sprite{
 

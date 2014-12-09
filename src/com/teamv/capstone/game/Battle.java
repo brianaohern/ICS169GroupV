@@ -2,6 +2,7 @@ package com.teamv.capstone.game;
 
 import java.util.ArrayList;
 
+
 public class Battle {
 
 	/*

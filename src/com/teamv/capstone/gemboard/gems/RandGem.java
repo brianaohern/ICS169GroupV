@@ -6,6 +6,7 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.gemboard.Gem;
 
 // RANDOM GEM THAT GENERATES RANDOM IDENTIFIER
 // LOOKS LIKE A RED GEM THOUGH

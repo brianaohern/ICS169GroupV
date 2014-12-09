@@ -4,6 +4,7 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.gemboard.Gem;
 
 public class RedGem extends Gem{
 	
