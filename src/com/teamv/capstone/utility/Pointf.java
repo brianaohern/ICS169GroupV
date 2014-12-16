@@ -1,4 +1,4 @@
-package com.teamv.capstone.game;
+package com.teamv.capstone.utility;
 
 // utility purposes
 public class Pointf {

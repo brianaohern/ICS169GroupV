@@ -1,4 +1,4 @@
-package com.teamv.capstone.game;
+package com.teamv.capstone.utility;
 
 public class Point {
 	public int x;

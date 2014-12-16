@@ -7,8 +7,7 @@ import com.teamv.capstone.ResourcesManager;
 
 public class Player extends HealthBarEntity{
 	
-	int healthBarBufferY = 50;
-	int healthBarPosY = 1920/2;
+	int healthBarBufferY, healthBarPosY;
 	
 	public Player(float x, float y, VertexBufferObjectManager vbo) {
 		super(x, y, ResourcesManager.getInstance().mainCharacter, vbo);
@@ -18,6 +17,8 @@ public class Player extends HealthBarEntity{
 		startHealth = 20;
 		currentHealth = startHealth;
 		
+		healthBarPosY = 1920/2;
+		healthBarBufferY = 50;
 		String healthBarStatus = "HP: " + currentHealth + "/" + startHealth;
 		healthBarText.setX(start.x);
 		healthBarText.setY(healthBarPosY + healthBarBufferY);

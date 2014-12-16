@@ -8,6 +8,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.utility.Pointf;
 
 public abstract class HealthBarEntity extends Sprite{
 	

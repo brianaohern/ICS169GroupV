@@ -15,8 +15,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.game.Battleground;
-import com.teamv.capstone.game.Pointf;
 import com.teamv.capstone.gemboard.gems.*;
+import com.teamv.capstone.utility.Pointf;
 
 public class Gemboard implements IOnSceneTouchListener{
 	
