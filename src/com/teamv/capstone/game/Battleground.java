@@ -34,6 +34,10 @@ public class Battleground {
 		enemies = new ArrayList<Enemy>();
 		enemies.add(new Wolf(1080/2, 1920/4, ResourcesManager.getInstance().vbom));
 		attachEnemies();
+		
+		// add "first level"
+		level = new ArrayList<Battle>();
+		level.add(new Battle(new ArrayList<Enemy>()));
 	}
 	
 	public void nextBattle(Battle battle){

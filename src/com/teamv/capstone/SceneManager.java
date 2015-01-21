@@ -128,6 +128,5 @@ public class SceneManager
     	ResourcesManager.getInstance().loadGameResources();
     	gameScene = new GameScene();
     	SceneManager.getInstance().setScene(gameScene);
-    	disposeSplashScene();
     }
 }

@@ -59,8 +59,8 @@ import android.widget.Toast;
                 public void onTimePassed(final TimerHandler pTimerHandler) 
                 {
                     mEngine.unregisterUpdateHandler(pTimerHandler);
-                    //SceneManager.getInstance().createMenuScene();
-                    SceneManager.getInstance().createGameScene();
+                    SceneManager.getInstance().createMenuScene();
+                    //SceneManager.getInstance().createGameScene();
                 }
         }));
         pOnPopulateSceneCallback.onPopulateSceneFinished();

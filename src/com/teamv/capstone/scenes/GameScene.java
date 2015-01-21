@@ -2,8 +2,6 @@ package com.teamv.capstone.scenes;
 
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
-import org.andengine.entity.particle.emitter.IParticleEmitter;
-import org.andengine.entity.particle.emitter.PointParticleEmitter;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSCounter;
@@ -25,8 +23,6 @@ public class GameScene extends BaseScene
 	private PhysicsWorld physicsWorld;
 	private Gemboard gemboard;
 	public Battleground bg;
-	
-	IParticleEmitter emitter = new PointParticleEmitter(0,0);
 	
     @Override
     public void createScene()
