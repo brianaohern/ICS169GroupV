@@ -22,7 +22,7 @@ public class Battleground {
 	
 	GameScene gameScene;
 	Gemboard gemboard;
-	static ArrayList<Enemy> enemies;
+	static Wave currentWave;
 	ArrayList<Wave> level;
 	int currentBattle = 0;
 	Player player;
@@ -60,7 +60,7 @@ public class Battleground {
 	public void nextBattle(Wave wave){
 		//set up next battle
 		wave.initPlacement();
-		enemies = wave.getEnemies();
+		currentWave = wave;
 		attachEnemies();
 	}
 	
@@ -73,7 +73,7 @@ public class Battleground {
 	}
 	
 	public static void enterBattle(ArrayList<Gem> gems){
-		if(enemies.size() <= 0)
+		if(currentWave.getEnemies().size() <= 0)
 			return;
 		
 		int damage = 0;
@@ -82,19 +82,19 @@ public class Battleground {
 		damage += gems.size();
 		
 		// get target and attack
-		Enemy enemy = enemies.get(0);
+		Enemy enemy = currentWave.getTarget();;
 		
 		// attack enemy
 		enemy.takeDamage(damage);
 	}
 	
 	private void attachEnemies(){
-		for(Enemy enemy : enemies){
+		for(Enemy enemy : currentWave.getEnemies()){
 			enemy.attachToScene(gameScene);
 		}
 	}
 
 	public int getNumOfEnemies() {
-		return enemies.size();
+		return currentWave.getEnemies().size();
 	}
 }

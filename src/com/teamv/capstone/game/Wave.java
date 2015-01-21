@@ -60,4 +60,14 @@ public class Wave{
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
 	}
+	
+	public Enemy getTarget(){
+		for(Enemy enemy : enemies){
+			if(enemy.isTarget){
+				return enemy;
+			}
+		}
+		// else return first enemy
+		return enemies.get(0);
+	}
 }

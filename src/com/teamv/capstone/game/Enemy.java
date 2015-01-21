@@ -17,9 +17,11 @@ public abstract class Enemy extends HealthBarEntity{
 	public static final int LEFTALIGN = 0;
 	public static final int RIGHTALIGN = 1;
 
+	public boolean isTarget = false;
 	boolean isDead;
 	int turnCounter;
 	private Point buffer;
+	
 	
 	public Enemy(float x, float y, ITextureRegion region, VertexBufferObjectManager vbo) {
 		super(x, y, region, vbo);
@@ -83,12 +85,14 @@ public abstract class Enemy extends HealthBarEntity{
     {
 		resetTarget();
 		this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 0.7f, 0.8f))));
+		isTarget = true;
 		return true;
     }
 	
 	private void resetTarget(){
-		for(Enemy enemy : Battleground.enemies){
+		for(Enemy enemy : Battleground.currentWave.getEnemies()){
 			enemy.clearEntityModifiers();
+			enemy.isTarget = false;
 		}
 	}
 }
