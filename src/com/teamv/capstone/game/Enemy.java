@@ -1,5 +1,14 @@
 package com.teamv.capstone.game;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import org.andengine.entity.modifier.AlphaModifier;
+import org.andengine.entity.modifier.LoopEntityModifier;
+import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.modifier.ParallelEntityModifier;
+import org.andengine.entity.modifier.ScaleModifier;
+import org.andengine.entity.modifier.SequenceEntityModifier;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
@@ -49,12 +58,14 @@ public abstract class Enemy extends HealthBarEntity{
 		init();
 	}
 	
-	public void cleanUp(){
+	public void cleanUp(BaseScene gameScene){
 		super.cleanUp();
+		gameScene.unregisterTouchArea(this);
 	}
 	
 	public void attachToScene(BaseScene gameScene) {
 		super.attachToScene(gameScene);
+		gameScene.registerTouchArea(this);
 	}
 	
 	public void setPosition(float pX, float pY){
@@ -71,4 +82,10 @@ public abstract class Enemy extends HealthBarEntity{
 		healthBarText.setScale(scale);
 		healthBar.setScale(scale);
 	}
+	
+	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
+    {
+		this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 0.7f, 0.8f))));
+		return true;
+    }
 }
