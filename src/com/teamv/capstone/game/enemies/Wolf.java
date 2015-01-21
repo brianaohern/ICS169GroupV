@@ -9,10 +9,12 @@ public class Wolf extends Enemy{
 
 	public Wolf(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().wolf, vbom);
+		this.setScale(0.75f);
 	}
 	
 	public Wolf(VertexBufferObjectManager vbom){
 		super(ResourcesManager.getInstance().wolf, vbom);
+		this.setScale(0.75f);
 	}
 
 }

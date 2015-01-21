@@ -28,6 +28,8 @@ public class Battleground {
 	Player player;
 	VertexBufferObjectManager vbom;
 	
+	Enemy target;
+	
 	
 	public Battleground(BaseScene gameScene, Gemboard gemboard){
 		this.gameScene = (GameScene) gameScene;
@@ -42,8 +44,8 @@ public class Battleground {
 		Wave wave2 = new Wave();
 		Wave wave3 = new Wave();
 		wave1.add(new Wolf(vbom));
-		wave2.add(new Wolf(vbom));
-		wave2.add(new Wolf(vbom));
+		wave1.add(new Wolf(vbom));
+		wave1.add(new Wolf(vbom));
 		wave3.add(new Wolf(vbom));
 		wave3.add(new Wolf(vbom));
 		wave3.add(new Wolf(vbom));
@@ -52,19 +54,21 @@ public class Battleground {
 		level.add(wave3);
 		// end mock level setup
 		
-		enemies = new ArrayList<Enemy>();
-		enemies.add(new Wolf(1080/2, 1920/4, vbom));
-		attachEnemies();
+		this.nextBattle();
 	}
 	
-	public void nextBattle(Wave battle){
+	public void nextBattle(Wave wave){
 		//set up next battle
+		wave.initPlacement();
+		enemies = wave.getEnemies();
+		attachEnemies();
 	}
 	
 	public void nextBattle(){
 		Wave battle = level.get(currentBattle);
-		if(battle != null)
+		if(battle != null){
 			this.nextBattle(battle);
+		}
 		currentBattle++;
 	}
 	

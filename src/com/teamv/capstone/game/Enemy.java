@@ -27,16 +27,16 @@ public abstract class Enemy extends HealthBarEntity{
 	public void init(){
 		startHealth = 10;
 		currentHealth = startHealth;
-		buffer = new Point(100, 60);
+		buffer = new Point(100, 0);
 		
-		healthBarText.setX(start.x);
-		healthBarText.setY(start.y - (buffer.y + 20));
+		healthBarText.setX(this.getX());
+		healthBarText.setY(this.getY() - (buffer.y + 20));
 		healthBarText.setText("1  :");
 		
 		healthBarWidth  = (int) (this.getWidth() - buffer.x);
 		healthBarHeight = 25;
-		healthBar.setX(start.x + buffer.x);
-		healthBar.setY(start.y - buffer.y);
+		healthBar.setX(this.getX() + buffer.x);
+		healthBar.setY(this.getY() - buffer.y);
 		healthBar.setWidth(healthBarWidth);
 		healthBar.setHeight(25);
 		healthBar.setColor(Color.RED);
@@ -57,4 +57,18 @@ public abstract class Enemy extends HealthBarEntity{
 		super.attachToScene(gameScene);
 	}
 	
+	public void setPosition(float pX, float pY){
+		super.setPosition(pX, pY);
+		healthBarText.setX(pX);
+		healthBarText.setY(pY - (buffer.y + 20));
+		
+		healthBar.setX(pX + buffer.x);
+		healthBar.setY(pY - buffer.y);
+	}
+	
+	public void setScale(float scale){
+		super.setScale(scale);
+		healthBarText.setScale(scale);
+		healthBar.setScale(scale);
+	}
 }
