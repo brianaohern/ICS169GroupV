@@ -24,13 +24,13 @@ public abstract class HealthBarEntity extends Sprite{
 	int healthBarHeight;
 	Text healthBarText;
 	
-	public HealthBarEntity(float x, float y, ITextureRegion region, VertexBufferObjectManager vbo){
-		super(x, y, region, vbo);
+	public HealthBarEntity(float x, float y, ITextureRegion region, VertexBufferObjectManager vbom){
+		super(x, y, region, vbom);
 		
 		start = new Pointf(x, y);
 		
-		healthBarText = new Text(0, 0, ResourcesManager.getInstance().font, "", 20, vbo);
-		healthBar = new Rectangle(0, 0, 0, 0, vbo);
+		healthBarText = new Text(0, 0, ResourcesManager.getInstance().font, "", 20, vbom);
+		healthBar = new Rectangle(0, 0, 0, 0, vbom);
 		
 		init();
 	}

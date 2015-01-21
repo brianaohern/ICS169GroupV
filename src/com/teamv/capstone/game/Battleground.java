@@ -2,6 +2,8 @@ package com.teamv.capstone.game;
 
 import java.util.ArrayList;
 
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.game.enemies.*;
@@ -21,31 +23,46 @@ public class Battleground {
 	GameScene gameScene;
 	Gemboard gemboard;
 	static ArrayList<Enemy> enemies;
-	ArrayList<Battle> level;
+	ArrayList<Wave> level;
 	int currentBattle = 0;
 	Player player;
+	VertexBufferObjectManager vbom;
 	
 	
 	public Battleground(BaseScene gameScene, Gemboard gemboard){
 		this.gameScene = (GameScene) gameScene;
 		this.gemboard = gemboard;
-		player = new Player(1080/40, 1920/4, ResourcesManager.getInstance().vbom);
+		vbom = ResourcesManager.getInstance().vbom;
+		player = new Player(1080/40, 1920/4, vbom);
 		player.attachToScene(this.gameScene);
-		enemies = new ArrayList<Enemy>();
-		enemies.add(new Wolf(1080/2, 1920/4, ResourcesManager.getInstance().vbom));
-		attachEnemies();
 		
-		// add "first level"
-		level = new ArrayList<Battle>();
-		level.add(new Battle(new ArrayList<Enemy>()));
+		// mock level
+		level = new ArrayList<Wave>();
+		Wave wave1 = new Wave();
+		Wave wave2 = new Wave();
+		Wave wave3 = new Wave();
+		wave1.add(new Wolf(vbom));
+		wave2.add(new Wolf(vbom));
+		wave2.add(new Wolf(vbom));
+		wave3.add(new Wolf(vbom));
+		wave3.add(new Wolf(vbom));
+		wave3.add(new Wolf(vbom));
+		level.add(wave1);
+		level.add(wave2);
+		level.add(wave3);
+		// end mock level setup
+		
+		enemies = new ArrayList<Enemy>();
+		enemies.add(new Wolf(1080/2, 1920/4, vbom));
+		attachEnemies();
 	}
 	
-	public void nextBattle(Battle battle){
+	public void nextBattle(Wave battle){
 		//set up next battle
 	}
 	
 	public void nextBattle(){
-		Battle battle = level.get(currentBattle);
+		Wave battle = level.get(currentBattle);
 		if(battle != null)
 			this.nextBattle(battle);
 		currentBattle++;

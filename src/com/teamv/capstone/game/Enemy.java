@@ -20,6 +20,10 @@ public abstract class Enemy extends HealthBarEntity{
 		super(x, y, region, vbo);
 	}
 	
+	public Enemy(ITextureRegion region, VertexBufferObjectManager vbo){
+		super(0, 0, region, vbo);
+	}
+	
 	public void init(){
 		startHealth = 10;
 		currentHealth = startHealth;

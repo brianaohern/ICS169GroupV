@@ -7,8 +7,12 @@ import com.teamv.capstone.game.Enemy;
 
 public class Wolf extends Enemy{
 
-	public Wolf(float x, float y, VertexBufferObjectManager vbo) {
-		super(x, y, ResourcesManager.getInstance().wolf, vbo);
+	public Wolf(float x, float y, VertexBufferObjectManager vbom) {
+		super(x, y, ResourcesManager.getInstance().wolf, vbom);
+	}
+	
+	public Wolf(VertexBufferObjectManager vbom){
+		super(ResourcesManager.getInstance().wolf, vbom);
 	}
 
 }
