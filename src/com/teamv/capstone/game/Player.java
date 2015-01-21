@@ -19,6 +19,7 @@ public class Player extends HealthBarEntity{
 		
 		healthBarPosY = 1920/2;
 		healthBarBufferY = 50;
+		
 		String healthBarStatus = "HP: " + currentHealth + "/" + startHealth;
 		healthBarText.setX(start.x);
 		healthBarText.setY(healthBarPosY + healthBarBufferY);
@@ -33,10 +34,6 @@ public class Player extends HealthBarEntity{
 		healthBar.setColor(Color.GREEN);
 	}
 	
-	public void attackEnemy(Enemy enemy){
-		// TODO
-	}
-	
 	public void onDie(){
 		// TODO
 	}
@@ -48,5 +45,4 @@ public class Player extends HealthBarEntity{
 	public void setPlayerAttack(int atk){
 		attack = atk;
 	}
-	
 }
