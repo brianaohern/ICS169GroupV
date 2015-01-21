@@ -40,10 +40,12 @@ public class Gemboard implements IOnSceneTouchListener{
 	public static final int STARTY	= 1920/2 + RADIUS;
 	
 	private static Random random;
+	private static Battleground battleground;
 	
-	public Gemboard(BaseScene gameScene, PhysicsWorld physicsWorld){
+	public Gemboard(BaseScene gameScene, PhysicsWorld physicsWorld, Battleground battleground){
 		Gemboard.gameScene = gameScene;
 		Gemboard.physicsWorld = physicsWorld;
+		Gemboard.battleground = battleground;
 		
 		grid = new Gem[cols][rows];
 		random = new Random();
@@ -79,7 +81,7 @@ public class Gemboard implements IOnSceneTouchListener{
 	
 	public static void executeGems() {
 		if(connectedGems.size() >= 3){
-			Battleground.enterBattle(connectedGems);
+			battleground.enterBattle(connectedGems);
 			for(Gem gem : connectedGems){
 				dropGem(gem);
 			}

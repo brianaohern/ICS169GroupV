@@ -18,7 +18,7 @@ public abstract class Enemy extends HealthBarEntity{
 	public static final int RIGHTALIGN = 1;
 
 	public boolean isTarget = false;
-	boolean isDead;
+	public boolean isDead = false;
 	int turnCounter;
 	private Point buffer;
 	
@@ -50,15 +50,13 @@ public abstract class Enemy extends HealthBarEntity{
 	}
 	
 	public void onDie(){
-//		Battleground.enemies.remove(this);
-//		isDead = true;
-//		cleanUp();	
-		init();
+		Battleground.currentWave.remove(this);
+		isDead = true;
+		cleanUp();
 	}
 	
-	public void cleanUp(BaseScene gameScene){
+	public void cleanUp(){
 		super.cleanUp();
-		gameScene.unregisterTouchArea(this);
 	}
 	
 	public void attachToScene(BaseScene gameScene) {

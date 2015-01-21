@@ -31,9 +31,9 @@ public class GameScene extends BaseScene
     	createDebuggerHUD();
         createPhysics();
         
-        gemboard = new Gemboard(this, physicsWorld);
-        // not sure if bg needs to call gemboard a lot; remove parameter maybes
-        bg = new Battleground(this, gemboard);
+        bg = new Battleground(this);
+        gemboard = new Gemboard(this, physicsWorld, bg);
+        
         this.setOnSceneTouchListener(gemboard);
     }
 
