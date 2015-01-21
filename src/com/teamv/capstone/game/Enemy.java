@@ -1,11 +1,7 @@
 package com.teamv.capstone.game;
 
-import javax.microedition.khronos.opengles.GL10;
 
-import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.modifier.LoopEntityModifier;
-import org.andengine.entity.modifier.MoveModifier;
-import org.andengine.entity.modifier.ParallelEntityModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.input.touch.TouchEvent;
@@ -85,7 +81,14 @@ public abstract class Enemy extends HealthBarEntity{
 	
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
     {
+		resetTarget();
 		this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 0.7f, 0.8f))));
 		return true;
     }
+	
+	private void resetTarget(){
+		for(Enemy enemy : Battleground.enemies){
+			enemy.clearEntityModifiers();
+		}
+	}
 }
