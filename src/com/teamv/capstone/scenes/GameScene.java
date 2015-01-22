@@ -7,6 +7,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSCounter;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.font.IFont;
 import org.andengine.util.color.Color;
 
@@ -33,8 +34,6 @@ public class GameScene extends BaseScene
         
         bg = new Battleground(this);
         gemboard = new Gemboard(this, physicsWorld, bg);
-        
-        this.setOnSceneTouchListener(gemboard);
     }
 
     @Override
@@ -99,5 +98,13 @@ public class GameScene extends BaseScene
     {
         physicsWorld = new FixedStepPhysicsWorld(60, new Vector2(0, 0), false);
         registerUpdateHandler(physicsWorld);
+    }
+    
+    public boolean onSceneTouchEvent(TouchEvent pSceneTouchEvent){
+    	super.onSceneTouchEvent(pSceneTouchEvent);
+    	if (pSceneTouchEvent.isActionUp()){
+			Gemboard.executeGems();
+		}
+		return false;
     }
 }
