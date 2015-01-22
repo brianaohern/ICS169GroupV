@@ -2,13 +2,16 @@ package com.teamv.capstone.scenes;
 
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
+import org.andengine.entity.scene.CameraScene;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSCounter;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.font.IFont;
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.color.Color;
 
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +26,7 @@ public class GameScene extends BaseScene
 	private PhysicsWorld physicsWorld;
 	private Gemboard gemboard;
 	public Battleground bg;
+	private CameraScene mPauseScene;
 	
     @Override
     public void createScene()
@@ -30,6 +34,15 @@ public class GameScene extends BaseScene
     	createBackground();
     	createDebuggerHUD();
         createPhysics();
+        
+        this.mPauseScene = new CameraScene(this.camera);
+        ITextureRegion temp = ResourcesManager.getInstance().options_region;
+        final float centerX = (1080 - temp.getWidth()) / 2;
+		final float centerY = (1920 - temp.getHeight()) / 2;
+		final Sprite pausedSprite = new Sprite(centerX, centerY, temp, this.vbom);
+		this.mPauseScene.attachChild(pausedSprite);
+		/* Makes the paused Game look through. */
+		this.mPauseScene.setBackgroundEnabled(false);
         
         bg = new Battleground(this);
         gemboard = new Gemboard(this, physicsWorld, bg);
@@ -94,13 +107,23 @@ public class GameScene extends BaseScene
     }
     
     private void createPhysics()
-    {
+    { 
         physicsWorld = new FixedStepPhysicsWorld(60, new Vector2(0, 0), false);
         registerUpdateHandler(physicsWorld);
     }
     
     public boolean onSceneTouchEvent(TouchEvent pSceneTouchEvent){
     	super.onSceneTouchEvent(pSceneTouchEvent);
+    	if(pSceneTouchEvent.isActionDown()){
+    		if(this.engine.isRunning()) {
+				this.setChildScene(this.mPauseScene, false, true, true);
+				this.engine.stop();
+			} else {
+				this.clearChildScene();
+				this.engine.start();
+			}
+			return true;
+    	}
     	if (pSceneTouchEvent.isActionUp()){
 			Gemboard.executeGems();
 		}
