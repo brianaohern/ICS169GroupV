@@ -6,6 +6,8 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.SceneManager;
+import com.teamv.capstone.SceneManager.SceneType;
 import com.teamv.capstone.game.enemies.*;
 import com.teamv.capstone.gemboard.Gem;
 import com.teamv.capstone.scenes.GameScene;
@@ -25,6 +27,7 @@ public class Battleground {
 	int currentBattle = 0;
 	Player player;
 	VertexBufferObjectManager vbom;
+	boolean isFinished = false;
 	
 	Enemy target;
 	
@@ -64,8 +67,12 @@ public class Battleground {
 	public void nextBattle(){
 		if(currentBattle < level.size()){
 			nextBattle(level.get(currentBattle));
+			currentBattle++;
 		}
-		currentBattle++;
+		else{
+			isFinished = true;
+			SceneManager.getInstance().setScene(SceneType.SCENE_MENU);
+		}
 	}
 	
 	public void enterBattle(ArrayList<Gem> gems){

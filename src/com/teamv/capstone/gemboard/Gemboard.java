@@ -5,9 +5,7 @@ import java.util.Random;
 
 import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.primitive.Line;
-import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
-import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.color.Color;
 
 import com.badlogic.gdx.physics.box2d.Body;
