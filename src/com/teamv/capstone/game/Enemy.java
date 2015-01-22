@@ -18,12 +18,9 @@ public abstract class Enemy extends HealthBarEntity{
 
 	public boolean isTarget = false;
 	public boolean isDead = false;
-<<<<<<< HEAD
 	int turnCounter;
-=======
 	int startTurnCount, currentTurnCount;
 	
->>>>>>> a70a3b7dd2f5e64d056053bac8ca41b33201254e
 	private Point buffer;
 	
 	
@@ -65,10 +62,7 @@ public abstract class Enemy extends HealthBarEntity{
 		Battleground.currentWave.remove(this);
 		isDead = true;
 		cleanUp();
-<<<<<<< HEAD
-=======
 		updateTurnCount();
->>>>>>> a70a3b7dd2f5e64d056053bac8ca41b33201254e
 	}
 	
 	public void cleanUp(){

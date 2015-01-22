@@ -34,11 +34,6 @@ public class GameScene extends BaseScene
         
         bg = new Battleground(this);
         gemboard = new Gemboard(this, physicsWorld, bg);
-<<<<<<< HEAD
-=======
-        
-        this.setOnSceneTouchListener(gemboard);
->>>>>>> a70a3b7dd2f5e64d056053bac8ca41b33201254e
     }
 
     @Override
