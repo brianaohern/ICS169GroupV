@@ -38,6 +38,12 @@ public class Gemboard{
 	public static final int RADIUS 	= 1080/cols - 1080%cols;
 	public static final int STARTY	= 1920/2 + RADIUS;
 	
+<<<<<<< HEAD
+=======
+	private static Random random;
+	private static Battleground battleground;
+	
+>>>>>>> a70a3b7dd2f5e64d056053bac8ca41b33201254e
 	public Gemboard(BaseScene gameScene, PhysicsWorld physicsWorld, Battleground battleground){
 		Gemboard.gameScene = gameScene;
 		Gemboard.physicsWorld = physicsWorld;

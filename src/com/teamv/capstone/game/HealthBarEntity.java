@@ -24,6 +24,9 @@ public abstract class HealthBarEntity extends Sprite{
 	int healthBarHeight;
 	Text healthBarText;
 	
+	// turn count
+	Text turnCountText;
+	
 	public HealthBarEntity(float x, float y, ITextureRegion region, VertexBufferObjectManager vbom){
 		super(x, y, region, vbom);
 		
@@ -31,6 +34,8 @@ public abstract class HealthBarEntity extends Sprite{
 		
 		healthBarText = new Text(0, 0, ResourcesManager.getInstance().font, "", 20, vbom);
 		healthBar = new Rectangle(0, 0, 0, 0, vbom);
+		
+		turnCountText = new Text(0, 0, ResourcesManager.getInstance().font, "", 20, vbom);
 		
 		init();
 	}
@@ -42,6 +47,7 @@ public abstract class HealthBarEntity extends Sprite{
 			currentHealth = 0;
 		}
 		healthBar.setWidth(healthBarWidth / 1.0f * currentHealth / startHealth);
+		healthBarText.setText("HP: " + currentHealth + "/" + startHealth);
 	}
 	
 	public void takeDamage(int damage){
@@ -61,12 +67,23 @@ public abstract class HealthBarEntity extends Sprite{
 		healthBar.dispose();
 		healthBarText.detachSelf();
 		healthBarText.dispose();
+		turnCountText.detachSelf();
+		turnCountText.dispose();
 	}
 	
 	public void attachToScene(BaseScene gameScene){
 		gameScene.attachChild(this);
 		gameScene.attachChild(healthBar);
 		gameScene.attachChild(healthBarText);
+		gameScene.attachChild(turnCountText);
+	}
+	
+	public int getStartHealth(){
+		return startHealth;
+	}
+	
+	public void setStartHealth(int health){
+		startHealth = health;
 	}
 	
 	public int getCurrentHealth(){
@@ -75,6 +92,14 @@ public abstract class HealthBarEntity extends Sprite{
 	
 	public void setCurrentHealth(int health){
 		currentHealth = health;
+	}
+	
+	public int getAttack(){
+		return attack;
+	}
+	
+	public void setAttack(int atk){
+		attack = atk;
 	}
 	
 	public void hideHealthBar(boolean hide){

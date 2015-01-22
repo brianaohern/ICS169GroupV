@@ -1,6 +1,5 @@
 package com.teamv.capstone.game;
 
-
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
@@ -19,16 +18,21 @@ public abstract class Enemy extends HealthBarEntity{
 
 	public boolean isTarget = false;
 	public boolean isDead = false;
+<<<<<<< HEAD
 	int turnCounter;
+=======
+	int startTurnCount, currentTurnCount;
+	
+>>>>>>> a70a3b7dd2f5e64d056053bac8ca41b33201254e
 	private Point buffer;
 	
 	
-	public Enemy(float x, float y, ITextureRegion region, VertexBufferObjectManager vbo) {
-		super(x, y, region, vbo);
+	public Enemy(float x, float y, ITextureRegion region, VertexBufferObjectManager vbom) {
+		super(x, y, region, vbom);
 	}
 	
-	public Enemy(ITextureRegion region, VertexBufferObjectManager vbo){
-		super(0, 0, region, vbo);
+	public Enemy(ITextureRegion region, VertexBufferObjectManager vbom){
+		super(0, 0, region, vbom);
 	}
 	
 	public void init(){
@@ -36,9 +40,17 @@ public abstract class Enemy extends HealthBarEntity{
 		currentHealth = startHealth;
 		buffer = new Point(100, 0);
 		
+		startTurnCount = 3;
+		resetCurrentTurnCount();
+
+		String healthBarStatus = "HP: " + currentHealth + "/" + startHealth;
 		healthBarText.setX(this.getX());
-		healthBarText.setY(this.getY() - (buffer.y + 20));
-		healthBarText.setText("1  :");
+		healthBarText.setY(this.getY());
+		healthBarText.setText(healthBarStatus);
+		
+		turnCountText.setX(this.getX());
+		turnCountText.setY(this.getY());
+		updateTurnCount();
 		
 		healthBarWidth  = (int) (this.getWidth() - buffer.x);
 		healthBarHeight = 25;
@@ -53,6 +65,10 @@ public abstract class Enemy extends HealthBarEntity{
 		Battleground.currentWave.remove(this);
 		isDead = true;
 		cleanUp();
+<<<<<<< HEAD
+=======
+		updateTurnCount();
+>>>>>>> a70a3b7dd2f5e64d056053bac8ca41b33201254e
 	}
 	
 	public void cleanUp(){
@@ -66,17 +82,21 @@ public abstract class Enemy extends HealthBarEntity{
 	
 	public void setPosition(float pX, float pY){
 		super.setPosition(pX, pY);
-		healthBarText.setX(pX);
+		healthBarText.setX(pX + (buffer.x));
 		healthBarText.setY(pY - (buffer.y + 20));
 		
 		healthBar.setX(pX + buffer.x);
 		healthBar.setY(pY - buffer.y);
+		
+		turnCountText.setX(pX);
+		turnCountText.setY(pY - (buffer.y + 20));
 	}
 	
 	public void setScale(float scale){
 		super.setScale(scale);
 		healthBarText.setScale(scale);
 		healthBar.setScale(scale);
+		turnCountText.setScale(scale);
 	}
 	
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
@@ -95,5 +115,34 @@ public abstract class Enemy extends HealthBarEntity{
 			enemy.clearEntityModifiers();
 			enemy.isTarget = false;
 		}
+	}
+	
+	public void updateTurnCount(){
+		turnCountText.setText(currentTurnCount + " :");
+	}
+	
+	public int getCurrentTurnCount(){
+		return currentTurnCount;
+	}
+	
+	public void setCurrentTurnCount(int turn){
+		currentTurnCount = turn;
+	}
+	
+	public int getStartTurnCount(){
+		return startTurnCount;
+	}
+	
+	public void setStartTurnCount(int turn){
+		startTurnCount = turn;
+	}
+	
+	public void resetCurrentTurnCount(){
+		currentTurnCount = startTurnCount;
+	}
+	
+	public void decrementCurrentTurnCount(){
+		if (currentTurnCount > 0)
+			currentTurnCount--;
 	}
 }
