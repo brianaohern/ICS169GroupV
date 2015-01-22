@@ -3,7 +3,7 @@ package com.teamv.capstone.game;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
-import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.managers.ResourcesManager;
 
 public class Player extends HealthBarEntity{
 	

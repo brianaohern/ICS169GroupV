@@ -1,4 +1,4 @@
-package com.teamv.capstone;
+package com.teamv.capstone.game;
 
 import java.io.IOException;
 
@@ -13,6 +13,9 @@ import org.andengine.engine.options.WakeLockOptions;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
+
+import com.teamv.capstone.managers.ResourcesManager;
+import com.teamv.capstone.managers.SceneManager;
 
 import android.annotation.TargetApi;
 import android.os.Build;

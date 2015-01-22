@@ -1,4 +1,4 @@
-package com.teamv.capstone;
+package com.teamv.capstone.managers;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
@@ -10,6 +10,8 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
+import com.teamv.capstone.game.GameActivity;
 
 import android.graphics.Color;
 

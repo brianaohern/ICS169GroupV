@@ -12,11 +12,10 @@ import org.andengine.opengl.font.IFont;
 import org.andengine.util.color.Color;
 
 import com.badlogic.gdx.math.Vector2;
-import com.teamv.capstone.BaseScene;
-import com.teamv.capstone.ResourcesManager;
-import com.teamv.capstone.SceneManager.SceneType;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.gemboard.Gemboard;
+import com.teamv.capstone.managers.ResourcesManager;
+import com.teamv.capstone.managers.SceneManager.SceneType;
 
 public class GameScene extends BaseScene
 {

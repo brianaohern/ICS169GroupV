@@ -9,10 +9,10 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.teamv.capstone.BaseScene;
-import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.gemboard.gems.*;
+import com.teamv.capstone.managers.ResourcesManager;
+import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Pointf;
 
 public class Gemboard{

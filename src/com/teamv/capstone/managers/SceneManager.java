@@ -1,8 +1,9 @@
-package com.teamv.capstone;
+package com.teamv.capstone.managers;
 
 import org.andengine.engine.Engine;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
+import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
 import com.teamv.capstone.scenes.LoadingScene;
 import com.teamv.capstone.scenes.MainMenuScene;

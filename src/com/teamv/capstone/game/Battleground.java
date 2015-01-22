@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import com.teamv.capstone.BaseScene;
-import com.teamv.capstone.ResourcesManager;
-import com.teamv.capstone.SceneManager;
-import com.teamv.capstone.SceneManager.SceneType;
 import com.teamv.capstone.game.enemies.*;
 import com.teamv.capstone.gemboard.Gem;
+import com.teamv.capstone.managers.ResourcesManager;
+import com.teamv.capstone.managers.SceneManager;
+import com.teamv.capstone.managers.SceneManager.SceneType;
+import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
 
 /*

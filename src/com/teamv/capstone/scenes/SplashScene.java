@@ -4,8 +4,7 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.util.GLState;
 
-import com.teamv.capstone.BaseScene;
-import com.teamv.capstone.SceneManager.SceneType;
+import com.teamv.capstone.managers.SceneManager.SceneType;
 
 /**
  * @author Mateusz Mysliwiec

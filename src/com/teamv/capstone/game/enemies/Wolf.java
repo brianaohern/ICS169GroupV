@@ -2,8 +2,8 @@ package com.teamv.capstone.game.enemies;
 
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import com.teamv.capstone.ResourcesManager;
 import com.teamv.capstone.game.Enemy;
+import com.teamv.capstone.managers.ResourcesManager;
 
 public class Wolf extends Enemy{
 	

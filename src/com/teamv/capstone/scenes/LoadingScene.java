@@ -4,8 +4,7 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
 import org.andengine.util.color.Color;
 
-import com.teamv.capstone.BaseScene;
-import com.teamv.capstone.SceneManager.SceneType;
+import com.teamv.capstone.managers.SceneManager.SceneType;
 
 public class LoadingScene extends BaseScene
 {

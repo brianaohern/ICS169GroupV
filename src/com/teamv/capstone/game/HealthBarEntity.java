@@ -6,8 +6,8 @@ import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import com.teamv.capstone.BaseScene;
-import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.managers.ResourcesManager;
+import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Pointf;
 
 public abstract class HealthBarEntity extends Sprite{

@@ -8,7 +8,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
-import com.teamv.capstone.BaseScene;
+import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Point;
 
 public abstract class Enemy extends HealthBarEntity{

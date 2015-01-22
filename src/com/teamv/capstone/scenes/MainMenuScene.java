@@ -9,9 +9,8 @@ import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.util.GLState;
 
-import com.teamv.capstone.BaseScene;
-import com.teamv.capstone.SceneManager;
-import com.teamv.capstone.SceneManager.SceneType;
+import com.teamv.capstone.managers.SceneManager;
+import com.teamv.capstone.managers.SceneManager.SceneType;
 
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 {
