@@ -67,11 +67,14 @@ public class Battleground {
 	public void nextBattle(){
 		if(currentBattle < level.size()){
 			nextBattle(level.get(currentBattle));
+<<<<<<< HEAD
 			currentBattle++;
 		}
 		else{
 			isFinished = true;
 			SceneManager.getInstance().setScene(SceneType.SCENE_MENU);
+=======
+>>>>>>> a70a3b7dd2f5e64d056053bac8ca41b33201254e
 		}
 	}
 	
@@ -93,7 +96,8 @@ public class Battleground {
 			gameScene.unregisterTouchArea(target);
 		}
 		
-
+<<<<<<< HEAD
+=======
 		// update enemy turn count
 		for (Enemy enemy : currentWave.getEnemies()){
 			enemy.decrementCurrentTurnCount();
@@ -103,7 +107,8 @@ public class Battleground {
 			}
 			enemy.updateTurnCount();
 		}
-
+		
+>>>>>>> a70a3b7dd2f5e64d056053bac8ca41b33201254e
 		if(currentWave.isFinished()){
 			nextBattle();
 		}
