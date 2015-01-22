@@ -45,16 +45,18 @@ public class Wave{
 	}
 	
 	public boolean isFinished(){
-		for(Enemy enemy : enemies){
-			if(enemy.isDead){
-				return false;
-			}
+		if(enemies.isEmpty()){
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public void add(Enemy enemy){
 		enemies.add(enemy);
+	}
+	
+	public void remove(Enemy enemy){
+		enemies.remove(enemy);
 	}
 
 	public ArrayList<Enemy> getEnemies() {

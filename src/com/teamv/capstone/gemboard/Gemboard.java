@@ -5,10 +5,7 @@ import java.util.Random;
 
 import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.primitive.Line;
-import org.andengine.entity.scene.IOnSceneTouchListener;
-import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
-import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.color.Color;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -18,7 +15,7 @@ import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.gemboard.gems.*;
 import com.teamv.capstone.utility.Pointf;
 
-public class Gemboard implements IOnSceneTouchListener{
+public class Gemboard{
 	
 	private static Pointf start, end;
 	
@@ -26,6 +23,8 @@ public class Gemboard implements IOnSceneTouchListener{
 	private static Gem[][] grid;
 	private static BaseScene gameScene;
 	private static PhysicsWorld physicsWorld;
+	private static Random random;
+	private static Battleground battleground;
 	
 	// array of connected gems
 	public static ArrayList<Gem> connectedGems;
@@ -39,11 +38,10 @@ public class Gemboard implements IOnSceneTouchListener{
 	public static final int RADIUS 	= 1080/cols - 1080%cols;
 	public static final int STARTY	= 1920/2 + RADIUS;
 	
-	private static Random random;
-	
-	public Gemboard(BaseScene gameScene, PhysicsWorld physicsWorld){
+	public Gemboard(BaseScene gameScene, PhysicsWorld physicsWorld, Battleground battleground){
 		Gemboard.gameScene = gameScene;
 		Gemboard.physicsWorld = physicsWorld;
+		Gemboard.battleground = battleground;
 		
 		grid = new Gem[cols][rows];
 		random = new Random();
@@ -79,7 +77,7 @@ public class Gemboard implements IOnSceneTouchListener{
 	
 	public static void executeGems() {
 		if(connectedGems.size() >= 3){
-			Battleground.enterBattle(connectedGems);
+			battleground.enterBattle(connectedGems);
 			for(Gem gem : connectedGems){
 				dropGem(gem);
 			}
@@ -131,14 +129,6 @@ public class Gemboard implements IOnSceneTouchListener{
 		gameScene.unregisterTouchArea(gem);
 		destroyBody(gem);
 		gem.cleanUp();
-	}
-	
-	@Override
-	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-		if (pSceneTouchEvent.isActionUp()){
-			executeGems();
-		}
-		return false;
 	}
 	
 	// return random gem

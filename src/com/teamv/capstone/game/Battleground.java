@@ -6,9 +6,10 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.BaseScene;
 import com.teamv.capstone.ResourcesManager;
+import com.teamv.capstone.SceneManager;
+import com.teamv.capstone.SceneManager.SceneType;
 import com.teamv.capstone.game.enemies.*;
 import com.teamv.capstone.gemboard.Gem;
-import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.scenes.GameScene;
 
 /*
@@ -20,23 +21,22 @@ import com.teamv.capstone.scenes.GameScene;
  */
 public class Battleground {
 	
-	GameScene gameScene;
-	Gemboard gemboard;
+	static GameScene gameScene;
 	static Wave currentWave;
 	ArrayList<Wave> level;
 	int currentBattle = 0;
 	Player player;
 	VertexBufferObjectManager vbom;
+	boolean isFinished = false;
 	
 	Enemy target;
 	
 	
-	public Battleground(BaseScene gameScene, Gemboard gemboard){
-		this.gameScene = (GameScene) gameScene;
-		this.gemboard = gemboard;
+	public Battleground(BaseScene gameScene){
+		Battleground.gameScene = (GameScene) gameScene;
 		vbom = ResourcesManager.getInstance().vbom;
 		player = new Player(1080/40, 1920/4, vbom);
-		player.attachToScene(this.gameScene);
+		player.attachToScene(gameScene);
 		
 		// mock level
 		level = new ArrayList<Wave>();
@@ -44,8 +44,8 @@ public class Battleground {
 		Wave wave2 = new Wave();
 		Wave wave3 = new Wave();
 		wave1.add(new Wolf(vbom));
-		wave1.add(new Wolf(vbom));
-		wave1.add(new Wolf(vbom));
+		wave2.add(new Wolf(vbom));
+		wave2.add(new Wolf(vbom));
 		wave3.add(new Wolf(vbom));
 		wave3.add(new Wolf(vbom));
 		wave3.add(new Wolf(vbom));
@@ -65,14 +65,17 @@ public class Battleground {
 	}
 	
 	public void nextBattle(){
-		Wave battle = level.get(currentBattle);
-		if(battle != null){
-			this.nextBattle(battle);
+		if(currentBattle < level.size()){
+			nextBattle(level.get(currentBattle));
+			currentBattle++;
 		}
-		currentBattle++;
+		else{
+			isFinished = true;
+			SceneManager.getInstance().setScene(SceneType.SCENE_MENU);
+		}
 	}
 	
-	public static void enterBattle(ArrayList<Gem> gems){
+	public void enterBattle(ArrayList<Gem> gems){
 		if(currentWave.getEnemies().size() <= 0)
 			return;
 		
@@ -82,10 +85,18 @@ public class Battleground {
 		damage += gems.size();
 		
 		// get target and attack
-		Enemy enemy = currentWave.getTarget();;
+		Enemy target = currentWave.getTarget();;
 		
 		// attack enemy
-		enemy.takeDamage(damage);
+		target.takeDamage(damage);
+		if(target.isDead){
+			gameScene.unregisterTouchArea(target);
+		}
+		
+		if(currentWave.isFinished()){
+			nextBattle();
+		}
+		
 	}
 	
 	private void attachEnemies(){
