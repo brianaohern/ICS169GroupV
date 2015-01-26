@@ -82,6 +82,11 @@ public class Gemboard{
 				dropGem(gem);
 			}
 		}
+		else {
+			for (Gem gem : connectedGems) {
+				gem.unhighlightGem();
+			}
+		}
 		for(Line line : lines){
 			line.detachSelf();
 			line.dispose();

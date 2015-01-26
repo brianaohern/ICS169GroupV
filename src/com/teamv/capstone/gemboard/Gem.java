@@ -99,7 +99,8 @@ public abstract class Gem extends Sprite{
 		    {
 		    	start.set(mX + Gemboard.RADIUS/2, mY + Gemboard.RADIUS/2);
 		    	Gemboard.connectedGems.add(this);
-	        	System.out.println("Added " + this.getUserData());
+		    	highlightGem();
+		    	System.out.println("Added " + this.getUserData());
 	        	System.out.println(start.x + " " + start.y);
 		    }
 		    if (pSceneTouchEvent.isActionMove())
@@ -127,6 +128,8 @@ public abstract class Gem extends Sprite{
 			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
 			!Gemboard.connectedGems.contains(this)){
 			
+			highlightGem();
+			
         	Line line = new Line(start.x, start.y, end.x, end.y, vbom);
 
         	line.setLineWidth(5);
@@ -153,6 +156,8 @@ public abstract class Gem extends Sprite{
 			
 			// Iterate down the list to the gem you're on now
 			for (int i = Gemboard.connectedGems.size() - 1; i > index; i--) {
+				
+				Gemboard.connectedGems.get(i).unhighlightGem();
 				
 				// Remove each gem past current index from connectedGems
 				Gemboard.connectedGems.remove(i);
@@ -193,6 +198,14 @@ public abstract class Gem extends Sprite{
 	// used for drawing lines, can be combined with the other isAdjacents
 	private boolean isAdjacent(){
 		return isAdjacent(start.x, end.x, start.y, end.y);
+	}
+	
+	private void highlightGem() {
+		this.setColor(Color.YELLOW);
+	}
+	
+	public void unhighlightGem() {
+		this.setColor(Color.WHITE);
 	}
 	
 	///////////////////////////////////////////
