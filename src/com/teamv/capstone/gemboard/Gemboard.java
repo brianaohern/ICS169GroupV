@@ -76,15 +76,11 @@ public class Gemboard{
 	}
 	
 	public static void executeGems() {
+		Gemboard.unshadeBoard();
 		if(connectedGems.size() >= 3){
 			battleground.enterBattle(connectedGems);
 			for(Gem gem : connectedGems){
 				dropGem(gem);
-			}
-		}
-		else {
-			for (Gem gem : connectedGems) {
-				gem.unhighlightGem();
 			}
 		}
 		for(Line line : lines){
@@ -210,6 +206,28 @@ public class Gemboard{
 				physicsWorld.destroyBody(body);
 			}});
 
+	}
+	
+	public static void shadeBoard(Gem gem) {
+		for(int x = 0; x < cols; x++){
+			for(int y = 0; y < rows; y++){
+				if(grid[x][y] != null) {
+					if (!grid[x][y].sameColor(gem)) {
+						grid[x][y].shadeGem();
+					}
+				}
+			}
+		}
+	}
+	
+	public static void unshadeBoard() {
+		for(int x = 0; x < cols; x++){
+			for(int y = 0; y < rows; y++){
+				if(grid[x][y] != null) {
+					grid[x][y].revertColor();
+				}
+			}
+		}
 	}
 	
 	public static void startList(int c, int r){
