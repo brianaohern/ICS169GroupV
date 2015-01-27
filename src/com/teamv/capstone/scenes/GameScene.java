@@ -45,9 +45,8 @@ public class GameScene extends BaseScene
 //		this.mPauseScene.attachChild(pausedSprite);
 //		/* Makes the paused Game look through. */
 		
-        
-        mPauseScene = new PauseMenuScene(600, 800);
-        this.mPauseScene.setBackgroundEnabled(false);
+//        mPauseScene = new PauseMenuScene(600, 800);
+//        this.mPauseScene.setBackgroundEnabled(false);
         
         bg = new Battleground(this);
         gemboard = new Gemboard(this, physicsWorld, bg);
@@ -119,16 +118,16 @@ public class GameScene extends BaseScene
     
     public boolean onSceneTouchEvent(TouchEvent pSceneTouchEvent){
     	super.onSceneTouchEvent(pSceneTouchEvent);
-    	if(pSceneTouchEvent.isActionDown()){
-    		if(this.engine.isRunning()) {
-				this.setChildScene(this.mPauseScene, false, true, true);
-				this.engine.stop();
-			} else {
-				this.clearChildScene();
-				this.engine.start();
-			}
-			return true;
-    	}
+//    	if(pSceneTouchEvent.isActionDown()){
+//    		if(this.engine.isRunning()) {
+//				this.setChildScene(this.mPauseScene, false, true, true);
+//				this.engine.stop();
+//			} else {
+//				this.clearChildScene();
+//				this.engine.start();
+//			}
+//			return true;
+//    	}
     	if (pSceneTouchEvent.isActionUp()){
 			Gemboard.executeGems();
 			return true;
