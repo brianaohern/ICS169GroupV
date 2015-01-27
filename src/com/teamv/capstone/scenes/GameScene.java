@@ -26,7 +26,7 @@ public class GameScene extends BaseScene
 	private Gemboard gemboard;
 	public Battleground bg;
 	//private CameraScene mPauseScene;
-	private EndScene mPauseScene;
+	private PauseMenuScene mPauseScene;
 
 	@Override
 	public void createScene()
@@ -35,16 +35,14 @@ public class GameScene extends BaseScene
 		createDebuggerHUD();
 		createPhysics();
 
-		mPauseScene = new EndScene(600, 800);
-		this.mPauseScene.setBackgroundEnabled(false);
+		mPauseScene = new PauseMenuScene(this);
 		
 		final GameScene gs = this;
 		final Sprite pauseButton = new Sprite(0, 0, this.resourcesManager.options_region, this.vbom){
 
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				if (pSceneTouchEvent.isActionDown()){
-					this.setVisible(false);
+				if (pSceneTouchEvent.isActionUp()){
 					gs.setChildScene(mPauseScene, false, true, true);
 				}
 				return true;

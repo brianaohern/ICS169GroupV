@@ -29,9 +29,12 @@ public class PauseMenuScene extends PopUpScene implements IOnMenuItemClickListen
 	public void init(){
 		super.init();
 		rs = ResourcesManager.getInstance();
-		final IMenuItem resumeMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_RESUME, rs.resumeButton, rs.vbom), 2, 1);
-		final IMenuItem quitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_QUIT, rs.quitButton, rs.vbom), 2, 1);
-		final IMenuItem menuMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_MENU, rs.menuButton, rs.vbom), 2, 1);
+		
+		menuScene = new MenuScene(rs.camera);
+		
+		final IMenuItem resumeMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_RESUME, rs.resumeButton, rs.vbom), 3f, 2.5f);
+		final IMenuItem quitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_QUIT, rs.quitButton, rs.vbom), 3f, 2.5f);
+		final IMenuItem menuMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_MENU, rs.menuButton, rs.vbom), 3f, 2.5f);
 		
 		menuScene.addMenuItem(resumeMenuItem);
 		menuScene.addMenuItem(quitMenuItem);
@@ -39,6 +42,18 @@ public class PauseMenuScene extends PopUpScene implements IOnMenuItemClickListen
 		
 		menuScene.buildAnimations();
 		menuScene.setBackgroundEnabled(false);
+		
+		final float x = resumeMenuItem.getX() + resumeMenuItem.getWidth()*0.9f;
+		final float buffer = resumeMenuItem.getHeight()*2;
+		final float offset = resumeMenuItem.getHeight()*5;
+		
+		resumeMenuItem.setPosition(x, resumeMenuItem.getY() - buffer - offset);
+		quitMenuItem.setPosition(x, quitMenuItem.getY() - offset);
+		menuMenuItem.setPosition(x, menuMenuItem.getY() + buffer - offset);
+		
+		menuScene.setOnMenuItemClickListener(this);
+		
+		setChildScene(menuScene);
 	}
 	
 	@Override
@@ -46,7 +61,7 @@ public class PauseMenuScene extends PopUpScene implements IOnMenuItemClickListen
 	    switch(pMenuItem.getID())
 	    {
 	        case MENU_RESUME:
-	        	
+	        	gs.clearChildScene();
 	            return true;
 	        case MENU_QUIT:
 	        	System.exit(0);
