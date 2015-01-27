@@ -8,7 +8,7 @@ import com.teamv.capstone.managers.ResourcesManager;
 public class Wolf extends Enemy{
 	
 	final static int WOLF_HEALTH = 10;
-	final static int WOLF_ATTACK = 1;
+	final static int WOLF_ATTACK = 5;
 	final static int WOLF_START_TURN_COUNT = 3;
 
 	public Wolf(float x, float y, VertexBufferObjectManager vbom) {

@@ -95,9 +95,13 @@ public abstract class Enemy extends HealthBarEntity{
 	
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
     {
-		if (pSceneTouchEvent.isActionDown())
+		if (pSceneTouchEvent.isActionUp())
 	    {
-			resetTarget();
+			if(isTarget){
+				resetTarget();
+				return true;
+			}
+			
 			this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 0.7f, 0.8f))));
 			isTarget = true;
 	    }

@@ -13,6 +13,7 @@ public abstract class PopUpScene extends CameraScene{
 
 	int width=0, height=0;
 	Rectangle popup;
+	protected ResourcesManager rs;
 	protected VertexBufferObjectManager vbom;
 	
 	public PopUpScene(){
@@ -39,10 +40,14 @@ public abstract class PopUpScene extends CameraScene{
 		init();
 	}
 	
-	public void init(){
+	protected void init(){
+		rs = ResourcesManager.getInstance();
 		vbom = ResourcesManager.getInstance().vbom;
+		setBackgroundEnabled(false);
+	}
+	
+	protected void addRectangle(){
 		popup = new Rectangle(GameActivity.WIDTH/2 - width/2, GameActivity.HEIGHT/2 - height/2, width, height, vbom);
 		this.attachChild(popup);
 	}
-	
 }

@@ -35,7 +35,7 @@ public class Player extends HealthBarEntity{
 	}
 	
 	public void onDie(){
-		// TODO
+		Battleground.gameScene.endGame(false);
 	}
 	
 	public int getPlayerAttack(){
