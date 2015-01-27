@@ -9,6 +9,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.game.GameActivity;
@@ -58,7 +59,14 @@ public class ResourcesManager
     //game.player
     public ITextureRegion mainCharacter;
     private BitmapTextureAtlas mainCharacterTextureAtlas;
-    
+    //game.pausemenu
+    private BitmapTextureAtlas pauseMenuTextureAtlas;
+    public ITextureRegion startButton;
+    public ITextureRegion quitButton;
+    public ITextureRegion helpButton;
+    public ITextureRegion resumeButton;
+    public ITextureRegion menuButton;
+    public ITextureRegion creditsButton;
     
     //---------------------------------------------
     // TEXTURES & TEXTURE REGIONS
@@ -89,7 +97,7 @@ public class ResourcesManager
     	menu_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu_background.png", 0, 0);
     	play_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "play.png", 1080, 0);
     	options_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "options.png", 1080, 100);
-    	       
+    
     	menuTextureAtlas.load();
     }
     
@@ -132,6 +140,20 @@ public class ResourcesManager
         mainCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainCharacterTextureAtlas, activity, "player.png", 0, 0);
         mainCharacterTextureAtlas.load();
         //end game.player
+        
+        //PAUSE MENU
+        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
+        pauseMenuTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 200, 300, TextureOptions.BILINEAR);
+        TiledTextureRegion buttons = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset
+        		(pauseMenuTextureAtlas, activity, "buttons.png", 0, 0, 1, 6);
+        startButton 	= buttons.getTextureRegion(0);
+        quitButton 		= buttons.getTextureRegion(1);
+        helpButton 		= buttons.getTextureRegion(2);
+        resumeButton 	= buttons.getTextureRegion(3);
+        menuButton 		= buttons.getTextureRegion(4);
+        creditsButton 	= buttons.getTextureRegion(5);
+        pauseMenuTextureAtlas.load();
+        
     }
     
     private void loadGameFonts()

@@ -31,12 +31,14 @@ import android.widget.Toast;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB) public class GameActivity extends BaseGameActivity
 {
 	private Camera camera;
+	public static int WIDTH = 1080;
+	public static int HEIGHT = 1920;
 	@SuppressWarnings("unused")
 	private ResourcesManager resourcesManager;
 	
     public EngineOptions onCreateEngineOptions()
     {
-    	camera = new Camera(0, 0, 1080, 1920);
+    	camera = new Camera(0, 0, WIDTH, HEIGHT);
         EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(1080, 1920), this.camera);
         engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
         engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);

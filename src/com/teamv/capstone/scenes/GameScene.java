@@ -26,7 +26,8 @@ public class GameScene extends BaseScene
 	private PhysicsWorld physicsWorld;
 	private Gemboard gemboard;
 	public Battleground bg;
-	private CameraScene mPauseScene;
+	//private CameraScene mPauseScene;
+	private PauseMenuScene mPauseScene; 
 	
     @Override
     public void createScene()
@@ -35,14 +36,18 @@ public class GameScene extends BaseScene
     	createDebuggerHUD();
         createPhysics();
         
-        this.mPauseScene = new CameraScene(this.camera);
-        ITextureRegion temp = ResourcesManager.getInstance().options_region;
-        final float centerX = (1080 - temp.getWidth()) / 2;
-		final float centerY = (1920 - temp.getHeight()) / 2;
-		final Sprite pausedSprite = new Sprite(centerX, centerY, temp, this.vbom);
-		this.mPauseScene.attachChild(pausedSprite);
-		/* Makes the paused Game look through. */
-		this.mPauseScene.setBackgroundEnabled(false);
+//        this.mPauseScene = new CameraScene(this.camera);
+//        ITextureRegion temp = ResourcesManager.getInstance().resumeButton;
+//        final float centerX = (1080 - temp.getWidth()) / 2;
+//		final float centerY = (1920 - temp.getHeight()) / 2;
+//		final Sprite pausedSprite = new Sprite(centerX, centerY, temp, this.vbom);
+//		pausedSprite.setScale(2f);
+//		this.mPauseScene.attachChild(pausedSprite);
+//		/* Makes the paused Game look through. */
+		
+        
+        mPauseScene = new PauseMenuScene(600, 800);
+        this.mPauseScene.setBackgroundEnabled(false);
         
         bg = new Battleground(this);
         gemboard = new Gemboard(this, physicsWorld, bg);
@@ -126,6 +131,7 @@ public class GameScene extends BaseScene
     	}
     	if (pSceneTouchEvent.isActionUp()){
 			Gemboard.executeGems();
+			return true;
 		}
 		return false;
     }
