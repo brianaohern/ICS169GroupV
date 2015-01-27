@@ -130,4 +130,15 @@ public class GameScene extends BaseScene
 		}
 		return false;
 	}
+
+	public void endGame(boolean winGame) {
+		EndScene resultScene = new EndScene();
+		if(winGame){
+			resultScene.setUp(600, 800, "You win!");
+		}
+		else{
+			resultScene.setUp(600, 800, "You lose.");
+		}
+		this.setChildScene(resultScene, false, true, true);
+	}
 }
