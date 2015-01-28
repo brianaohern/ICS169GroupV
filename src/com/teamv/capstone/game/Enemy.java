@@ -98,10 +98,12 @@ public abstract class Enemy extends HealthBarEntity{
 		if (pSceneTouchEvent.isActionUp())
 	    {
 			if(isTarget){
-				resetTarget();
+				this.clearEntityModifiers();
+				this.isTarget = false;
 				return true;
 			}
 			
+			resetTarget();
 			this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 0.7f, 0.8f))));
 			isTarget = true;
 	    }
