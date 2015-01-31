@@ -10,6 +10,7 @@ public class Wolf extends Enemy{
 	final static int WOLF_HEALTH = 10;
 	final static int WOLF_ATTACK = 5;
 	final static int WOLF_START_TURN_COUNT = 3;
+	final static String WOLF_ELEMENT_TYPE = "Green";
 
 	public Wolf(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().wolf, vbom);
@@ -17,6 +18,7 @@ public class Wolf extends Enemy{
 		setStartHealth(WOLF_HEALTH);
 		setAttack(WOLF_ATTACK);
 		setStartTurnCount(WOLF_START_TURN_COUNT);
+		setUserData(WOLF_ELEMENT_TYPE);
 	}
 	
 	public Wolf(VertexBufferObjectManager vbom){
@@ -25,6 +27,6 @@ public class Wolf extends Enemy{
 		setStartHealth(WOLF_HEALTH);
 		setAttack(WOLF_ATTACK);
 		setStartTurnCount(WOLF_START_TURN_COUNT);
+		setUserData(WOLF_ELEMENT_TYPE);
 	}
-
 }

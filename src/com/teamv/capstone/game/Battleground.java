@@ -84,8 +84,9 @@ public class Battleground {
 		// get target and attack
 		Enemy target = currentWave.getTarget();;
 		
-		// attack enemy
+		// player attacks enemy
 		target.takeDamage(damage);
+		
 		if(target.isDead){
 			gameScene.unregisterTouchArea(target);
 		}

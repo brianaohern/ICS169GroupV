@@ -1,5 +1,7 @@
 package com.teamv.capstone.gemboard;
 
+import java.util.ArrayList;
+
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
@@ -39,6 +41,7 @@ public abstract class Gem extends Sprite{
 		
 		createPhysics(physicsWorld);
 	}
+	
 	
 	private void createPhysics(PhysicsWorld physicsWorld)
 	{        
@@ -226,4 +229,16 @@ public abstract class Gem extends Sprite{
 	public int getCol(){
 		return col;
 	}
+	
+	public static ArrayList<Object> getDamageType(){
+		ArrayList<Object> damageType = new ArrayList<Object>();
+		for(Gem gem : Gemboard.connectedGems){
+			if(!Gemboard.connectedGems.contains(gem.getUserData())){
+				damageType.add(gem.getUserData());
+				System.out.println("Damage Type: " + gem.getUserData());
+			}
+		}
+		return damageType;	
+	}
+
 }
