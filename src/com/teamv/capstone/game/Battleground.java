@@ -85,7 +85,6 @@ public class Battleground {
 		Enemy target = currentWave.getTarget();;
 		
 		// player attacks enemy
-		player.moveHealthBarEntityTo(target);
 		target.takeDamage(damage);
 		
 		if(target.isDead){
@@ -96,7 +95,6 @@ public class Battleground {
 		for (Enemy enemy : currentWave.getEnemies()){
 			enemy.decrementCurrentTurnCount();
 			if (enemy.getCurrentTurnCount() == 0) {
-				enemy.moveHealthBarEntityTo(player);
 				player.takeDamage(enemy.getAttack());
 				enemy.resetCurrentTurnCount();
 			}
