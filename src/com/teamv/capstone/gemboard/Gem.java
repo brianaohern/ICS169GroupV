@@ -235,7 +235,7 @@ public abstract class Gem extends Sprite{
 		for(Gem gem : Gemboard.connectedGems){
 			if(!Gemboard.connectedGems.contains(gem.getUserData())){
 				damageType.add(gem.getUserData());
-				System.out.println("Damage Type: " + gem.getUserData());
+				//System.out.println("Damage Type: " + gem.getUserData());
 			}
 		}
 		return damageType;	

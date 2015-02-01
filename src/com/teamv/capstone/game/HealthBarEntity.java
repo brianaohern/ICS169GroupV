@@ -1,5 +1,6 @@
 package com.teamv.capstone.game;
 
+import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
@@ -52,7 +53,6 @@ public abstract class HealthBarEntity extends Sprite{
 	}
 	
 	public void takeDamage(int damage){
-		
 		if(Gem.getDamageType().contains(this.getUserData())){
 			damage *= 2;
 			System.out.println("IT'S A CRIT! Damage: " + damage);
@@ -62,6 +62,21 @@ public abstract class HealthBarEntity extends Sprite{
 		if(currentHealth <= 0){
 			onDie();
 		}
+	}
+	
+	public void moveHealthBarEntityTo(HealthBarEntity target){
+		//Move this health bar entity's position to target's position
+		float startX = this.start.x;
+		float startY = this.start.y;
+		float targetX = target.start.x;
+		float targetY = target.start.y;
+		
+		System.out.println("This Position: " + this.start.x + ", " + this.start.y);		
+		System.out.println("Target Position: " + target.start.x + ", " + target.start.y);
+		this.registerEntityModifier(new MoveModifier(1, startX, targetX, startY, targetY));
+
+		this.registerEntityModifier(new MoveModifier(1, targetX, startX, targetY, startY));
+		
 	}
 	
 	public abstract void onDie();
