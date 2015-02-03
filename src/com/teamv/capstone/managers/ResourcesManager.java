@@ -1,5 +1,9 @@
 package com.teamv.capstone.managers;
 
+import java.io.IOException;
+
+import org.andengine.audio.sound.Sound;
+import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.opengl.font.Font;
@@ -67,6 +71,11 @@ public class ResourcesManager
     public ITextureRegion resumeButton;
     public ITextureRegion menuButton;
     public ITextureRegion creditsButton;
+    
+    //audio
+    public Sound gemSelectSound;
+    public Sound gemDestroySound;
+    public Sound meleeAttackSound;
     
     //---------------------------------------------
     // TEXTURES & TEXTURE REGIONS
@@ -167,7 +176,13 @@ public class ResourcesManager
     
     private void loadGameAudio()
     {
-        
+		try {
+			gemSelectSound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/gem_select.wav");
+			gemDestroySound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/gem_destroy.mp3");
+			meleeAttackSound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/melee_attack.wav");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     public void loadSplashScreen()

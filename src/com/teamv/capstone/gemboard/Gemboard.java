@@ -79,9 +79,14 @@ public class Gemboard{
 		Gemboard.unshadeBoard();
 		if(connectedGems.size() >= 3){
 			battleground.enterBattle(connectedGems);
+			
+			ResourcesManager.getInstance().gemDestroySound.play();
+			
 			for(Gem gem : connectedGems){
 				dropGem(gem);
 			}
+			
+			ResourcesManager.getInstance().meleeAttackSound.play();
 		}
 		for(Line line : lines){
 			line.detachSelf();
