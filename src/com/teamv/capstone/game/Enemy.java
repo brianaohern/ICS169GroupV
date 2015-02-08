@@ -75,6 +75,8 @@ public abstract class Enemy extends HealthBarEntity{
 	}
 	
 	public void setPosition(float pX, float pY){
+		
+		start.set(pX, pY);
 		super.setPosition(pX, pY);
 		healthBarText.setX(pX + (buffer.x));
 		healthBarText.setY(pY - (buffer.y + 20));
