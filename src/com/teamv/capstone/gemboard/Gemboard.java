@@ -99,7 +99,7 @@ public class Gemboard{
 		//printAll();
 		
 		if(hasNoMoreMoves()){
-			System.out.println("NO MORE MOVES");
+			//System.out.println("NO MORE MOVES");
 			ResourcesManager.getInstance().activity.gameToast("No more moves");
 			resetBoard();
 		}
@@ -188,6 +188,15 @@ public class Gemboard{
 		return true;
 	}
 	
+	// USED BY GAME ENTITIES; MOVED FROM Gem.java
+	public static ArrayList<String> getDamageType(){
+		ArrayList<String> damageType = new ArrayList<String>();
+		for(Gem gem : connectedGems){
+			damageType.add((String)gem.getUserData());
+		}
+		return damageType;	
+	}
+	
 	private static int checkGem(int c, int r, Object userData){
 		if(		(c < 0 || r < 0) ||
 				(c >= cols || r >= rows)){
@@ -257,8 +266,8 @@ public class Gemboard{
 	
 	@SuppressWarnings("unused")
 	private static void printAll(){
-		printBoardSize();
-		printBoard();
+		//printBoardSize();
+		//printBoard();
 	}
 	
 	private static void printBoard() {
@@ -278,7 +287,7 @@ public class Gemboard{
 	}
 	
 	private static void printBoardSize(){
-		System.out.println("GEMS LEFT IN GEMBOARD: " + gemboardSize());
+		System.out.println("Gemboard.java -- gem size: " + gemboardSize());
 	}
 	
 	private static int gemboardSize(){
