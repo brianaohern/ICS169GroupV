@@ -3,6 +3,7 @@ package com.teamv.capstone.managers;
 import org.andengine.engine.Engine;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
+import com.teamv.capstone.game.Level;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
 import com.teamv.capstone.scenes.LevelSelectScene;
@@ -131,9 +132,9 @@ public class SceneManager
         disposeSplashScene();
     }
     
-    public void createGameScene(){
+    public void createGameScene(Level level){
     	ResourcesManager.getInstance().loadGameResources();
-    	gameScene = new GameScene();
+    	gameScene = new GameScene(level);
     	SceneManager.getInstance().setScene(gameScene);
     }
     

@@ -96,13 +96,14 @@ public class ResourcesManager
     
     public void loadGameResources()
     {
-        loadGameGraphics();
+        //loadGameGraphics();
         loadGameFonts();
         loadGameAudio();
     }
     
     public void loadLevelSelectResources(){
     	loadLevelSelectGraphics();
+    	loadGameGraphics();
     	loadLevelSelectFonts();
     }
     
@@ -133,7 +134,7 @@ public class ResourcesManager
     
     private void loadLevelSelectGraphics(){
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
-    	lsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 400, 100, TextureOptions.BILINEAR);
+    	lsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 600, 100, TextureOptions.BILINEAR);
         level_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(lsTextureAtlas, activity, "level.png", 0, 0);
         lsTextureAtlas.load();
     }

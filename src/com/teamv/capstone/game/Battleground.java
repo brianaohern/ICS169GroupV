@@ -4,19 +4,11 @@ import java.util.ArrayList;
 
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import com.teamv.capstone.game.enemies.*;
 import com.teamv.capstone.gemboard.Gem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
 
-/*
- * Battleground contains the enemies and player
- * Player is basically the player stats and UI
- * Enemy is basically a sprite + stats
- * 
- * 
- */
 public class Battleground {
 
 	static GameScene gameScene;
@@ -33,26 +25,6 @@ public class Battleground {
 		vbom = ResourcesManager.getInstance().vbom;
 		player = new Player(1080/40, 1920/4, vbom);
 		player.attachToScene(gameScene);
-
-		// mock level -- loading test
-		level = new Level("test");
-		
-		//manual load
-		Wave wave1 = new Wave();
-		Wave wave2 = new Wave();
-		Wave wave3 = new Wave();
-		wave1.add(new Wolf(vbom));
-		wave2.add(new Wolf(ColorType.YELLOW, vbom));
-		wave2.add(new Wolf(ColorType.BLUE, vbom));
-		wave3.add(new Wolf(ColorType.RED, vbom));
-		wave3.add(new Wolf(vbom));
-		wave3.add(new Wolf(ColorType.RED, vbom));
-		level.addWave(wave1);
-		level.addWave(wave2);
-		level.addWave(wave3);
-		// end mock level setup
-
-		level.nextBattle();
 	}
 
 	public void enterBattle(ArrayList<Gem> gems){
@@ -143,5 +115,10 @@ public class Battleground {
 		}
 		ResourcesManager.getInstance().activity.gameToast("damage: "+(int)(red+blue+green+yellow));
 		return (int)(red+blue+green+yellow);
+	}
+
+	public void enterLevel(Level level) {
+		this.level = level;
+		level.nextBattle();
 	}
 }
