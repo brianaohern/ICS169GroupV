@@ -101,7 +101,7 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 //		System.out.println("centery: " + camera.getCenterY());
 
 		// mMaxY IS HARDCODED in this check
-		if ( ((mCurrentY - pDistanceY) < mMinY) || ((mCurrentY - pDistanceY) > 1402f) )
+		if ( ((mCurrentY - pDistanceY) < mMinY) || ((mCurrentY - pDistanceY) > 1202f) )
 			return;
 		this.camera.offsetCenter(0, -pDistanceY);
 		mCurrentY -= pDistanceY;
@@ -167,6 +167,7 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 				@Override
 				public void run() {
 					iLevelClicked = -1;
+					camera.setCenter(GameActivity.WIDTH/2, GameActivity.HEIGHT/2);
 					SceneManager.getInstance().createGameScene(levels.get(index));
 				}
 			});
