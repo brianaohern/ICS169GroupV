@@ -12,7 +12,7 @@ import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Point;
 
 public abstract class Enemy extends HealthBarEntity{
-
+	
 	public static final int LEFTALIGN = 0;
 	public static final int RIGHTALIGN = 1;
 
@@ -23,13 +23,17 @@ public abstract class Enemy extends HealthBarEntity{
 	
 	private Point buffer;
 	
-	
 	public Enemy(float x, float y, ITextureRegion region, VertexBufferObjectManager vbom) {
 		super(x, y, region, vbom);
 	}
 	
 	public Enemy(ITextureRegion region, VertexBufferObjectManager vbom){
 		super(0, 0, region, vbom);
+	}
+	
+	public Enemy(ColorType type, ITextureRegion region, VertexBufferObjectManager vbom){
+		super(0, 0, region, vbom);
+		this.setUserData(type);
 	}
 	
 	public void init(){
@@ -56,6 +60,10 @@ public abstract class Enemy extends HealthBarEntity{
 		healthBar.setWidth(healthBarWidth);
 		healthBar.setHeight(25);
 		healthBar.setColor(Color.RED);
+		
+		setStartHealth(startHealth);
+		setAttack(attack);
+		setStartTurnCount(turnCounter);
 	}
 	
 	public void onDie(){
@@ -98,10 +106,12 @@ public abstract class Enemy extends HealthBarEntity{
 		if (pSceneTouchEvent.isActionUp())
 	    {
 			if(isTarget){
-				resetTarget();
+				this.clearEntityModifiers();
+				this.isTarget = false;
 				return true;
 			}
 			
+			resetTarget();
 			this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 0.7f, 0.8f))));
 			isTarget = true;
 	    }
@@ -112,6 +122,25 @@ public abstract class Enemy extends HealthBarEntity{
 		for(Enemy enemy : Battleground.currentWave.getEnemies()){
 			enemy.clearEntityModifiers();
 			enemy.isTarget = false;
+		}
+	}
+	
+	protected void setType(){
+		// temp typing
+		ColorType type = (ColorType) this.getUserData();
+		switch(type){
+		case RED:
+			this.setColor(Color.RED);
+			break;
+		case BLUE:
+			this.setColor(Color.BLUE);
+			break;
+		case GREEN:
+			this.setColor(Color.GREEN);
+			break;
+		case YELLOW:
+			this.setColor(Color.YELLOW);
+			break;
 		}
 	}
 	

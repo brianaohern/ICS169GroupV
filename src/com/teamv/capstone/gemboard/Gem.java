@@ -13,6 +13,7 @@ import org.andengine.util.color.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.utility.Pointf;
 
@@ -39,6 +40,7 @@ public abstract class Gem extends Sprite{
 		
 		createPhysics(physicsWorld);
 	}
+	
 	
 	private void createPhysics(PhysicsWorld physicsWorld)
 	{        
@@ -97,17 +99,18 @@ public abstract class Gem extends Sprite{
 			// when finger touches gem
 		    if (pSceneTouchEvent.isActionDown())
 		    {
+		    	ResourcesManager.getInstance().gemSelectSound.play();
 		    	start.set(mX + Gemboard.RADIUS/2, mY + Gemboard.RADIUS/2);
 		    	Gemboard.connectedGems.add(this);
 		    	highlightGem();
 		    	Gemboard.shadeBoard(this);
-		    	System.out.println("Added " + this.getUserData());
-	        	System.out.println(start.x + " " + start.y);
+//		    	System.out.println("Added " + this.getUserData());
+//	        	System.out.println(start.x + " " + start.y);
 		    }
 		    if (pSceneTouchEvent.isActionMove())
 		    {
 		    	end.set(mX + Gemboard.RADIUS/2, mY + Gemboard.RADIUS/2);
-	        	System.out.println(end.x + " " + end.y);
+	        	//System.out.println(end.x + " " + end.y);
 		    	drawLine(this.getVertexBufferObjectManager());
 		    }
 		    // when finger releases gem
@@ -151,6 +154,8 @@ public abstract class Gem extends Sprite{
 				  this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
 				  Gemboard.connectedGems.contains(this) &&
 				  this != Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) {
+			
+			ResourcesManager.getInstance().gemSelectSound.play();
 			
 			// Store the location of this gem in connectedGems
 			int index = Gemboard.connectedGems.indexOf(this);
@@ -203,6 +208,7 @@ public abstract class Gem extends Sprite{
 	
 	private void highlightGem() {
 		this.setColor(Color.YELLOW);
+		ResourcesManager.getInstance().gemSelectSound.play();
 	}
 	
 	public void shadeGem() {

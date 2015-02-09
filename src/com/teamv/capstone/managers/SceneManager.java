@@ -24,6 +24,7 @@ public class SceneManager
     private BaseScene menuScene;
     private BaseScene gameScene;
     private BaseScene loadingScene;
+    private BaseScene levelSelectScene;
     
     //---------------------------------------------
     // VARIABLES
@@ -43,6 +44,7 @@ public class SceneManager
         SCENE_MENU,
         SCENE_GAME,
         SCENE_LOADING,
+        SCENE_LEVEL_SELECT
     }
     
     //---------------------------------------------

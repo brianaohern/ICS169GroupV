@@ -51,6 +51,11 @@ public abstract class HealthBarEntity extends Sprite{
 	}
 	
 	public void takeDamage(int damage){
+		
+//		if(Gemboard.getDamageType().contains(this.getUserData())){
+//			damage *= 2;
+//			System.out.println("IT'S A CRIT! Damage: " + damage);
+//		}
 		currentHealth -= damage;
 		updateHealthBar();
 		if(currentHealth <= 0){
