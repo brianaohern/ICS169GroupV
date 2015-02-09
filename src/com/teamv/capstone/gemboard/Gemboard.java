@@ -266,8 +266,8 @@ public class Gemboard{
 	
 	@SuppressWarnings("unused")
 	private static void printAll(){
-		//printBoardSize();
-		//printBoard();
+		printBoardSize();
+		printBoard();
 	}
 	
 	private static void printBoard() {

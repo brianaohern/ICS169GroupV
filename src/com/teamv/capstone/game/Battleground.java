@@ -1,10 +1,20 @@
 package com.teamv.capstone.game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import org.andengine.entity.IEntity;
+import org.andengine.entity.scene.Scene;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.SAXUtils;
+import org.andengine.util.debug.Debug;
+import org.andengine.util.level.IEntityLoader;
+import org.andengine.util.level.LevelLoader;
+import org.andengine.util.level.constants.LevelConstants;
+import org.xml.sax.Attributes;
 
-import com.teamv.capstone.game.Enemy.EnemyType;
+import android.widget.Toast;
+
 import com.teamv.capstone.game.enemies.*;
 import com.teamv.capstone.gemboard.Gem;
 import com.teamv.capstone.managers.ResourcesManager;
@@ -19,7 +29,7 @@ import com.teamv.capstone.scenes.GameScene;
  * 
  */
 public class Battleground {
-	
+
 	static GameScene gameScene;
 	static Wave currentWave;
 	ArrayList<Wave> level;
@@ -27,42 +37,96 @@ public class Battleground {
 	Player player;
 	VertexBufferObjectManager vbom;
 	boolean isFinished = false;
-	
+
 	Enemy target;
-	
-	
-	public Battleground(BaseScene gameScene){
+
+	public Battleground(final BaseScene gameScene){
 		Battleground.gameScene = (GameScene) gameScene;
 		vbom = ResourcesManager.getInstance().vbom;
 		player = new Player(1080/40, 1920/4, vbom);
 		player.attachToScene(gameScene);
-		
-		// mock level
+
+		// mock level -- loading test
 		level = new ArrayList<Wave>();
-		Wave wave1 = new Wave();
-		Wave wave2 = new Wave();
-		Wave wave3 = new Wave();
-		wave1.add(new Wolf(vbom));
-		wave2.add(new Wolf(EnemyType.YELLOW, vbom));
-		wave2.add(new Wolf(EnemyType.BLUE, vbom));
-		wave3.add(new Wolf(EnemyType.RED, vbom));
-		wave3.add(new Wolf(vbom));
-		wave3.add(new Wolf(EnemyType.RED, vbom));
-		level.add(wave1);
-		level.add(wave2);
-		level.add(wave3);
-		// end mock level setup
 		
+		// xml load
+		LevelLoader levelLoader = new LevelLoader();
+		//levelLoader.setAssetBasePath("assets/levels/");
+		
+		levelLoader.registerEntityLoader("level", new IEntityLoader() {
+			@Override
+			public IEntity onLoadEntity(final String pEntityName, final Attributes pAttributes) {
+				final String name = SAXUtils.getAttributeOrThrow(pAttributes, "name");
+				final String levelType = SAXUtils.getAttributeOrThrow(pAttributes, "type");
+				return gameScene;
+			}
+		});
+		
+		levelLoader.registerEntityLoader("wave", new IEntityLoader() {
+
+			@Override
+			public IEntity onLoadEntity(String pEntityName, Attributes pAttributes) {
+				Wave wave = new Wave();
+				level.add(wave);
+				return null;
+			}
+		});
+		
+		levelLoader.registerEntityLoader("enemy", new IEntityLoader() {
+
+			@Override
+			public IEntity onLoadEntity(String pEntityName, Attributes pAttributes) {
+				final String name = SAXUtils.getAttributeOrThrow(pAttributes, "name");
+				//final String enemyType = SAXUtils.getAttributeOrThrow(pAttributes, "type");
+
+				Enemy enemy = null;
+				switch(name){
+				case "wolf":
+					enemy = new Wolf(vbom);
+					break;
+				default:
+					ResourcesManager.getInstance().activity.gameToast("xml level loader -- default break");
+				}
+				
+				if(enemy!=null)
+					level.get(level.size()-1).add(enemy);
+				
+				return null;
+			}
+		});
+		
+
+
+		try{
+			levelLoader.loadLevelFromAsset(ResourcesManager.getInstance().activity.getAssets(), "levels/robin.xml");
+		} catch (final IOException e) {
+			Debug.e(e);
+		}
+		//manual load
+//		Wave wave1 = new Wave();
+//		Wave wave2 = new Wave();
+//		Wave wave3 = new Wave();
+//		wave1.add(new Wolf(vbom));
+//		wave2.add(new Wolf(ColorType.YELLOW, vbom));
+//		wave2.add(new Wolf(ColorType.BLUE, vbom));
+//		wave3.add(new Wolf(ColorType.RED, vbom));
+//		wave3.add(new Wolf(vbom));
+//		wave3.add(new Wolf(ColorType.RED, vbom));
+//		level.add(wave1);
+//		level.add(wave2);
+//		level.add(wave3);
+		// end mock level setup
+
 		this.nextBattle();
 	}
-	
+
 	public void nextBattle(Wave wave){
 		//set up next battle
 		wave.initPlacement();
 		currentWave = wave;
 		attachEnemies();
 	}
-	
+
 	public void nextBattle(){
 		if(currentBattle < level.size()){
 			nextBattle(level.get(currentBattle));
@@ -72,22 +136,22 @@ public class Battleground {
 			gameScene.endGame(true);
 		}
 	}
-	
+
 	public void enterBattle(ArrayList<Gem> gems){
 		if(currentWave.getEnemies().size() <= 0)
 			return;
-		
+
 		// get target and attack
 		Enemy target = currentWave.getTarget();;
 		int damage = calculateDamage(gems, target);
-		
+
 		// player attacks enemy
 		target.takeDamage(damage);
-		
+
 		if(target.isDead){
 			gameScene.unregisterTouchArea(target);
 		}
-		
+
 		// update enemy turn count
 		for (Enemy enemy : currentWave.getEnemies()){
 			enemy.decrementCurrentTurnCount();
@@ -97,13 +161,13 @@ public class Battleground {
 			}
 			enemy.updateTurnCount();
 		}
-		
+
 		if(currentWave.isFinished()){
 			nextBattle();
 		}
-		
+
 	}
-	
+
 	private void attachEnemies(){
 		for(Enemy enemy : currentWave.getEnemies()){
 			enemy.attachToScene(gameScene);
@@ -113,28 +177,27 @@ public class Battleground {
 	public int getNumOfEnemies() {
 		return currentWave.getEnemies().size();
 	}
-	
+
 	public int calculateDamage(ArrayList<Gem> gems, Enemy enemy){
 		float green=0, blue=0, red=0, yellow=0;
 		for(Gem gem: gems){
-			String type = "" + gem.getUserData();
-			switch(type){
-			case "Green":
+			switch((ColorType) gem.getUserData()){
+			case GREEN:
 				green++;
 				break;
-			case "Blue":
+			case BLUE:
 				blue++;
 				break;
-			case "Red":
+			case RED:
 				red++;
 				break;
-			case "Yellow":
+			case YELLOW:
 				yellow++;
 				break;
 			}
 		}
-		
-		switch((EnemyType)enemy.getUserData()){
+
+		switch((ColorType)enemy.getUserData()){
 		case RED:
 			red *= 1f;
 			blue *= 2f;

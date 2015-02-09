@@ -13,10 +13,6 @@ import com.teamv.capstone.utility.Point;
 
 public abstract class Enemy extends HealthBarEntity{
 	
-	public enum EnemyType {
-		GREEN, BLUE, RED, YELLOW
-	}
-
 	public static final int LEFTALIGN = 0;
 	public static final int RIGHTALIGN = 1;
 
@@ -35,7 +31,7 @@ public abstract class Enemy extends HealthBarEntity{
 		super(0, 0, region, vbom);
 	}
 	
-	public Enemy(EnemyType type, ITextureRegion region, VertexBufferObjectManager vbom){
+	public Enemy(ColorType type, ITextureRegion region, VertexBufferObjectManager vbom){
 		super(0, 0, region, vbom);
 		this.setUserData(type);
 	}
@@ -131,7 +127,7 @@ public abstract class Enemy extends HealthBarEntity{
 	
 	protected void setType(){
 		// temp typing
-		EnemyType type = (EnemyType) this.getUserData();
+		ColorType type = (ColorType) this.getUserData();
 		switch(type){
 		case RED:
 			this.setColor(Color.RED);

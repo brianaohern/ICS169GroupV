@@ -2,6 +2,7 @@ package com.teamv.capstone.game.enemies;
 
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
+import com.teamv.capstone.game.ColorType;
 import com.teamv.capstone.game.Enemy;
 import com.teamv.capstone.managers.ResourcesManager;
 
@@ -14,15 +15,15 @@ public class Wolf extends Enemy{
 
 	public Wolf(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().wolf, vbom);
-		setup(EnemyType.GREEN);
+		setup(ColorType.GREEN);
 	}
 	
 	public Wolf(VertexBufferObjectManager vbom){
 		super(ResourcesManager.getInstance().wolf, vbom);
-		setup(EnemyType.GREEN);
+		setup(ColorType.GREEN);
 	}
 	
-	public Wolf(EnemyType type, VertexBufferObjectManager vbom){
+	public Wolf(ColorType type, VertexBufferObjectManager vbom){
 		super(type, ResourcesManager.getInstance().wolf, vbom);
 		setup(type);
 		setType();
@@ -32,7 +33,7 @@ public class Wolf extends Enemy{
 		super.init();
 	}
 	
-	public void setup(EnemyType type){
+	public void setup(ColorType type){
 		this.setScale(0.75f);
 		setStartHealth(WOLF_HEALTH);
 		setAttack(WOLF_ATTACK);
