@@ -47,7 +47,6 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 	// Constants
 	// ===========================================================
 	protected static int LEVELS = 24;
-	protected static int LEVEL_COLUMNS_PER_SCREEN = 1;
 	protected static int LEVEL_ROWS_PER_SCREEN = 10;
 	protected static int LEVEL_PADDING = 50;
 	protected static int CAMERA_WIDTH = 1080;
@@ -108,9 +107,9 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 	}
 
 	private void createMenuBoxes() {
-		// calculate the amount of required columns for the level count
-		int totalRows = (LEVELS / LEVEL_COLUMNS_PER_SCREEN);
-
+		//unlock all levels
+		mMaxLevelReached = LEVELS;
+		
 		// Calculate space between each level square
 		int spaceBetweenRows = (CAMERA_HEIGHT / LEVEL_ROWS_PER_SCREEN) - LEVEL_PADDING;
 
@@ -120,7 +119,7 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 		//Create the Level selectors, one row at a time.
 		final ITextureRegion region = this.resourcesManager.level_region;
 		int boxX = (int) (GameActivity.WIDTH/2 - region.getWidth()/2), boxY = LEVEL_PADDING;
-		for (int y = 0; y < totalRows; y++) {
+		for (int y = 0; y < LEVELS; y++) {
 
 			//On Touch, save the clicked level in case it's a click and not a scroll.
 			final int levelToLoad = iLevel;
@@ -128,9 +127,9 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 			Sprite box = new Sprite(boxX, boxY, region, this.vbom) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-					if (levelToLoad >= mMaxLevelReached)
-						iLevelClicked = -1;
-					else
+					//if (levelToLoad >= mMaxLevelReached)
+					//	iLevelClicked = -1;
+					//else
 						iLevelClicked = levelToLoad;
 					return false;
 				}
