@@ -5,6 +5,7 @@ import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
+import com.teamv.capstone.scenes.LevelSelectScene;
 import com.teamv.capstone.scenes.LoadingScene;
 import com.teamv.capstone.scenes.MainMenuScene;
 import com.teamv.capstone.scenes.SplashScene;
@@ -74,6 +75,9 @@ public class SceneManager
             case SCENE_LOADING:
                 setScene(loadingScene);
                 break;
+            case SCENE_LEVEL_SELECT:
+            	setScene(levelSelectScene);
+            	break;
             default:
                 break;
         }
@@ -131,5 +135,11 @@ public class SceneManager
     	ResourcesManager.getInstance().loadGameResources();
     	gameScene = new GameScene();
     	SceneManager.getInstance().setScene(gameScene);
+    }
+    
+    public void createLevelSelectScene(){
+    	ResourcesManager.getInstance().loadLevelSelectResources();
+    	levelSelectScene = new LevelSelectScene();
+    	SceneManager.getInstance().setScene(levelSelectScene);
     }
 }

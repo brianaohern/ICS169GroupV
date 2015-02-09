@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level name = "robin"  type = "normal">    
+    <wave>
+		<enemy name = "wolf" type ="red" />
+	</wave>
+    <wave>
+		<enemy name = "wolf" type ="red" />
+		<enemy name = "wolf" type ="red" />
+	</wave>
+	<wave>
+		<enemy name = "wolf" type ="red" />
+		<enemy name = "wolf" type ="red" />
+		<enemy name = "wolf" type ="red" />
+	</wave>
+</level>

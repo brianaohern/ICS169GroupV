@@ -4,16 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.andengine.entity.IEntity;
-import org.andengine.entity.scene.Scene;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.SAXUtils;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.level.IEntityLoader;
 import org.andengine.util.level.LevelLoader;
-import org.andengine.util.level.constants.LevelConstants;
 import org.xml.sax.Attributes;
-
-import android.widget.Toast;
 
 import com.teamv.capstone.game.enemies.*;
 import com.teamv.capstone.gemboard.Gem;
