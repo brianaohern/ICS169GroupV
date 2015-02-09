@@ -1,5 +1,9 @@
 package com.teamv.capstone.scenes;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
@@ -12,9 +16,18 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.util.SAXUtils;
 import org.andengine.util.color.Color;
+import org.andengine.util.debug.Debug;
+import org.andengine.util.level.IEntityLoader;
+import org.andengine.util.level.LevelLoader;
+import org.xml.sax.Attributes;
 
+import com.teamv.capstone.game.Enemy;
 import com.teamv.capstone.game.GameActivity;
+import com.teamv.capstone.game.Wave;
+import com.teamv.capstone.game.enemies.Wolf;
+import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.managers.SceneManager.SceneType;
 
@@ -31,7 +44,7 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	protected static int LEVELS = 30;
+	protected static int LEVELS = 24;
 	protected static int LEVEL_COLUMNS_PER_SCREEN = 1;
 	protected static int LEVEL_ROWS_PER_SCREEN = 10;
 	protected static int LEVEL_PADDING = 50;
@@ -49,17 +62,22 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 	private float mMaxY = 0;
 	private float mCurrentY = 0;
 	private int iLevelClicked = -1;
+	
+	private ArrayList<ArrayList<Wave>> levels;
 
 	@Override
 	public void createScene() {
-		this.createMenuBoxes();
 		this.mScrollDetector = new SurfaceScrollDetector(this);
 		this.mClickDetector = new ClickDetector(this);
+		
+		levels= new ArrayList<ArrayList<Wave>>();
 
 		this.setOnSceneTouchListener(this);
 		this.setTouchAreaBindingOnActionDownEnabled(true);
 		this.setTouchAreaBindingOnActionMoveEnabled(true);            
 		this.setOnSceneTouchListenerBindingOnActionDownEnabled(true);
+		
+		this.createMenuBoxes();
 		setBackground(new Background(Color.WHITE));
 	}
 
@@ -75,11 +93,12 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 //		System.out.println("y offset: " + pDistanceY);
 //		System.out.println("(mCurrentY - pDistanceY): " + (mCurrentY - pDistanceY));
 //		System.out.println("miny: " + mMinY);
-		System.out.println("maxy: " + mMaxY);
+//		System.out.println("maxy: " + mMaxY);
 //		System.out.println("centery: " + camera.getCenterY());
 
-		 if ( ((mCurrentY - pDistanceY) < mMinY) || ((mCurrentY - pDistanceY) > 3898f) )
-             return;
+		// mMaxY IS HARDCODED in this check
+		if ( ((mCurrentY - pDistanceY) < mMinY) || ((mCurrentY - pDistanceY) > 2746f) )
+			return;
 		this.camera.offsetCenter(0, -pDistanceY);
 		mCurrentY -= pDistanceY;
 	}
@@ -105,7 +124,7 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 
 				// Create the rectangle. If the level selected
 				// has not been unlocked yet, don't allow loading.
-				
+
 				Sprite box = new Sprite(boxX, boxY, region, this.vbom) {
 					@Override
 					public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
@@ -145,50 +164,103 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 		mMaxY = boxY - CAMERA_HEIGHT + 200;
 		System.out.println(mMaxY);
 	}
-	
+
 	private void loadLevel(final int level){
-		 if (level != -1) {
-             this.activity.runOnUiThread(new Runnable() {
-                     @Override
-                     public void run() {
-                             iLevelClicked = -1;
-                             SceneManager.getInstance().createGameScene();
-                     }
-             });
-     }
+		if (level != -1) {
+			this.activity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					iLevelClicked = -1;
+					SceneManager.getInstance().createGameScene();
+				}
+			});
+		}
+	}
+	
+	private void loadXMLData(){
+		final ArrayList<Wave> level = new ArrayList<Wave>();
+		
+		LevelLoader levelLoader = new LevelLoader();
+		
+		levelLoader.registerEntityLoader("levelset", new IEntityLoader() {
+			@Override
+			public IEntity onLoadEntity(final String pEntityName, final Attributes pAttributes) {
+				LEVELS = SAXUtils.getIntAttributeOrThrow(pAttributes, "type");
+				return null;
+			}
+		});
+		
+		levelLoader.registerEntityLoader("level", new IEntityLoader() {
+			@Override
+			public IEntity onLoadEntity(final String pEntityName, final Attributes pAttributes) {
+				final String name = SAXUtils.getAttributeOrThrow(pAttributes, "name");
+				final String levelType = SAXUtils.getAttributeOrThrow(pAttributes, "type");
+				return null;
+			}
+		});
+		
+		levelLoader.registerEntityLoader("wave", new IEntityLoader() {
+
+			@Override
+			public IEntity onLoadEntity(String pEntityName, Attributes pAttributes) {
+				Wave wave = new Wave();
+				level.add(wave);
+				return null;
+			}
+		});
+		
+		levelLoader.registerEntityLoader("enemy", new IEntityLoader() {
+
+			@Override
+			public IEntity onLoadEntity(String pEntityName, Attributes pAttributes) {
+				final String name = SAXUtils.getAttributeOrThrow(pAttributes, "name");
+				//final String enemyType = SAXUtils.getAttributeOrThrow(pAttributes, "type");
+
+				Enemy enemy = null;
+				switch(name){
+				case "wolf":
+					enemy = new Wolf(vbom);
+					break;
+				default:
+					ResourcesManager.getInstance().activity.gameToast("xml level loader -- default break");
+				}
+				
+				if(enemy!=null)
+					level.get(level.size()-1).add(enemy);
+				
+				return null;
+			}
+		});
+		
+
+
+		try{
+			levelLoader.loadLevelFromAsset(ResourcesManager.getInstance().activity.getAssets(), "levels/robin.xml");
+		} catch (final IOException e) {
+			Debug.e(e);
+		}
 	}
 
-	@Override
 	public void onClick(ClickDetector pClickDetector, int pPointerID, float pSceneX, float pSceneY) {
 		loadLevel(iLevelClicked);
 	};
-
-	@Override
+	
 	public void onBackKeyPressed() {
-		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public SceneType getSceneType() {
-		// TODO Auto-generated method stub
 		return SceneType.SCENE_LEVEL_SELECT;
 	}
 
-	@Override
 	public void disposeScene() {
-		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	public void onScrollStarted(ScrollDetector pScollDetector,
-			int pPointerID, float pDistanceX, float pDistanceY) {
-		// TODO Auto-generated method stub
+	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID, float pDistanceX, float pDistanceY) {
 
 	}
 
-	@Override
 	public void onScrollFinished(ScrollDetector pScollDetector,
 			int pPointerID, float pDistanceX, float pDistanceY) {
 		// TODO Auto-generated method stub
