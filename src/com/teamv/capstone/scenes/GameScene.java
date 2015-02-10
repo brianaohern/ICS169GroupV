@@ -138,7 +138,7 @@ public class GameScene extends BaseScene
 	}
 
 	public void endGame(boolean winGame) {
-		EndScene resultScene = new EndScene();
+		PromptScene resultScene = new PromptScene();
 		if(winGame){
 			resultScene.setUp(600, 800, "You win!");
 		}
