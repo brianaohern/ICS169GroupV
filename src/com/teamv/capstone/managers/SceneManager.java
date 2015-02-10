@@ -21,7 +21,6 @@ public class SceneManager
     //---------------------------------------------
     // SCENES
     //---------------------------------------------
-    
     private BaseScene splashScene;
     private BaseScene menuScene;
     private BaseScene gameScene;

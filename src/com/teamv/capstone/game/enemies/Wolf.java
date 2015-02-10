@@ -13,7 +13,6 @@ public class Wolf extends Enemy{
 	final static int 		WOLF_START_TURN_COUNT = 3;
 	final static float		WOLF_SCALE = 0.75f;
 	private ColorType 		wolf_type = ColorType.GREEN;
-	//final static String WOLF_ELEMENT_TYPE = "Green";
 
 	public Wolf(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().wolf, vbom);
@@ -26,14 +25,7 @@ public class Wolf extends Enemy{
 	
 	public Wolf(ColorType type, VertexBufferObjectManager vbom){
 		this(vbom);
-		// only set type if user overrides default type
 		this.setUserData(type);
 		this.setType(type);
 	}
-	
-	public void init(){
-		super.init();
-		this.setScale(0.75f);
-	}
-	
 }

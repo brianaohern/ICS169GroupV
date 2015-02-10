@@ -11,7 +11,6 @@ public class Player extends HealthBarEntity{
 	
 	public Player(float x, float y, VertexBufferObjectManager vbo) {
 		super(x, y, ResourcesManager.getInstance().mainCharacter, vbo);
-		setPosition(x, y);
 	}
 	
 	public void init(){
@@ -37,13 +36,5 @@ public class Player extends HealthBarEntity{
 	
 	public void onDie(){
 		Battleground.gameScene.endGame(false);
-	}
-	
-	public int getPlayerAttack(){
-		return attack;
-	}
-	
-	public void setPlayerAttack(int atk){
-		attack = atk;
 	}
 }

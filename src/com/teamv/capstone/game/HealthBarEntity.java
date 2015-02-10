@@ -60,7 +60,7 @@ public abstract class HealthBarEntity extends Sprite{
 	public void attackHealthBarEntity(final HealthBarEntity target, int damage){
 		target.currentHealth -= damage;
 		target.updateHealthBar();
-		if(target.getCurrentHealth() <= 0){
+		if(target.currentHealth <= 0){
 			target.onDie();
 		}
 	}
@@ -69,27 +69,7 @@ public abstract class HealthBarEntity extends Sprite{
 		final Path path = new Path(3).to(this.start.x, this.start.y).to(target.start.x,  target.start.y).to(this.start.x, this.start.y);
 		PathModifier pathMod = new PathModifier(0.8f, path, EaseStrongInOut.getInstance());
 		registerEntityModifier(pathMod);
-//		MoveModifier moveTo = new MoveModifier(0.25f, this.start.x, target.start.x, this.start.y, target.start.y);
-//		this.registerEntityModifier(moveTo);
-		
-//		final Path path = new Path(2).to(this.start.x, this.start.y).to(target.start.x, target.start.y);
-//		
-//		PathModifier pathMod = new PathModifier(0.5f, path){
-//			@Override
-//			public void onModifierFinished(IEntity pItem) {
-////				attackHealthBarEntity(target, damage);
-////				returnToEntityStartPosition(target);				
-//			}
-//		};
-//		registerEntityModifier(pathMod);
 	}
-	
-//	public void returnToEntityStartPosition(HealthBarEntity target){		
-//		final Path path = new Path(2).to(target.start.x, target.start.y).to(this.start.x, this.start.y);
-//		
-//		PathModifier pathMod = new PathModifier(0.5f, path);
-//		registerEntityModifier(pathMod);
-//	}
 	
 	public abstract void onDie();
 	
@@ -111,36 +91,12 @@ public abstract class HealthBarEntity extends Sprite{
 		gameScene.attachChild(turnCountText);
 	}
 	
-	public int getStartHealth(){
-		return startHealth;
-	}
-	
-	public void setStartHealth(int health){
-		startHealth = health;
-	}
-	
-	public int getCurrentHealth(){
-		return currentHealth;
-	}
-	
-	public void setCurrentHealth(int health){
-		currentHealth = health;
-	}
-	
 	public int getAttack(){
 		return attack;
 	}
 	
-	public void setAttack(int atk){
-		attack = atk;
-	}
-	
-	public void setHealthBarVisibility(boolean hide){
-		if(hide == true){
-			healthBar.setVisible(false);
-		}else{
-			healthBar.setVisible(true);
-		}
+	public void setHealthBarVisibility(boolean value){
+		healthBar.setVisible(value);
 	}
 }
 

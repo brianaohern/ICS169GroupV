@@ -51,7 +51,7 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 	protected static int LEVEL_PADDING = 50;
 	protected static int CAMERA_WIDTH = 1080;
 	protected static int CAMERA_HEIGHT = 1920;
-	private int mMaxLevelReached = 7;
+	//private int mMaxLevelReached = 7;
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -107,14 +107,12 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 	}
 
 	private void createMenuBoxes() {
-		//unlock all levels
-		mMaxLevelReached = LEVELS;
 		
 		// Calculate space between each level square
 		int spaceBetweenRows = (CAMERA_HEIGHT / LEVEL_ROWS_PER_SCREEN) - LEVEL_PADDING;
-
 		//Current Level Counter
 		int iLevel = 1;
+		//mMaxLevelReached = LEVELS;
 
 		//Create the Level selectors, one row at a time.
 		final ITextureRegion region = this.resourcesManager.level_region;
@@ -244,7 +242,6 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 				
 				if(enemy!=null)
 					levels.get(levels.size() - 1).getLastWave().add(enemy);
-				
 				return null;
 			}
 		});
@@ -261,23 +258,15 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 		loadLevel(iLevelClicked-1);
 	};
 	
-	public void onBackKeyPressed() {
-
-	}
+	public void onBackKeyPressed() {}
 
 	public SceneType getSceneType() {
 		return SceneType.SCENE_LEVEL_SELECT;
 	}
 
-	public void disposeScene() {
+	public void disposeScene() {}
 
-	}
+	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID, float pDistanceX, float pDistanceY) {}
 
-	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID, float pDistanceX, float pDistanceY) {
-
-	}
-
-	public void onScrollFinished(ScrollDetector pScollDetector, int pPointerID, float pDistanceX, float pDistanceY) {
-
-	}
+	public void onScrollFinished(ScrollDetector pScollDetector, int pPointerID, float pDistanceX, float pDistanceY) {}
 }

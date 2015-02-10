@@ -148,18 +148,6 @@ public abstract class Enemy extends HealthBarEntity{
 		return currentTurnCount;
 	}
 	
-	public void setCurrentTurnCount(int turn){
-		currentTurnCount = turn;
-	}
-	
-	public int getStartTurnCount(){
-		return startTurnCount;
-	}
-	
-	public void setStartTurnCount(int turn){
-		startTurnCount = turn;
-	}
-	
 	public void resetCurrentTurnCount(){
 		currentTurnCount = startTurnCount;
 	}
