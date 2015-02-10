@@ -18,8 +18,8 @@ public abstract class Enemy extends HealthBarEntity{
 
 	public boolean isTarget = false;
 	public boolean isDead = false;
-	int turnCounter;
-	int startTurnCount, currentTurnCount;
+	protected int turnCounter;
+	protected int startTurnCount, currentTurnCount;
 	
 	private Point buffer;
 	
@@ -36,7 +36,7 @@ public abstract class Enemy extends HealthBarEntity{
 		this.setUserData(type);
 	}
 	
-	public void init(){
+	protected void init(){
 		startHealth = 10;
 		currentHealth = startHealth;
 		buffer = new Point(100, 0);
@@ -45,25 +45,26 @@ public abstract class Enemy extends HealthBarEntity{
 		resetCurrentTurnCount();
 
 		String healthBarStatus = "HP: " + currentHealth + "/" + startHealth;
-		healthBarText.setX(this.getX());
-		healthBarText.setY(this.getY());
+		healthBarText.setPosition(this);
 		healthBarText.setText(healthBarStatus);
 		
-		turnCountText.setX(this.getX());
-		turnCountText.setY(this.getY());
+		turnCountText.setPosition(this);
 		updateTurnCount();
 		
 		healthBarWidth  = (int) (this.getWidth() - buffer.x);
 		healthBarHeight = 25;
-		healthBar.setX(this.getX() + buffer.x);
-		healthBar.setY(this.getY() - buffer.y);
+		healthBar.setPosition(this.getX() + buffer.x, this.getY() - buffer.y);
 		healthBar.setWidth(healthBarWidth);
 		healthBar.setHeight(25);
 		healthBar.setColor(Color.RED);
-		
-		setStartHealth(startHealth);
-		setAttack(attack);
-		setStartTurnCount(turnCounter);
+	}
+	
+	protected void setup(int health, int attack, int turnCounter, ColorType type, float scale){
+		this.startHealth = health;
+		this.attack = attack;
+		this.turnCounter = turnCounter;
+		this.setUserData(type);
+		this.setScale(scale);
 	}
 	
 	public void onDie(){
