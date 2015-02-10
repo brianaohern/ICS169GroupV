@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enemies>
+    <enemy name="Wolf">
+        <stats HP="10" ATTACK="5" TURN="3"/>
+        <image value="wolf"/>
+    </enemy>
+</enemies>

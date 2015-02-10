@@ -10,15 +10,15 @@ public class Wave{
 	 * 
 	 */
 	
-	ArrayList<Enemy> enemies;
+	ArrayList<EnemySprite> enemies;
 	
-	public Wave(ArrayList<Enemy> enemies){
+	public Wave(ArrayList<EnemySprite> enemies){
 		//load level
 		this.enemies = enemies;
 	}
 	
 	public Wave(){
-		enemies = new ArrayList<Enemy>();
+		enemies = new ArrayList<EnemySprite>();
 	}
 	
 	public void parseLevel(){
@@ -51,20 +51,20 @@ public class Wave{
 		return false;
 	}
 	
-	public void add(Enemy enemy){
+	public void add(EnemySprite enemy){
 		enemies.add(enemy);
 	}
 	
-	public void remove(Enemy enemy){
+	public void remove(EnemySprite enemy){
 		enemies.remove(enemy);
 	}
 
-	public ArrayList<Enemy> getEnemies() {
+	public ArrayList<EnemySprite> getEnemies() {
 		return enemies;
 	}
 	
-	public Enemy getTarget(){
-		for(Enemy enemy : enemies){
+	public EnemySprite getTarget(){
+		for(EnemySprite enemy : enemies){
 			if(enemy.isTarget){
 				return enemy;
 			}

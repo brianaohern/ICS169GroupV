@@ -18,7 +18,7 @@ public class Battleground {
 	VertexBufferObjectManager vbom;
 	boolean isFinished = false;
 
-	Enemy target;
+	EnemySprite target;
 
 	public Battleground(final BaseScene gameScene){
 		Battleground.gameScene = (GameScene) gameScene;
@@ -32,7 +32,7 @@ public class Battleground {
 			return;
 
 		// get target and attack
-		Enemy target = currentWave.getTarget();;
+		EnemySprite target = currentWave.getTarget();;
 		int damage = calculateDamage(gems, target);
 
 		// player attacks enemy
@@ -43,7 +43,7 @@ public class Battleground {
 		}
 
 		// update enemy turn count
-		for (Enemy enemy : currentWave.getEnemies()){
+		for (EnemySprite enemy : currentWave.getEnemies()){
 			enemy.decrementCurrentTurnCount();
 			if (enemy.getCurrentTurnCount() == 0) {
 				player.takeDamage(enemy.getAttack());
@@ -59,7 +59,7 @@ public class Battleground {
 	}
 
 	public static void attachEnemies(){
-		for(Enemy enemy : currentWave.getEnemies()){
+		for(EnemySprite enemy : currentWave.getEnemies()){
 			enemy.attachToScene(gameScene);
 		}
 	}
@@ -68,7 +68,7 @@ public class Battleground {
 		return currentWave.getEnemies().size();
 	}
 
-	public int calculateDamage(ArrayList<Gem> gems, Enemy enemy){
+	public int calculateDamage(ArrayList<Gem> gems, EnemySprite enemy){
 		float green=0, blue=0, red=0, yellow=0;
 		for(Gem gem: gems){
 			switch((ColorType) gem.getUserData()){

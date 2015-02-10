@@ -24,7 +24,7 @@ import org.andengine.util.level.LevelLoader;
 import org.xml.sax.Attributes;
 
 import com.teamv.capstone.game.ColorType;
-import com.teamv.capstone.game.Enemy;
+import com.teamv.capstone.game.EnemySprite;
 import com.teamv.capstone.game.GameActivity;
 import com.teamv.capstone.game.Level;
 import com.teamv.capstone.game.Wave;
@@ -230,7 +230,7 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 					//do nothing for normal and default
 				}
 				
-				Enemy enemy = null;
+				EnemySprite enemy = null;
 				switch(name){
 				case "wolf":
 					if(type != null)

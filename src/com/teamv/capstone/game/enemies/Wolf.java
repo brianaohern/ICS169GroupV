@@ -3,10 +3,10 @@ package com.teamv.capstone.game.enemies;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.game.ColorType;
-import com.teamv.capstone.game.Enemy;
+import com.teamv.capstone.game.EnemySprite;
 import com.teamv.capstone.managers.ResourcesManager;
 
-public class Wolf extends Enemy{
+public class Wolf extends EnemySprite{
 	
 	final static int WOLF_HEALTH = 10;
 	final static int WOLF_ATTACK = 3;
@@ -35,6 +35,8 @@ public class Wolf extends Enemy{
 	
 	public void setup(ColorType type){
 		this.setScale(0.75f);
+		this.startHealth = WOLF_HEALTH;
+		this.attack = WOLF_ATTACK;
 		setStartHealth(WOLF_HEALTH);
 		setAttack(WOLF_ATTACK);
 		setStartTurnCount(WOLF_START_TURN_COUNT);

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Enemies>
-    <Enemy name="Wolf">
-        <Stats HP="10" ATTACK="5" TURN="3"/>
-        <BaseEXP value="10"/>
-        <Image value="wolf"/>
-    </Enemy>
-</Enemies>
