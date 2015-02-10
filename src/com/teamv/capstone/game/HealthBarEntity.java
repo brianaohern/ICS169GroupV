@@ -1,11 +1,13 @@
 package com.teamv.capstone.game;
 
+import org.andengine.entity.modifier.PathModifier;
+import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-
+import org.andengine.util.modifier.ease.EaseStrongInOut;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Pointf;
@@ -26,7 +28,7 @@ public abstract class HealthBarEntity extends Sprite{
 	
 	public HealthBarEntity(float x, float y, ITextureRegion region, VertexBufferObjectManager vbom){
 		super(x, y, region, vbom);
-		
+		super.setPosition(x, y);
 		start = new Pointf(x, y);
 		
 		healthBarText = new Text(0, 0, ResourcesManager.getInstance().font, "", 20, vbom);
@@ -48,17 +50,46 @@ public abstract class HealthBarEntity extends Sprite{
 	}
 	
 	public void takeDamage(int damage){
-		
-//		if(Gemboard.getDamageType().contains(this.getUserData())){
-//			damage *= 2;
-//			System.out.println("IT'S A CRIT! Damage: " + damage);
-//		}
 		currentHealth -= damage;
 		updateHealthBar();
 		if(currentHealth <= 0){
 			onDie();
 		}
 	}
+	
+	public void attackHealthBarEntity(final HealthBarEntity target, int damage){
+		target.currentHealth -= damage;
+		target.updateHealthBar();
+		if(target.getCurrentHealth() <= 0){
+			target.onDie();
+		}
+	}
+	
+	public void moveToEntityStartPosition(HealthBarEntity target){
+		final Path path = new Path(3).to(this.start.x, this.start.y).to(target.start.x,  target.start.y).to(this.start.x, this.start.y);
+		PathModifier pathMod = new PathModifier(0.8f, path, EaseStrongInOut.getInstance());
+		registerEntityModifier(pathMod);
+//		MoveModifier moveTo = new MoveModifier(0.25f, this.start.x, target.start.x, this.start.y, target.start.y);
+//		this.registerEntityModifier(moveTo);
+		
+//		final Path path = new Path(2).to(this.start.x, this.start.y).to(target.start.x, target.start.y);
+//		
+//		PathModifier pathMod = new PathModifier(0.5f, path){
+//			@Override
+//			public void onModifierFinished(IEntity pItem) {
+////				attackHealthBarEntity(target, damage);
+////				returnToEntityStartPosition(target);				
+//			}
+//		};
+//		registerEntityModifier(pathMod);
+	}
+	
+//	public void returnToEntityStartPosition(HealthBarEntity target){		
+//		final Path path = new Path(2).to(target.start.x, target.start.y).to(this.start.x, this.start.y);
+//		
+//		PathModifier pathMod = new PathModifier(0.5f, path);
+//		registerEntityModifier(pathMod);
+//	}
 	
 	public abstract void onDie();
 	
@@ -104,7 +135,7 @@ public abstract class HealthBarEntity extends Sprite{
 		attack = atk;
 	}
 	
-	public void hideHealthBar(boolean hide){
+	public void setHealthBarVisibility(boolean hide){
 		if(hide == true){
 			healthBar.setVisible(false);
 		}else{

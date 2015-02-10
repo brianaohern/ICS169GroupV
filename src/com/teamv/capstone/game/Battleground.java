@@ -2,6 +2,9 @@ package com.teamv.capstone.game;
 
 import java.util.ArrayList;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
+import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.gemboard.Gem;
@@ -36,20 +39,36 @@ public class Battleground {
 		int damage = calculateDamage(gems, target);
 
 		// player attacks enemy
+		player.moveToEntityStartPosition(target);
+		target.registerEntityModifier(new DelayModifier(5f));
 		target.takeDamage(damage);
 
 		if(target.isDead){
 			gameScene.unregisterTouchArea(target);
 		}
-
+		
+		final float time = 0.5f;
+		int count = 1;
+		
 		// update enemy turn count
-		for (Enemy enemy : currentWave.getEnemies()){
+		for (final Enemy enemy : currentWave.getEnemies()){
 			enemy.decrementCurrentTurnCount();
 			if (enemy.getCurrentTurnCount() == 0) {
+				ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time*count, new ITimerCallback() 
+				{
+					public void onTimePassed(final TimerHandler pTimerHandler) 
+					{
+						ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
+						enemy.moveToEntityStartPosition(player);
+					}
+				}));
+				
+
 				player.takeDamage(enemy.getAttack());
 				enemy.resetCurrentTurnCount();
 			}
 			enemy.updateTurnCount();
+			count++;
 		}
 
 		if(currentWave.isFinished()){
