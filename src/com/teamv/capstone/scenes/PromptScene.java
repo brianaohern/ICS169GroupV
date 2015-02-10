@@ -8,13 +8,13 @@ import org.andengine.util.color.Color;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.managers.SceneManager.SceneType;
 
-public class EndScene extends PopUpScene{
+public class PromptScene extends PopUpScene{
 	
-	public EndScene(){
+	public PromptScene(){
 		super();
 	}
 	
-	public EndScene(int width, int height, String text) {
+	public PromptScene(int width, int height, String text) {
 		super();
 		init();
 		setUp(width, height, text);
