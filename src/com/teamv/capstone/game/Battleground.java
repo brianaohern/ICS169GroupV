@@ -2,6 +2,7 @@ package com.teamv.capstone.game;
 
 import java.util.ArrayList;
 
+import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.gemboard.Gem;
@@ -36,6 +37,8 @@ public class Battleground {
 		int damage = calculateDamage(gems, target);
 
 		// player attacks enemy
+		player.moveToEntityStartPosition(target);
+		target.registerEntityModifier(new DelayModifier(5f));
 		target.takeDamage(damage);
 
 		if(target.isDead){
@@ -46,6 +49,7 @@ public class Battleground {
 		for (Enemy enemy : currentWave.getEnemies()){
 			enemy.decrementCurrentTurnCount();
 			if (enemy.getCurrentTurnCount() == 0) {
+				enemy.moveToEntityStartPosition(player);
 				player.takeDamage(enemy.getAttack());
 				enemy.resetCurrentTurnCount();
 			}
