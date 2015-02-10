@@ -6,7 +6,6 @@ import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import com.teamv.capstone.gemboard.Gem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Pointf;
@@ -53,10 +52,10 @@ public abstract class HealthBarEntity extends Sprite{
 	
 	public void takeDamage(int damage){
 		
-		if(Gem.getDamageType().contains(this.getUserData())){
-			damage *= 2;
-			System.out.println("IT'S A CRIT! Damage: " + damage);
-		}
+//		if(Gemboard.getDamageType().contains(this.getUserData())){
+//			damage *= 2;
+//			System.out.println("IT'S A CRIT! Damage: " + damage);
+//		}
 		currentHealth -= damage;
 		updateHealthBar();
 		if(currentHealth <= 0){

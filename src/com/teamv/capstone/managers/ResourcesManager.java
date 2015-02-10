@@ -1,5 +1,9 @@
 package com.teamv.capstone.managers;
 
+import java.io.IOException;
+
+import org.andengine.audio.sound.Sound;
+import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.opengl.font.Font;
@@ -42,10 +46,12 @@ public class ResourcesManager
     public ITextureRegion menu_background_region;
     public ITextureRegion play_region;
     public ITextureRegion options_region;
-        
     private BitmapTextureAtlas menuTextureAtlas;
-    
     public Font font;
+    
+    //levelselect
+    public BitmapTextureAtlas lsTextureAtlas;
+    public ITextureRegion level_region;
     
     //game.gems
     public ITextureRegion red_gem;
@@ -68,6 +74,11 @@ public class ResourcesManager
     public ITextureRegion menuButton;
     public ITextureRegion creditsButton;
     
+    //audio
+    public Sound gemSelectSound;
+    public Sound gemDestroySound;
+    public Sound meleeAttackSound;
+    
     //---------------------------------------------
     // TEXTURES & TEXTURE REGIONS
     //---------------------------------------------
@@ -85,9 +96,15 @@ public class ResourcesManager
     
     public void loadGameResources()
     {
-        loadGameGraphics();
+        //loadGameGraphics();
         loadGameFonts();
         loadGameAudio();
+    }
+    
+    public void loadLevelSelectResources(){
+    	loadLevelSelectGraphics();
+    	loadGameGraphics();
+    	loadLevelSelectFonts();
     }
     
     private void loadMenuGraphics()
@@ -113,6 +130,22 @@ public class ResourcesManager
     private void loadMenuAudio()
     {
         
+    }
+    
+    private void loadLevelSelectGraphics(){
+    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
+    	lsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 600, 100, TextureOptions.BILINEAR);
+        level_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(lsTextureAtlas, activity, "level.png", 0, 0);
+        lsTextureAtlas.load();
+    }
+
+    private void loadLevelSelectFonts()
+    {
+    	FontFactory.setAssetBasePath("font/");
+        final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+        font = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "font.ttf", 50, true, Color.WHITE, 2, Color.BLACK);
+        font.load();
     }
 
     private void loadGameGraphics()
@@ -167,7 +200,13 @@ public class ResourcesManager
     
     private void loadGameAudio()
     {
-        
+		try {
+			gemSelectSound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/gem_select.wav");
+			gemDestroySound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/gem_destroy.mp3");
+			meleeAttackSound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/melee_attack.wav");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     public void loadSplashScreen()

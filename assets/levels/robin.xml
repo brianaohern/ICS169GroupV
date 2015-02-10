@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<levelset name = "robinrobinrobin" number = "16">
+	<level name = "Wolves"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+	</level>
+	<level name = "Blue Wolves"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="blue" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="blue" />
+		</wave>
+	</level>
+	<level name = "Green Wolves"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="green" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="green" />
+			<enemy name = "wolf" type ="green" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="green" />
+			<enemy name = "wolf" type ="green" />
+			<enemy name = "wolf" type ="green" />
+		</wave>
+	</level>
+	<level name = "Red Wolves"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+	</level>
+	<level name = "Yellow Wolves"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="yellow" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="yellow" />
+			<enemy name = "wolf" type ="yellow" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "More Wolves"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="yellow" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "wolf" type ="green" />
+			<enemy name = "wolf" type ="blue" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "wolf" type ="green" />
+			<enemy name = "wolf" type ="blue" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "wolf" type ="green" />
+			<enemy name = "wolf" type ="blue" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "robin"  type = "normal">    
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="blue" />
+			<enemy name = "wolf" type ="red" />
+			<enemy name = "wolf" type ="yellow" />
+		</wave>
+	</level>
+</levelset>

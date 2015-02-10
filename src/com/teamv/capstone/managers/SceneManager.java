@@ -3,8 +3,10 @@ package com.teamv.capstone.managers;
 import org.andengine.engine.Engine;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
+import com.teamv.capstone.game.Level;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
+import com.teamv.capstone.scenes.LevelSelectScene;
 import com.teamv.capstone.scenes.LoadingScene;
 import com.teamv.capstone.scenes.MainMenuScene;
 import com.teamv.capstone.scenes.SplashScene;
@@ -24,6 +26,7 @@ public class SceneManager
     private BaseScene menuScene;
     private BaseScene gameScene;
     private BaseScene loadingScene;
+    private BaseScene levelSelectScene;
     
     //---------------------------------------------
     // VARIABLES
@@ -43,6 +46,7 @@ public class SceneManager
         SCENE_MENU,
         SCENE_GAME,
         SCENE_LOADING,
+        SCENE_LEVEL_SELECT
     }
     
     //---------------------------------------------
@@ -72,6 +76,9 @@ public class SceneManager
             case SCENE_LOADING:
                 setScene(loadingScene);
                 break;
+            case SCENE_LEVEL_SELECT:
+            	setScene(levelSelectScene);
+            	break;
             default:
                 break;
         }
@@ -125,9 +132,15 @@ public class SceneManager
         disposeSplashScene();
     }
     
-    public void createGameScene(){
+    public void createGameScene(Level level){
     	ResourcesManager.getInstance().loadGameResources();
-    	gameScene = new GameScene();
+    	gameScene = new GameScene(level);
     	SceneManager.getInstance().setScene(gameScene);
+    }
+    
+    public void createLevelSelectScene(){
+    	ResourcesManager.getInstance().loadLevelSelectResources();
+    	levelSelectScene = new LevelSelectScene();
+    	SceneManager.getInstance().setScene(levelSelectScene);
     }
 }

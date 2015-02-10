@@ -15,6 +15,7 @@ import org.andengine.util.color.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.GameActivity;
+import com.teamv.capstone.game.Level;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager.SceneType;
@@ -27,6 +28,11 @@ public class GameScene extends BaseScene
 	public Battleground bg;
 	//private CameraScene mPauseScene;
 	private PauseMenuScene mPauseScene;
+
+	public GameScene(Level level) {
+		super();
+		bg.enterLevel(level);
+	}
 
 	@Override
 	public void createScene()
