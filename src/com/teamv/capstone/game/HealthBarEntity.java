@@ -12,20 +12,17 @@ import com.teamv.capstone.utility.Pointf;
 
 public abstract class HealthBarEntity extends Sprite{
 	
-	Pointf start;
+	protected Pointf start;
+	protected int startHealth;
+	protected int currentHealth;
+	protected int attack;
 	
-	int startHealth;
-	int currentHealth;
-	int attack;
+	protected Rectangle healthBar;
+	protected int healthBarWidth;
+	protected int healthBarHeight;
+	protected Text healthBarText;
 	
-	// health
-	Rectangle healthBar;
-	int healthBarWidth;
-	int healthBarHeight;
-	Text healthBarText;
-	
-	// turn count
-	Text turnCountText;
+	protected Text turnCountText;
 	
 	public HealthBarEntity(float x, float y, ITextureRegion region, VertexBufferObjectManager vbom){
 		super(x, y, region, vbom);
@@ -40,7 +37,7 @@ public abstract class HealthBarEntity extends Sprite{
 		init();
 	}
 	
-	public abstract void init();
+	protected abstract void init();
 	
 	public void updateHealthBar(){
 		if(currentHealth < 0){
