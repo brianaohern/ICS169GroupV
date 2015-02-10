@@ -127,9 +127,8 @@ public abstract class Enemy extends HealthBarEntity{
 		}
 	}
 	
-	protected void setType(){
+	protected void setType(ColorType type){
 		// temp typing
-		ColorType type = (ColorType) this.getUserData();
 		switch(type){
 		case RED:
 			this.setColor(Color.RED);

@@ -17,6 +17,7 @@ public class Wolf extends Enemy{
 
 	public Wolf(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().wolf, vbom);
+		this.setup(WOLF_HEALTH, WOLF_ATTACK, WOLF_START_TURN_COUNT, wolf_type, WOLF_SCALE);
 	}
 	
 	public Wolf(VertexBufferObjectManager vbom){
@@ -24,16 +25,9 @@ public class Wolf extends Enemy{
 	}
 	
 	public Wolf(ColorType type, VertexBufferObjectManager vbom){
-		super(type, ResourcesManager.getInstance().wolf, vbom);
+		this(vbom);
 		// only set type if user overrides default type
-		wolf_type = type;
-		this.setType();
+		this.setUserData(type);
+		this.setType(type);
 	}
-	
-	public void init(){
-		super.init();
-		this.setScale(0.75f);
-		this.setup(WOLF_HEALTH, WOLF_ATTACK, WOLF_START_TURN_COUNT, wolf_type, WOLF_SCALE);
-	}
-	
 }

@@ -1,7 +1,5 @@
 package com.teamv.capstone.game;
 
-import org.andengine.entity.IEntity;
-import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.primitive.Rectangle;
@@ -137,7 +135,7 @@ public abstract class HealthBarEntity extends Sprite{
 		attack = atk;
 	}
 	
-	public void hideHealthBar(boolean hide){
+	public void setHealthBarVisibility(boolean hide){
 		if(hide == true){
 			healthBar.setVisible(false);
 		}else{
