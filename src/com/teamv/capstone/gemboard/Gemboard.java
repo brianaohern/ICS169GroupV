@@ -11,6 +11,8 @@ import org.andengine.util.color.Color;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.gemboard.gems.*;
+import com.teamv.capstone.gemboard.gems.special.BombGem;
+import com.teamv.capstone.gemboard.gems.special.RainbowGem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Pointf;
@@ -146,16 +148,21 @@ public class Gemboard{
 		}
 		
 		// add gems and whatnot in here
-		switch(random.nextInt(4)){
-		case 0:
+		switch(random.nextInt(10)){
+		case 0 | 1:
 			return new BlueGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case 1:
+		case 2 | 3:
 			return new GreenGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case 2:
+		case 4 | 5:
 			return new YellowGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case 3:
+		case 6 | 7:
 			return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		case 8:
+			return new BombGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		case 9:
+			return new RainbowGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		}
+		
 		return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
 	

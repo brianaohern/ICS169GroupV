@@ -137,7 +137,7 @@ public abstract class Gem extends Sprite{
         	Line line = new Line(start.x, start.y, end.x, end.y, vbom);
 
         	line.setLineWidth(5);
-        	line.setColor(Color.YELLOW);
+        	line.setColor(Color.WHITE);
             SceneManager.getInstance().getCurrentScene().attachChild(line);
             Gemboard.lines.add(line);
             
@@ -151,7 +151,7 @@ public abstract class Gem extends Sprite{
 		/* gem list is not empty, gem is matching colors,
 		 * gem is already in the chain, gem is not at end of list */
 		else if ( !Gemboard.connectedGems.isEmpty() &&
-				  this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
+				  this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&	// Might need to change this for special gems
 				  Gemboard.connectedGems.contains(this) &&
 				  this != Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) {
 			
