@@ -8,6 +8,8 @@ import org.andengine.entity.primitive.Line;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
 
+import android.util.Log;
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.gemboard.gems.*;
@@ -28,6 +30,12 @@ public class Gemboard{
 	
 	// array of connected gems
 	public static ArrayList<Gem> connectedGems;
+	
+	// special gems that have been activated
+	public static ArrayList<SpecialGem> activatedGems;
+	
+	// denotes whether we're in the middle of a combo
+	private static boolean combo = false;
 
 	public static ArrayList<Line> lines;
 	
@@ -50,6 +58,7 @@ public class Gemboard{
 		
 		connectedGems = new ArrayList<Gem>();
 		lines = new ArrayList<Line>();
+		activatedGems = new ArrayList<SpecialGem>();
 		
 		// while the gemboard has no possible moves, reset the board
 		while(hasNoMoreMoves())
@@ -77,26 +86,41 @@ public class Gemboard{
 	
 	public static void executeGems() {
 		Gemboard.unshadeBoard();
-		if(connectedGems.size() >= 3){
+		if(minimumConnectedGems() || combo){
 			battleground.enterBattle(connectedGems);
 			
 			ResourcesManager.getInstance().gemDestroySound.play();
 			
 			for(Gem gem : connectedGems){
-				dropGem(gem);
+				if (gem.getClass() == Bomb.class) {
+					activatedGems.add((SpecialGem)gem);
+				}
+				else {
+					dropGem(gem);
+				}
 			}
 			
 			ResourcesManager.getInstance().meleeAttackSound.play();
 		}
-		for(Line line : lines){
-			line.detachSelf();
-			line.dispose();
-			line = null;
-		}
+		eraseLines();
 		
 		connectedGems.clear();
 		lines.clear();
 		//printAll();
+		
+		for (Gem gem : activatedGems) {
+			Log.d("MyActivity", "About to check gems");
+			for (Gem adj : getAdjacentGems(gem)) {
+				Log.d("MyActivity", "Checked gem");
+				if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
+						connectedGems.add(adj);
+				}
+			}
+			dropGem(gem);
+		}
+		
+		activatedGems.clear();
+//		connectedGems.clear();
 		
 		if(hasNoMoreMoves()){
 			//System.out.println("NO MORE MOVES");
@@ -104,8 +128,29 @@ public class Gemboard{
 			resetBoard();
 		}
 		//drawGrid();
+		
+		if (connectedGems.size() > 0) {
+			combo = true;
+			executeGems();
+		} else {
+			combo = false;
+		}
 	}
 	
+	// whether or not we have enough gems to comprise a valid move
+	private static boolean minimumConnectedGems() {
+		return connectedGems.size() >= 3;
+	}
+	
+	// erases each line connecting the gems in your move
+	private static void eraseLines() {
+		for(Line line : lines){
+			line.detachSelf();
+			line.dispose();
+			line = null;
+		}
+	}
+
 	// drops every gem above the parameter gem, then drop a new gem
 	private static void dropGem(Gem gem){
 		int col = gem.getCol();
@@ -146,7 +191,7 @@ public class Gemboard{
 		}
 		
 		// add gems and whatnot in here
-		switch(random.nextInt(4)){
+		switch(random.nextInt(5)){
 		case 0:
 			return new BlueGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 1:
@@ -155,6 +200,8 @@ public class Gemboard{
 			return new YellowGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 3:
 			return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		case 4:
+			return new Bomb(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		}
 		return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
@@ -250,6 +297,76 @@ public class Gemboard{
 	
 	public void attachPhysics(){
 		
+	}
+	
+	private static ArrayList<Gem> getAdjacentGems(Gem gem){
+		Log.d("MyActivity", "Current gem... col:" + gem.getCol() + ", row: " + gem.getRow());
+		ArrayList<Gem> adjacentGems = new ArrayList<Gem>();
+		// if the column is odd
+		if (gem.getCol() % 2 == 0) {
+			// if the gem is not all the way to the left 
+			if (gem.getCol() > 0) {
+				// if the gem is not at the top
+				if (gem.getRow() > 0) {
+					// add the gem to the top-left
+					Log.d("MyActivity", "Adding upper-left");
+					adjacentGems.add(grid[gem.getCol()-1][gem.getRow()-1]);
+					// add the gem above
+					Log.d("MyActivity", "Adding above");
+					adjacentGems.add(grid[gem.getCol()][gem.getRow()-1]);
+				}
+				// if the gem is not at the bottom
+				if (gem.getRow() < 4) {
+					// add the gem to the bottom-left
+					Log.d("MyActivity", "Adding lower-left");
+					adjacentGems.add(grid[gem.getCol()-1][gem.getRow()]);
+					// add the gem below
+					Log.d("MyActivity", "Adding below");
+					adjacentGems.add(grid[gem.getCol()][gem.getRow()+1]);
+				}
+			}
+			// if the gem is not all the way to the right
+			if (gem.getCol() < 6) {
+				if (gem.getRow() > 0) {
+					// add the gem to the top-right
+					Log.d("MyActivity", "Adding upper-right");
+					adjacentGems.add(grid[gem.getCol()+1][gem.getRow()-1]);
+				}
+				if (gem.getRow() < 4) {
+					// add the gem to the bottom-right
+					Log.d("MyActivity", "Adding lower-right");
+					adjacentGems.add(grid[gem.getCol()+1][gem.getRow()]);
+				}
+			}
+		}
+		// if the column is even
+		else {
+			// add the gem to the top-left
+			Log.d("MyActivity", "Adding upper-left");
+			adjacentGems.add(grid[gem.getCol()-1][gem.getRow()]);
+			// add the gem to the bottom-left
+			Log.d("MyActivity", "Adding lower-left");
+			adjacentGems.add(grid[gem.getCol()-1][gem.getRow()+1]);
+			// if the gem is not at the top
+			if (gem.getRow() > 0) {
+				// add the gem above
+				Log.d("MyActivity", "Adding above");
+				adjacentGems.add(grid[gem.getCol()][gem.getRow()-1]);
+			}
+			// if the gem is not at the bottom
+			if (gem.getRow() < 3) {
+				// add the gem below
+				Log.d("MyActivity", "Adding below");
+				adjacentGems.add(grid[gem.getCol()][gem.getRow()+1]);
+			}
+			// add the gem to the top-right
+			Log.d("MyActivity", "Adding upper-right");
+			adjacentGems.add(grid[gem.getCol()+1][gem.getRow()]);
+			// add the gem to the bottom-right
+			Log.d("MyActivity", "Adding lower-right");
+			adjacentGems.add(grid[gem.getCol()+1][gem.getRow()+1]);
+		}
+		return adjacentGems;
 	}
 	
 	public static Pointf getStartPoint(){
