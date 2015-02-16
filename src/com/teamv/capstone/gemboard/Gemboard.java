@@ -99,8 +99,6 @@ public class Gemboard{
 					dropGem(gem);
 				}
 			}
-			
-			ResourcesManager.getInstance().meleeAttackSound.play();
 		}
 		eraseLines();
 		
@@ -118,7 +116,6 @@ public class Gemboard{
 		}
 		
 		activatedGems.clear();
-//		connectedGems.clear();
 		
 		if(hasNoMoreMoves()){
 			//System.out.println("NO MORE MOVES");
@@ -126,6 +123,7 @@ public class Gemboard{
 			resetBoard();
 		}
 		//drawGrid();
+		
 		
 		if (connectedGems.size() > 0) {
 			combo = true;

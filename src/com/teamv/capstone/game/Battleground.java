@@ -40,6 +40,7 @@ public class Battleground {
 
 		// player attacks enemy
 		player.moveToEntityStartPosition(target);
+		//ResourcesManager.getInstance().meleeAttackSound.play();
 		target.registerEntityModifier(new DelayModifier(5f));
 		target.takeDamage(damage);
 
@@ -60,11 +61,11 @@ public class Battleground {
 					{
 						ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
 						enemy.moveToEntityStartPosition(player);
+						player.takeDamage(enemy.getAttack());
+						ResourcesManager.getInstance().meleeAttackSound.play();
 					}
 				}));
-				
 
-				player.takeDamage(enemy.getAttack());
 				enemy.resetCurrentTurnCount();
 			}
 			enemy.updateTurnCount();
