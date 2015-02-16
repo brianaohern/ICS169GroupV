@@ -13,6 +13,7 @@ import org.andengine.util.color.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.teamv.capstone.gemboard.gems.Bomb;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.utility.Pointf;
@@ -188,7 +189,7 @@ public abstract class Gem extends Sprite{
 	
 	// determines if the gems are the same
 	protected boolean sameColor(Gem gem) {
-		return(this.getUserData().equals(gem.getUserData()));
+		return(this.getUserData().equals(gem.getUserData()) || this.getClass() == Bomb.class);
 	}
 	
 	// used for drawing lines; the basic math
