@@ -109,9 +109,7 @@ public class Gemboard{
 		//printAll();
 		
 		for (Gem gem : activatedGems) {
-			Log.d("MyActivity", "About to check gems");
 			for (Gem adj : getAdjacentGems(gem)) {
-				Log.d("MyActivity", "Checked gem");
 				if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
 						connectedGems.add(adj);
 				}
@@ -300,7 +298,6 @@ public class Gemboard{
 	}
 	
 	private static ArrayList<Gem> getAdjacentGems(Gem gem){
-		Log.d("MyActivity", "Current gem... col:" + gem.getCol() + ", row: " + gem.getRow());
 		ArrayList<Gem> adjacentGems = new ArrayList<Gem>();
 		// if the column is odd
 		if (gem.getCol() % 2 == 0) {
@@ -309,19 +306,15 @@ public class Gemboard{
 				// if the gem is not at the top
 				if (gem.getRow() > 0) {
 					// add the gem to the top-left
-					Log.d("MyActivity", "Adding upper-left");
 					adjacentGems.add(grid[gem.getCol()-1][gem.getRow()-1]);
 					// add the gem above
-					Log.d("MyActivity", "Adding above");
 					adjacentGems.add(grid[gem.getCol()][gem.getRow()-1]);
 				}
 				// if the gem is not at the bottom
 				if (gem.getRow() < 4) {
 					// add the gem to the bottom-left
-					Log.d("MyActivity", "Adding lower-left");
 					adjacentGems.add(grid[gem.getCol()-1][gem.getRow()]);
 					// add the gem below
-					Log.d("MyActivity", "Adding below");
 					adjacentGems.add(grid[gem.getCol()][gem.getRow()+1]);
 				}
 			}
@@ -329,12 +322,10 @@ public class Gemboard{
 			if (gem.getCol() < 6) {
 				if (gem.getRow() > 0) {
 					// add the gem to the top-right
-					Log.d("MyActivity", "Adding upper-right");
 					adjacentGems.add(grid[gem.getCol()+1][gem.getRow()-1]);
 				}
 				if (gem.getRow() < 4) {
 					// add the gem to the bottom-right
-					Log.d("MyActivity", "Adding lower-right");
 					adjacentGems.add(grid[gem.getCol()+1][gem.getRow()]);
 				}
 			}
@@ -342,28 +333,22 @@ public class Gemboard{
 		// if the column is even
 		else {
 			// add the gem to the top-left
-			Log.d("MyActivity", "Adding upper-left");
 			adjacentGems.add(grid[gem.getCol()-1][gem.getRow()]);
 			// add the gem to the bottom-left
-			Log.d("MyActivity", "Adding lower-left");
 			adjacentGems.add(grid[gem.getCol()-1][gem.getRow()+1]);
 			// if the gem is not at the top
 			if (gem.getRow() > 0) {
 				// add the gem above
-				Log.d("MyActivity", "Adding above");
 				adjacentGems.add(grid[gem.getCol()][gem.getRow()-1]);
 			}
 			// if the gem is not at the bottom
 			if (gem.getRow() < 3) {
 				// add the gem below
-				Log.d("MyActivity", "Adding below");
 				adjacentGems.add(grid[gem.getCol()][gem.getRow()+1]);
 			}
 			// add the gem to the top-right
-			Log.d("MyActivity", "Adding upper-right");
 			adjacentGems.add(grid[gem.getCol()+1][gem.getRow()]);
 			// add the gem to the bottom-right
-			Log.d("MyActivity", "Adding lower-right");
 			adjacentGems.add(grid[gem.getCol()+1][gem.getRow()+1]);
 		}
 		return adjacentGems;
