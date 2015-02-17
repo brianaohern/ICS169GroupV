@@ -23,8 +23,8 @@ public abstract class HealthBarEntity extends Sprite{
 	protected int healthBarWidth;
 	protected int healthBarHeight;
 	protected Text healthBarText;
-	
 	protected Text turnCountText;
+	protected Rectangle typeIcon;
 	
 	public HealthBarEntity(float x, float y, ITextureRegion region, VertexBufferObjectManager vbom){
 		super(x, y, region, vbom);
@@ -33,7 +33,7 @@ public abstract class HealthBarEntity extends Sprite{
 		
 		healthBarText = new Text(0, 0, ResourcesManager.getInstance().font, "", 20, vbom);
 		healthBar = new Rectangle(0, 0, 0, 0, vbom);
-		
+		typeIcon = new Rectangle(x, y, 0, 0, vbom);
 		turnCountText = new Text(0, 0, ResourcesManager.getInstance().font, "", 20, vbom);
 		
 		init();
@@ -82,13 +82,17 @@ public abstract class HealthBarEntity extends Sprite{
 		healthBarText.dispose();
 		turnCountText.detachSelf();
 		turnCountText.dispose();
+		typeIcon.detachSelf();
+		typeIcon.dispose();
 	}
 	
 	public void attachToScene(BaseScene gameScene){
 		gameScene.attachChild(this);
 		gameScene.attachChild(healthBar);
 		gameScene.attachChild(healthBarText);
+		gameScene.attachChild(typeIcon);
 		gameScene.attachChild(turnCountText);
+		
 	}
 	
 	public int getAttack(){

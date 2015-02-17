@@ -234,7 +234,7 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 					if(type != null)
 						enemy = new Wolf(type, vbom);
 					else
-						enemy = new Wolf(vbom);
+						enemy = new Wolf(ColorType.GREEN, vbom);	// Default type to show players
 					break;
 				default:
 					ResourcesManager.getInstance().activity.gameToast("xml level loader -- default break");

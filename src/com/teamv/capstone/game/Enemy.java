@@ -36,6 +36,10 @@ public abstract class Enemy extends HealthBarEntity{
 		currentHealth = startHealth;
 		buffer = new Point(100, 0);
 		
+		typeIcon.setPosition(this.getX(), this.getY());
+		typeIcon.setWidth(50);
+		typeIcon.setHeight(50);
+		
 		startTurnCount = 3;
 		resetCurrentTurnCount();
 
@@ -87,6 +91,9 @@ public abstract class Enemy extends HealthBarEntity{
 		healthBar.setX(pX + buffer.x);
 		healthBar.setY(pY - buffer.y);
 		
+		typeIcon.setX(pX);
+		typeIcon.setY(pY - 10);
+		
 		turnCountText.setX(pX);
 		turnCountText.setY(pY - (buffer.y + 20));
 	}
@@ -96,12 +103,13 @@ public abstract class Enemy extends HealthBarEntity{
 		healthBarText.setScale(scale);
 		healthBar.setScale(scale);
 		turnCountText.setScale(scale);
+		typeIcon.setScale(scale);
 	}
 	
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
     {
-		if (pSceneTouchEvent.isActionUp())
-	    {
+		if (pSceneTouchEvent.isActionUp()){
+			this.setColor(Color.WHITE);
 			if(isTarget){
 				this.clearEntityModifiers();
 				this.isTarget = false;
@@ -111,7 +119,23 @@ public abstract class Enemy extends HealthBarEntity{
 			resetTarget();
 			this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 0.7f, 0.8f))));
 			isTarget = true;
+	    } else if(pSceneTouchEvent.isActionDown()){
+			switch(this.getUserData().toString()){
+			case "RED":
+				this.setColor(Color.RED);
+				break;
+			case "BLUE":
+				this.setColor(Color.BLUE);
+				break;
+			case "GREEN":
+				this.setColor(Color.GREEN);
+				break;
+			case "YELLOW":
+				this.setColor(Color.YELLOW);
+				break;
+			}
 	    }
+		
 		return true;
     }
 	
@@ -126,16 +150,20 @@ public abstract class Enemy extends HealthBarEntity{
 		// temp typing
 		switch(type){
 		case RED:
-			this.setColor(Color.RED);
+//			this.setColor(Color.RED);
+			this.typeIcon.setColor(Color.RED);
 			break;
 		case BLUE:
-			this.setColor(Color.BLUE);
+//			this.setColor(Color.BLUE);
+			this.typeIcon.setColor(Color.BLUE);
 			break;
 		case GREEN:
-			this.setColor(Color.GREEN);
+//			this.setColor(Color.GREEN);
+			this.typeIcon.setColor(Color.GREEN);
 			break;
 		case YELLOW:
-			this.setColor(Color.YELLOW);
+//			this.setColor(Color.YELLOW);
+			this.typeIcon.setColor(Color.YELLOW);
 			break;
 		}
 	}
