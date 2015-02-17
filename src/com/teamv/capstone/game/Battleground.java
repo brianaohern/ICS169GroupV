@@ -105,36 +105,69 @@ public class Battleground {
 				yellow++;
 				break;
 			case BOMB:
+				bomb++;
 				break;
 			}
 		}
 
+//		switch((ColorType)enemy.getUserData()){
+//			case RED:
+//				red *= 1f;
+//				blue *= 2f;
+//				green *= 0.5f;
+//				yellow *= 1f;
+//				break;
+//			case BLUE:
+//				red *= 0.5f;
+//				blue *= 1f;
+//				green *= 2f;
+//				yellow *= 1f;
+//				break;
+//			case GREEN:
+//				red *= 2f;
+//				blue *= 0.5f;
+//				green *= 1f;
+//				yellow *= 1f;
+//				break;
+//			case YELLOW:
+//				red *= 1f;
+//				blue *= 1f;
+//				green *= 1f;
+//				yellow *= 1f;
+//				break;
+//		}
+		
 		switch((ColorType)enemy.getUserData()){
 		case RED:
-			red *= 1f;
-			blue *= 2f;
-			green *= 0.5f;
+			red *= 2f;
+			blue *= 1f;
+			green *= 1f;
 			yellow *= 1f;
 			break;
 		case BLUE:
-			red *= 0.5f;
-			blue *= 1f;
-			green *= 2f;
+			red *= 1f;
+			blue *= 2f;
+			green *= 1f;
 			yellow *= 1f;
 			break;
 		case GREEN:
-			red *= 2f;
-			blue *= 0.5f;
-			green *= 1f;
+			red *= 1f;
+			blue *= 1f;
+			green *= 2f;
 			yellow *= 1f;
 			break;
 		case YELLOW:
 			red *= 1f;
 			blue *= 1f;
 			green *= 1f;
-			yellow *= 1f;
+			yellow *= 2f;
 			break;
-		}
+		case BOMB:
+			break;
+		default:
+			break;
+	}
+		
 		ResourcesManager.getInstance().activity.gameToast("damage: "+(int)(red+blue+green+yellow));
 		return (int)(red+blue+green+yellow);
 	}
