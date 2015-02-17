@@ -14,10 +14,9 @@ public class PromptScene extends PopUpScene{
 		super();
 	}
 	
-	public PromptScene(int width, int height, String text) {
-		super();
-		init();
-		setUp(width, height, text);
+	public PromptScene(int width, int height, String text, SceneType type) {
+		this();
+		setUp(width, height, text, type);
 	}
 	
 	public void init(){
@@ -25,9 +24,8 @@ public class PromptScene extends PopUpScene{
 		this.addRectangle();
 	}
 	
-	public void setUp(int width, int height, String text){
-		this.width = width;
-		this.height = height;
+	public void setUp(int width, int height, String text, final SceneType type){
+		
 		init();
 		
 		final Text message= new Text(40, 200, rs.font, text, text.length(), vbom);
@@ -40,7 +38,7 @@ public class PromptScene extends PopUpScene{
 			@Override
 			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if (pSceneTouchEvent.isActionUp()){
-					SceneManager.getInstance().setScene(SceneType.SCENE_MENU);
+					SceneManager.getInstance().setScene(type);
 				}
 				return true;
 			}
