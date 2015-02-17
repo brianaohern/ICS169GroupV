@@ -10,10 +10,14 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
+import android.util.Log;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.teamv.capstone.game.ColorType;
 import com.teamv.capstone.gemboard.gems.Bomb;
+import com.teamv.capstone.gemboard.gems.SpecialGem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.utility.Pointf;
@@ -102,6 +106,9 @@ public abstract class Gem extends Sprite{
 		    {
 		    	ResourcesManager.getInstance().gemSelectSound.play();
 		    	start.set(mX + Gemboard.RADIUS/2, mY + Gemboard.RADIUS/2);
+		    	Gemboard.setCurrentColor(this);
+		    	Gemboard.setCurrentSpecial(ColorType.NONE);
+		    	
 		    	Gemboard.connectedGems.add(this);
 		    	highlightGem();
 		    	Gemboard.shadeBoard(this);
@@ -125,11 +132,14 @@ public abstract class Gem extends Sprite{
     };
     
 	protected void drawLine(VertexBufferObjectManager vbom){
+		Log.d("MyActivity", "Current Color: " + Gemboard.getCurrentColor() + ", Current Special: " + Gemboard.getCurrentSpecial());
 		
     	/* location is adjacent to gem, gem list is not empty
 		 * gem is matching colors, gem is not already in the chain */
 		if( isAdjacent() &&
 			!Gemboard.connectedGems.isEmpty() &&
+			//this.possibleColor() &&
+			//this.getUserData().equals(Gemboard.getCurrentColor()) || this.getUserData().equals(ColorType.BOMB) &&
 			this.sameColor(Gemboard.connectedGems.get(Gemboard.connectedGems.size() - 1)) &&
 			!Gemboard.connectedGems.contains(this)){
 			
@@ -189,7 +199,22 @@ public abstract class Gem extends Sprite{
 	
 	// determines if the gems are the same
 	protected boolean sameColor(Gem gem) {
-		return(this.getUserData().equals(gem.getUserData()) || this.getClass() == Bomb.class);
+		//return(this.getUserData().equals(gem.getUserData()) || this.getUserData().equals(ColorType.BOMB));
+		return(this.getUserData().equals(Gemboard.getCurrentColor()) || this.getUserData().equals(ColorType.BOMB));
+	}
+	
+	// determines if the move is possible
+	protected boolean possibleColor() {
+		if ((this.getUserData().equals(Gemboard.getCurrentColor()) || Gemboard.getCurrentColor() == ColorType.NONE) &&
+			(this.getUserData().equals(Gemboard.getCurrentSpecial()) || Gemboard.getCurrentSpecial() == ColorType.NONE)) {
+			return true;
+		}
+		return false;
+	}
+	
+	// determines if the gem is a special gem
+	protected boolean isSpecial(Gem gem) {
+		return this.getClass() == Bomb.class;
 	}
 	
 	// used for drawing lines; the basic math

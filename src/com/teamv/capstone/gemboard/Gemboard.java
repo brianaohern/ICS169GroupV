@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.game.Battleground;
+import com.teamv.capstone.game.ColorType;
 import com.teamv.capstone.gemboard.gems.*;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
@@ -38,6 +39,10 @@ public class Gemboard{
 	private static boolean combo = false;
 
 	public static ArrayList<Line> lines;
+	
+	// Current move info
+	private static ColorType currentColor = null;
+	private static ColorType currentSpecial = null;
 	
 	private static int cols = 7;
 	private static int rows = 5;
@@ -86,6 +91,8 @@ public class Gemboard{
 	
 	public static void executeGems() {
 		Gemboard.unshadeBoard();
+		Gemboard.setCurrentColor(ColorType.NONE);
+		Gemboard.setCurrentSpecial(ColorType.NONE);
 		if(minimumConnectedGems() || combo){
 			battleground.enterBattle(connectedGems);
 			
@@ -187,7 +194,10 @@ public class Gemboard{
 		}
 		
 		// add gems and whatnot in here
-		switch(random.nextInt(5)){
+		if (random.nextInt(20) < 1) {
+			return new Bomb(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		}
+		switch(random.nextInt(4)){
 		case 0:
 			return new BlueGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 1:
@@ -196,8 +206,6 @@ public class Gemboard{
 			return new YellowGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 3:
 			return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case 4:
-			return new Bomb(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		}
 		return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
@@ -350,6 +358,30 @@ public class Gemboard{
 			adjacentGems.add(grid[gem.getCol()+1][gem.getRow()+1]);
 		}
 		return adjacentGems;
+	}
+	
+	public static ColorType getCurrentColor () {
+		return currentColor;
+	}
+	
+	public static void setCurrentColor(Gem gem) {
+		currentColor = (ColorType) gem.getUserData();
+	}
+	
+	public static void setCurrentColor(ColorType color) {
+		currentColor = color;
+	}
+	
+	public static ColorType getCurrentSpecial () {
+		return currentSpecial;
+	}
+	
+	public static void setCurrentSpecial(Gem gem) {
+		currentSpecial = (ColorType) gem.getUserData();
+	}
+	
+	public static void setCurrentSpecial(ColorType color) {
+		currentSpecial = color;
 	}
 	
 	public static Pointf getStartPoint(){
