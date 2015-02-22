@@ -254,6 +254,12 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 					else
 						enemy = new Imp(vbom);	// Default type to show players
 					break;
+				case "zombie":
+					if(type != null)
+						enemy = new Zombie(type, vbom);
+					else
+						enemy = new Zombie(vbom);	// Default type to show players
+					break;
 				default:
 					ResourcesManager.getInstance().activity.gameToast("xml level loader -- default break");
 				}

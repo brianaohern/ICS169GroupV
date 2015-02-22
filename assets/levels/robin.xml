@@ -100,72 +100,90 @@
 		<wave>
 			<enemy name = "wolf" type ="normal" />
 			<enemy name = "dire wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "imp" type ="normal" />
+			<enemy name = "zombie" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "wolfie" type ="normal" />
+			<enemy name = "dire wolf" type ="normal" />
+		</wave>
+	</level>
+	<level name = "Tutorial (Waves: 4)"  type = "normal">    
+		<wave>
+			<enemy name = "wolfie" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolfie" type ="red" />
+			<enemy name = "wolfie" type ="red" />
+		</wave>
+		<wave>
+			<enemy name = "wolfie" type ="blue" />
+			<enemy name = "wolfie" type ="red" />
+			<enemy name = "wolfie" type ="yellow" />
+		</wave>
+	</level>
+	<level name = "1 (Waves: 4)"  type = "normal">    
+	    <wave>
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "imp" type ="normal" />
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "dire wolf" type ="normal" />
+			<enemy name = "imp" type ="normal" />
+			<enemy name = "dire wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "imp" type ="normal" />
+			<enemy name = "wolf" type ="normal" />
 			<enemy name = "imp" type ="normal" />
 		</wave>
 		<wave>
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="red" />
-		</wave>
-		<wave>
-			<enemy name = "wolfie" type ="blue" />
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="yellow" />
+			<enemy name = "dire wolf" type ="normal" />
+			<enemy name = "imp" type ="normal" />
+			<enemy name = "dire wolf" type ="normal" />
 		</wave>
 	</level>
-	<level name = "robin"  type = "normal">    
+	<level name = "2 (Waves: 4)"  type = "normal">    
 		<wave>
-			<enemy name = "wolfie" type ="normal" />
+			<enemy name = "imp" type ="normal" />
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "zombie" type ="normal" />
 		</wave>
 		<wave>
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="red" />
+			<enemy name = "zombie" type ="normal" />
+			<enemy name = "dire wolf" type ="normal" />
+			<enemy name = "wolf" type ="normal" />
 		</wave>
 		<wave>
-			<enemy name = "wolfie" type ="blue" />
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="yellow" />
-		</wave>
-	</level>
-	<level name = "robin"  type = "normal">    
-		<wave>
-			<enemy name = "wolfie" type ="normal" />
+			<enemy name = "dire wolf" type ="normal" />
+			<enemy name = "zombie" type ="normal" />
+			<enemy name = "dire wolf" type ="normal" />
 		</wave>
 		<wave>
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="red" />
-		</wave>
-		<wave>
-			<enemy name = "wolfie" type ="blue" />
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="yellow" />
+			<enemy name = "imp" type ="normal" />
+			<enemy name = "zombie" type ="normal" />
+			<enemy name = "imp" type ="normal" />
 		</wave>
 	</level>
-	<level name = "robin"  type = "normal">    
+	<level name = "3 (Waves: 3)"  type = "normal">    
 		<wave>
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "dire wolf" type ="normal" />
+			<enemy name = "wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "dire wolf" type ="normal" />
+			<enemy name = "wolf" type ="normal" />
+			<enemy name = "dire wolf" type ="normal" />
+		</wave>
+		<wave>
+			<enemy name = "wolf" type ="normal" />
 			<enemy name = "wolfie" type ="normal" />
-		</wave>
-		<wave>
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="red" />
-		</wave>
-		<wave>
-			<enemy name = "wolfie" type ="blue" />
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="yellow" />
-		</wave>
-	</level>
-	<level name = "robin"  type = "normal">    
-		<wave>
-			<enemy name = "wolfie" type ="normal" />
-		</wave>
-		<wave>
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="red" />
-		</wave>
-		<wave>
-			<enemy name = "wolfie" type ="blue" />
-			<enemy name = "wolfie" type ="red" />
-			<enemy name = "wolfie" type ="yellow" />
+			<enemy name = "wolf" type ="normal" />
 		</wave>
 	</level>
 	<level name = "robin"  type = "normal">    

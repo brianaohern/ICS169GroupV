@@ -14,7 +14,7 @@ public class Player extends HealthBarEntity{
 	}
 	
 	public void init(){
-		startHealth = 100;
+		startHealth = 25;
 		currentHealth = startHealth;
 		
 		healthBarPosY = 1920/2;

@@ -8,8 +8,8 @@ import com.teamv.capstone.managers.ResourcesManager;
 
 public class Imp extends Enemy{
 	
-	final static int 		IMP_HEALTH = 50;
-	final static int		IMP_ATTACK = 25;
+	final static int 		IMP_HEALTH = 10;
+	final static int		IMP_ATTACK = 5;
 	final static int 		IMP_START_TURN_COUNT = 4;
 	final static float		IMP_SCALE = 3f;
 	private ColorType 		imp_type = ColorType.YELLOW;
