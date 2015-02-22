@@ -8,11 +8,11 @@ import com.teamv.capstone.managers.ResourcesManager;
 
 public class Wolf extends Enemy{
 	
-	final static int 		WOLF_HEALTH = 10;
-	final static int		WOLF_ATTACK = 3;
+	final static int 		WOLF_HEALTH = 20;
+	final static int		WOLF_ATTACK = 15;
 	final static int 		WOLF_START_TURN_COUNT = 3;
-	final static float		WOLF_SCALE = 0.75f;
-	private ColorType 		wolf_type = ColorType.GREEN;
+	final static float		WOLF_SCALE = 3f;
+	private ColorType 		wolf_type = ColorType.RED;
 
 	public Wolf(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().wolf, vbom);
@@ -21,6 +21,7 @@ public class Wolf extends Enemy{
 	
 	public Wolf(VertexBufferObjectManager vbom){
 		this(0, 0, vbom);
+		this.setType(wolf_type);
 	}
 	
 	public Wolf(ColorType type, VertexBufferObjectManager vbom){

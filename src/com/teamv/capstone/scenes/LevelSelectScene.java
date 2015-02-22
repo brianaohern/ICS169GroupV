@@ -28,7 +28,7 @@ import com.teamv.capstone.game.Enemy;
 import com.teamv.capstone.game.GameActivity;
 import com.teamv.capstone.game.Level;
 import com.teamv.capstone.game.Wave;
-import com.teamv.capstone.game.enemies.Wolf;
+import com.teamv.capstone.game.enemies.*;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.managers.SceneManager.SceneType;
@@ -230,11 +230,29 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 				
 				Enemy enemy = null;
 				switch(name){
+				case "wolfie":
+					if(type != null)
+						enemy = new Wolfie(type, vbom);
+					else
+						enemy = new Wolfie(vbom);	// Default type to show players
+					break;
 				case "wolf":
 					if(type != null)
 						enemy = new Wolf(type, vbom);
 					else
-						enemy = new Wolf(ColorType.GREEN, vbom);	// Default type to show players
+						enemy = new Wolf(vbom);	// Default type to show players
+					break;
+				case "dire wolf":
+					if(type != null)
+						enemy = new DireWolf(type, vbom);
+					else
+						enemy = new DireWolf(vbom);	// Default type to show players
+					break;
+				case "imp":
+					if(type != null)
+						enemy = new Imp(type, vbom);
+					else
+						enemy = new Imp(vbom);	// Default type to show players
 					break;
 				default:
 					ResourcesManager.getInstance().activity.gameToast("xml level loader -- default break");

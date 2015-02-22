@@ -100,10 +100,10 @@ public abstract class Enemy extends HealthBarEntity{
 	
 	public void setScale(float scale){
 		super.setScale(scale);
-		healthBarText.setScale(scale);
-		healthBar.setScale(scale);
-		turnCountText.setScale(scale);
-		typeIcon.setScale(scale);
+//		healthBarText.setScale(scale);
+//		healthBar.setScale(scale);
+//		turnCountText.setScale(scale);
+//		typeIcon.setScale(scale);
 	}
 	
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
