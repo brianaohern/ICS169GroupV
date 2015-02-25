@@ -29,4 +29,16 @@ public class Zombie extends Enemy{
 		this.setUserData(type);
 		this.setType(type);
 	}
+	
+	protected void init(){
+		super.init();
+		
+		startHealth = ZOMBIE_HEALTH;
+		currentHealth = startHealth;
+		updateHealthBar();
+		
+		startTurnCount = ZOMBIE_START_TURN_COUNT;
+		currentTurnCount = startTurnCount;
+		updateTurnCount();
+	}
 }

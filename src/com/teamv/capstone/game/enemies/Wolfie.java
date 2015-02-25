@@ -6,6 +6,7 @@ import com.teamv.capstone.game.ColorType;
 import com.teamv.capstone.game.Enemy;
 import com.teamv.capstone.managers.ResourcesManager;
 
+// Wolfie is a temporary enenmy
 public class Wolfie extends Enemy{
 	
 	final static int 		WOLFIE_HEALTH = 10;
@@ -28,5 +29,17 @@ public class Wolfie extends Enemy{
 		this(vbom);
 		this.setUserData(type);
 		this.setType(type);
+	}
+	
+	protected void init(){
+		super.init();
+		
+		startHealth = WOLFIE_HEALTH;
+		currentHealth = startHealth;
+		updateHealthBar();
+		
+		startTurnCount = WOLFIE_START_TURN_COUNT;
+		currentTurnCount = startTurnCount;
+		updateTurnCount();
 	}
 }

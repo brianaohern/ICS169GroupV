@@ -29,4 +29,18 @@ public class Wolf extends Enemy{
 		this.setUserData(type);
 		this.setType(type);
 	}
+	
+	protected void init(){
+		
+		
+		startHealth = WOLF_HEALTH;
+		currentHealth = startHealth;
+		updateHealthBar();
+		
+		startTurnCount = WOLF_START_TURN_COUNT;
+		currentTurnCount = startTurnCount;
+		updateTurnCount();
+		
+		super.init();
+	}
 }

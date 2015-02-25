@@ -32,25 +32,25 @@ public abstract class Enemy extends HealthBarEntity{
 	}
 	
 	protected void init(){
-		startHealth = 10;
-		currentHealth = startHealth;
+//		startHealth = 10;
+//		currentHealth = startHealth;
 		buffer = new Point(100, 0);
 		
 		typeIcon.setPosition(this.getX(), this.getY());
-		typeIcon.setWidth(50);
-		typeIcon.setHeight(50);
+		typeIcon.setWidth(40);
+		typeIcon.setHeight(40);
 		
-		startTurnCount = 3;
-		resetCurrentTurnCount();
+//		startTurnCount = 3;
+//		resetCurrentTurnCount();
 
 		String healthBarStatus = "HP: " + currentHealth + "/" + startHealth;
 		healthBarText.setPosition(this);
 		healthBarText.setText(healthBarStatus);
 		
 		turnCountText.setPosition(this);
-		updateTurnCount();
+//		updateTurnCount();
 		
-		healthBarWidth  = (int) (this.getWidth() - buffer.x);
+		healthBarWidth  = (int) (this.getWidth() + buffer.x);
 		healthBarHeight = 25;
 		healthBar.setPosition(this.getX() + buffer.x, this.getY() - buffer.y);
 		healthBar.setWidth(healthBarWidth);
@@ -169,7 +169,7 @@ public abstract class Enemy extends HealthBarEntity{
 	}
 	
 	public void updateTurnCount(){
-		turnCountText.setText(currentTurnCount + " :");
+		turnCountText.setText(currentTurnCount + "");
 	}
 	
 	public int getCurrentTurnCount(){
