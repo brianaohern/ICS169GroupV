@@ -109,33 +109,6 @@ public class Battleground {
 				break;
 			}
 		}
-
-//		switch((ColorType)enemy.getUserData()){
-//			case RED:
-//				red *= 1f;
-//				blue *= 2f;
-//				green *= 0.5f;
-//				yellow *= 1f;
-//				break;
-//			case BLUE:
-//				red *= 0.5f;
-//				blue *= 1f;
-//				green *= 2f;
-//				yellow *= 1f;
-//				break;
-//			case GREEN:
-//				red *= 2f;
-//				blue *= 0.5f;
-//				green *= 1f;
-//				yellow *= 1f;
-//				break;
-//			case YELLOW:
-//				red *= 1f;
-//				blue *= 1f;
-//				green *= 1f;
-//				yellow *= 1f;
-//				break;
-//		}
 		
 		switch((ColorType)enemy.getUserData()){
 		case RED:

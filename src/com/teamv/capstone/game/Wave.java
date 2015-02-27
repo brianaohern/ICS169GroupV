@@ -40,7 +40,7 @@ public class Wave{
 			enemies.get(2).setPosition(600, 750);
 			break;
 		default:
-				
+			break;
 		}
 	}
 	

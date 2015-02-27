@@ -28,10 +28,12 @@ public class GameScene extends BaseScene
 	public Battleground bg;
 	//private CameraScene mPauseScene;
 	private PauseMenuScene mPauseScene;
+	private Level level;
 
 	public GameScene(Level level) {
 		super();
 		bg.enterLevel(level);
+		this.level = level;
 	}
 
 	@Override
@@ -98,25 +100,31 @@ public class GameScene extends BaseScene
 		this.engine.registerUpdateHandler(fpsCounter);
 
 		IFont font = ResourcesManager.getInstance().font;
-		final Text fpsText = new Text(40, 50, font, "FPS:", "FPS: XXXXX".length(),vbom);
-		final Text gemCount = new Text(40, 100, font, "# of Gems:", "# of Gems: XXX".length() ,vbom);
-		final Text gemChain = new Text(40, 150, font, "Gems Chained:", "Gems Chained: XXX".length() ,vbom);
-		final Text numOfEnemies = new Text(40, 200, font, "Number of Enemies: ", "Number of Enemies: X".length(), vbom);
+		
+		final Text waveCount = new Text(40, 50, font, "Wave ", "Wave X of X".length(), vbom);
+		this.attachChild(waveCount);
+		
+//		final Text fpsText = new Text(40, 50, font, "FPS:", "FPS: XXXXX".length(), vbom);
+//		final Text gemCount = new Text(40, 100, font, "# of Gems:", "# of Gems: XXX".length(), vbom);
+//		final Text gemChain = new Text(40, 150, font, "Gems Chained:", "Gems Chained: XXX".length(), vbom);
+//		final Text numOfEnemies = new Text(40, 200, font, "Number of Enemies: ", "Number of Enemies: X".length(), vbom);
 
-		this.attachChild(fpsText);
-		this.attachChild(gemCount);
-		this.attachChild(gemChain);
-		this.attachChild(numOfEnemies);
+//		this.attachChild(fpsText);
+//		this.attachChild(gemCount);
+//		this.attachChild(gemChain);
+//		this.attachChild(numOfEnemies);
 
 		this.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback()
 		{
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler)
 			{
-				fpsText.setText("FPS: " + (int)fpsCounter.getFPS());
-				gemCount.setText("# of Gems: " + gemboard.getGemCount());
-				gemChain.setText("Gems Chained: " + Gemboard.connectedGems.size());
-				numOfEnemies.setText("Number of Enemies: " + bg.getNumOfEnemies());
+				waveCount.setText("Wave " + level.getCurrentWaveCount() + " of " + level.getMaxWaveCount());
+				
+//				fpsText.setText("FPS: " + (int)fpsCounter.getFPS());
+//				gemCount.setText("# of Gems: " + gemboard.getGemCount());
+//				gemChain.setText("Gems Chained: " + Gemboard.connectedGems.size());
+//				numOfEnemies.setText("Number of Enemies: " + bg.getNumOfEnemies());
 			}
 		}));
 	}

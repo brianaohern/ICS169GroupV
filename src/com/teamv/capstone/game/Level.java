@@ -53,4 +53,12 @@ public class Level {
 	public void setName(String name){
 		this.name = name;
 	}
+	
+	public int getCurrentWaveCount(){
+		return currentBattle;
+	}
+	
+	public int getMaxWaveCount(){
+		return size;
+	}
 }
