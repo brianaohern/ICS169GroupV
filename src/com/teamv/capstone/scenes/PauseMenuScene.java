@@ -24,10 +24,10 @@ public class PauseMenuScene extends PopUpScene implements IOnMenuItemClickListen
 	public PauseMenuScene(GameScene gs){
 		super();
 		this.gs = gs;
+		init();
 	}
 	
 	public void init(){
-		super.init();
 		rs = ResourcesManager.getInstance();
 		
 		menuScene = new MenuScene(rs.camera);

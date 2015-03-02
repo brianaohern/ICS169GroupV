@@ -17,6 +17,7 @@ public class DireWolf extends Enemy{
 	public DireWolf(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().direWolf, vbom);
 		this.setup(DIRE_WOLF_HEALTH, DIRE_WOLF_ATTACK, DIRE_WOLF_START_TURN_COUNT, dire_wolf_type, DIRE_WOLF_SCALE);
+		this.init();
 	}
 	
 	public DireWolf(VertexBufferObjectManager vbom){
@@ -28,17 +29,5 @@ public class DireWolf extends Enemy{
 		this(vbom);
 		this.setUserData(type);
 		this.setType(type);
-	}
-	
-	protected void init(){
-		super.init();
-		
-		startHealth = DIRE_WOLF_HEALTH;
-		currentHealth = startHealth;
-		updateHealthBar();
-		
-		startTurnCount = DIRE_WOLF_START_TURN_COUNT;
-		currentTurnCount = startTurnCount;
-		updateTurnCount();
 	}
 }

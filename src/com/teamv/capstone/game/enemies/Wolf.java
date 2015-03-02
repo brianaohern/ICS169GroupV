@@ -17,6 +17,7 @@ public class Wolf extends Enemy{
 	public Wolf(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().wolf, vbom);
 		this.setup(WOLF_HEALTH, WOLF_ATTACK, WOLF_START_TURN_COUNT, wolf_type, WOLF_SCALE);
+		this.init();
 	}
 	
 	public Wolf(VertexBufferObjectManager vbom){
@@ -28,19 +29,5 @@ public class Wolf extends Enemy{
 		this(vbom);
 		this.setUserData(type);
 		this.setType(type);
-	}
-	
-	protected void init(){
-		
-		
-		startHealth = WOLF_HEALTH;
-		currentHealth = startHealth;
-		updateHealthBar();
-		
-		startTurnCount = WOLF_START_TURN_COUNT;
-		currentTurnCount = startTurnCount;
-		updateTurnCount();
-		
-		super.init();
 	}
 }

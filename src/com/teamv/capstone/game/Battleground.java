@@ -107,6 +107,9 @@ public class Battleground {
 			case BOMB:
 				bomb++;
 				break;
+			default:
+				ResourcesManager.getInstance().activity.gameToast("Battleground: calculateDamage-default");
+				break;
 			}
 		}
 		
@@ -136,12 +139,13 @@ public class Battleground {
 			yellow *= 2f;
 			break;
 		case BOMB:
+			bomb += bomb; // hide warning o.o
 			break;
 		default:
 			break;
 	}
 		
-		ResourcesManager.getInstance().activity.gameToast("damage: "+(int)(red+blue+green+yellow));
+		//ResourcesManager.getInstance().activity.gameToast("damage: "+(int)(red+blue+green+yellow));
 		return (int)(red+blue+green+yellow);
 	}
 

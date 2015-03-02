@@ -17,6 +17,7 @@ public class Imp extends Enemy{
 	public Imp(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().imp, vbom);
 		this.setup(IMP_HEALTH, IMP_ATTACK, IMP_START_TURN_COUNT, imp_type, IMP_SCALE);
+		this.init();
 	}
 	
 	public Imp(VertexBufferObjectManager vbom){
@@ -28,17 +29,5 @@ public class Imp extends Enemy{
 		this(vbom);
 		this.setUserData(type);
 		this.setType(type);
-	}
-	
-	protected void init(){
-		super.init();
-		
-		startHealth = IMP_HEALTH;
-		currentHealth = startHealth;
-		updateHealthBar();
-		
-		startTurnCount = IMP_START_TURN_COUNT;
-		currentTurnCount = startTurnCount;
-		updateTurnCount();
 	}
 }

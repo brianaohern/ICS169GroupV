@@ -17,6 +17,7 @@ public class Zombie extends Enemy{
 	public Zombie(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().zombie, vbom);
 		this.setup(ZOMBIE_HEALTH, ZOMBIE_ATTACK, ZOMBIE_START_TURN_COUNT, zombie_type, ZOMBIE_SCALE);
+		this.init();
 	}
 	
 	public Zombie(VertexBufferObjectManager vbom){
@@ -28,17 +29,5 @@ public class Zombie extends Enemy{
 		this(vbom);
 		this.setUserData(type);
 		this.setType(type);
-	}
-	
-	protected void init(){
-		super.init();
-		
-		startHealth = ZOMBIE_HEALTH;
-		currentHealth = startHealth;
-		updateHealthBar();
-		
-		startTurnCount = ZOMBIE_START_TURN_COUNT;
-		currentTurnCount = startTurnCount;
-		updateTurnCount();
 	}
 }

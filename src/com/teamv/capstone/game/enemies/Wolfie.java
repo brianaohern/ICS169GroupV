@@ -18,6 +18,7 @@ public class Wolfie extends Enemy{
 	public Wolfie(float x, float y, VertexBufferObjectManager vbom) {
 		super(x, y, ResourcesManager.getInstance().wolfie, vbom);
 		this.setup(WOLFIE_HEALTH, WOLFIE_ATTACK, WOLFIE_START_TURN_COUNT, wolfie_type, WOLFIE_SCALE);
+		this.init();
 	}
 	
 	public Wolfie(VertexBufferObjectManager vbom){
@@ -29,17 +30,5 @@ public class Wolfie extends Enemy{
 		this(vbom);
 		this.setUserData(type);
 		this.setType(type);
-	}
-	
-	protected void init(){
-		super.init();
-		
-		startHealth = WOLFIE_HEALTH;
-		currentHealth = startHealth;
-		updateHealthBar();
-		
-		startTurnCount = WOLFIE_START_TURN_COUNT;
-		currentTurnCount = startTurnCount;
-		updateTurnCount();
 	}
 }

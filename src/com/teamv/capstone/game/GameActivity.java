@@ -28,7 +28,7 @@ import android.widget.Toast;
  * @author www.matim-dev.com
  * @version 1.0
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB) public class GameActivity extends BaseGameActivity
+@TargetApi(Build.VERSION_CODES.KITKAT) public class GameActivity extends BaseGameActivity
 {
 	private Camera camera;
 	public static int WIDTH = 1080;

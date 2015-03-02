@@ -3,11 +3,14 @@ package com.teamv.capstone.game;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
+import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
+import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Point;
 
@@ -18,29 +21,31 @@ public abstract class Enemy extends HealthBarEntity{
 
 	public boolean isTarget = false;
 	public boolean isDead = false;
-	protected int turnCounter;
 	protected int startTurnCount, currentTurnCount;
+	protected Text turnCountText;
+	protected Rectangle typeIcon;
 	
 	private Point buffer;
 	
 	public Enemy(float x, float y, ITextureRegion region, VertexBufferObjectManager vbom) {
 		super(x, y, region, vbom);
+		turnCountText = new Text(0, 0, ResourcesManager.getInstance().font, "", 20, vbom);
+		typeIcon = new Rectangle(x, y, 0, 0, vbom);
 	}
 	
 	public Enemy(ITextureRegion region, VertexBufferObjectManager vbom){
-		super(0, 0, region, vbom);
+		this(0, 0, region, vbom);
 	}
 	
 	protected void init(){
-//		startHealth = 10;
-//		currentHealth = startHealth;
-		buffer = new Point(100, 0);
+		currentHealth = startHealth;
+		buffer = new Point(50, 100);
 		
-		typeIcon.setPosition(this.getX(), this.getY());
+		typeIcon.setPosition(this.getX(), this.getY()- buffer.y - 10);
 		typeIcon.setWidth(40);
 		typeIcon.setHeight(40);
 		
-//		startTurnCount = 3;
+		currentTurnCount = startTurnCount;
 //		resetCurrentTurnCount();
 
 		String healthBarStatus = "HP: " + currentHealth + "/" + startHealth;
@@ -48,9 +53,12 @@ public abstract class Enemy extends HealthBarEntity{
 		healthBarText.setText(healthBarStatus);
 		
 		turnCountText.setPosition(this);
-//		updateTurnCount();
+		updateTurnCount();
 		
+		// temp hardcode
 		healthBarWidth  = (int) (this.getWidth() + buffer.x);
+		healthBarWidth  = 300;
+		//ResourcesManager.getInstance().activity.gameToast(""+healthBarWidth);
 		healthBarHeight = 25;
 		healthBar.setPosition(this.getX() + buffer.x, this.getY() - buffer.y);
 		healthBar.setWidth(healthBarWidth);
@@ -61,7 +69,7 @@ public abstract class Enemy extends HealthBarEntity{
 	protected void setup(int health, int attack, int turnCounter, ColorType type, float scale){
 		this.startHealth = health;
 		this.attack = attack;
-		this.turnCounter = turnCounter;
+		this.startTurnCount = turnCounter;
 		this.setUserData(type);
 		this.setScale(scale);
 	}
@@ -74,12 +82,18 @@ public abstract class Enemy extends HealthBarEntity{
 	}
 	
 	public void cleanUp(){
+		turnCountText.detachSelf();
+		turnCountText.dispose();
+		typeIcon.detachSelf();
+		typeIcon.dispose();
 		super.cleanUp();
 	}
 	
-	public void attachToScene(BaseScene gameScene) {
+	public void attachToScene(BaseScene gameScene){
 		super.attachToScene(gameScene);
 		gameScene.registerTouchArea(this);
+		gameScene.attachChild(typeIcon);
+		gameScene.attachChild(turnCountText);
 	}
 	
 	public void setPosition(float pX, float pY){
@@ -92,7 +106,7 @@ public abstract class Enemy extends HealthBarEntity{
 		healthBar.setY(pY - buffer.y);
 		
 		typeIcon.setX(pX);
-		typeIcon.setY(pY - 10);
+		typeIcon.setY(pY - buffer.y - 10);
 		
 		turnCountText.setX(pX);
 		turnCountText.setY(pY - (buffer.y + 20));
@@ -115,9 +129,8 @@ public abstract class Enemy extends HealthBarEntity{
 				this.isTarget = false;
 				return true;
 			}
-			
 			resetTarget();
-			this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 0.7f, 0.8f))));
+			this.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 2.9f, 3.1f), new ScaleModifier(1.5f, 3.1f, 2.9f))));
 			isTarget = true;
 	    } else if(pSceneTouchEvent.isActionDown()){
 			switch(this.getUserData().toString()){
@@ -150,20 +163,19 @@ public abstract class Enemy extends HealthBarEntity{
 		// temp typing
 		switch(type){
 		case RED:
-//			this.setColor(Color.RED);
 			this.typeIcon.setColor(Color.RED);
 			break;
 		case BLUE:
-//			this.setColor(Color.BLUE);
 			this.typeIcon.setColor(Color.BLUE);
 			break;
 		case GREEN:
-//			this.setColor(Color.GREEN);
 			this.typeIcon.setColor(Color.GREEN);
 			break;
 		case YELLOW:
-//			this.setColor(Color.YELLOW);
 			this.typeIcon.setColor(Color.YELLOW);
+			break;
+		default:
+			ResourcesManager.getInstance().activity.gameToast("Enemy: setType.default");
 			break;
 		}
 	}

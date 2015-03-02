@@ -11,6 +11,7 @@ public class Player extends HealthBarEntity{
 	
 	public Player(float x, float y, VertexBufferObjectManager vbo) {
 		super(x, y, ResourcesManager.getInstance().mainCharacter, vbo);
+		init();
 	}
 	
 	public void init(){
