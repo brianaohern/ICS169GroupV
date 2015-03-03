@@ -17,7 +17,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.teamv.capstone.game.ColorType;
 import com.teamv.capstone.gemboard.gems.Bomb;
-import com.teamv.capstone.gemboard.gems.SpecialGem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.utility.Pointf;

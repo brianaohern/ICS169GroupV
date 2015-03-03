@@ -11,7 +11,7 @@ public class Wolf extends Enemy{
 	final static int 		WOLF_HEALTH = 5;
 	final static int		WOLF_ATTACK = 3;
 	final static int 		WOLF_START_TURN_COUNT = 3;
-	final static float		WOLF_SCALE = 3f;
+	final static float		WOLF_SCALE = 1f;
 	private ColorType 		wolf_type = ColorType.RED;
 
 	public Wolf(float x, float y, VertexBufferObjectManager vbom) {

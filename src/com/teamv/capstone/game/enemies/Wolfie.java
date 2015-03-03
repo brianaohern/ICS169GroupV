@@ -12,7 +12,7 @@ public class Wolfie extends Enemy{
 	final static int 		WOLFIE_HEALTH = 10;
 	final static int		WOLFIE_ATTACK = 3;
 	final static int 		WOLFIE_START_TURN_COUNT = 3;
-	final static float		WOLFIE_SCALE = 0.75f;
+	final static float		WOLFIE_SCALE = 1f;
 	private ColorType 		wolfie_type = ColorType.RED;
 
 	public Wolfie(float x, float y, VertexBufferObjectManager vbom) {

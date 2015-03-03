@@ -8,8 +8,6 @@ import org.andengine.entity.primitive.Line;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
 
-import android.util.Log;
-
 import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.ColorType;

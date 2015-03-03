@@ -11,7 +11,7 @@ public class Imp extends Enemy{
 	final static int 		IMP_HEALTH = 10;
 	final static int		IMP_ATTACK = 8;
 	final static int 		IMP_START_TURN_COUNT = 4;
-	final static float		IMP_SCALE = 3f;
+	final static float		IMP_SCALE = 1f;
 	private ColorType 		imp_type = ColorType.YELLOW;
 
 	public Imp(float x, float y, VertexBufferObjectManager vbom) {

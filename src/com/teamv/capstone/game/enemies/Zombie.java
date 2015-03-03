@@ -11,7 +11,7 @@ public class Zombie extends Enemy{
 	final static int 		ZOMBIE_HEALTH = 20;
 	final static int		ZOMBIE_ATTACK = 1;
 	final static int 		ZOMBIE_START_TURN_COUNT = 1;
-	final static float		ZOMBIE_SCALE = 3f;
+	final static float		ZOMBIE_SCALE = 1f;
 	private ColorType 		zombie_type = ColorType.GREEN;
 
 	public Zombie(float x, float y, VertexBufferObjectManager vbom) {
