@@ -26,19 +26,26 @@ public abstract class Enemy extends HealthBarEntity{
 	protected Sprite typeIcon;
 	
 	private Point buffer;
-	//protected Sprite auto, manual;
-	protected Sprite target;
+	protected Sprite auto, manual;
+	//protected Sprite target;
 	
 	public Enemy(float x, float y, ITextureRegion region, VertexBufferObjectManager vbom) {
 		super(x, y, region, vbom);
 		turnCountText = new Text(0, 0, ResourcesManager.getInstance().font, "", 20, vbom);
 		turnCountText.setScale(1.5f);
-		//auto = new Sprite(0, 0, ResourcesManager.getInstance().targetAuto, vbom);
+		auto = new Sprite(0, 0, ResourcesManager.getInstance().targetAuto, vbom);
 		//manual = new Sprite(0, 0, ResourcesManager.getInstance().targetManual, vbom);
-		//auto.setVisible(false);
+		auto.setVisible(false);
 		//manual.setVisible(false);
-		target = new Sprite(0, 0, ResourcesManager.getInstance().targetDefault, vbom);
-		target.setVisible(false);
+		manual = new Sprite(0, 0, ResourcesManager.getInstance().targetManual, vbom);
+		manual.setVisible(false);
+		final float scale = 0.6f;
+		manual.setScale(scale);
+		auto.setScale(scale);
+		manual.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(
+				new ScaleModifier(1f, scale-0.05f, scale+0.05f), new ScaleModifier(1f, scale+0.05f, scale-0.05f))));
+		auto.registerEntityModifier(new LoopEntityModifier(
+				new SequenceEntityModifier(new ScaleModifier(1f, scale-0.05f, scale+0.05f), new ScaleModifier(1f, scale+0.05f, scale-0.05f))));
 	}
 	
 	public Enemy(ITextureRegion region, VertexBufferObjectManager vbom){
@@ -92,6 +99,7 @@ public abstract class Enemy extends HealthBarEntity{
 	
 	public void onDie(){
 		Battleground.currentWave.remove(this);
+		this.setTarget();
 		isDead = true;
 		cleanUp();
 		updateTurnCount();
@@ -102,6 +110,10 @@ public abstract class Enemy extends HealthBarEntity{
 		turnCountText.dispose();
 		typeIcon.detachSelf();
 		typeIcon.dispose();
+		manual.detachSelf();
+		manual.dispose();
+		auto.dispose();
+		auto.detachSelf();
 		super.cleanUp();
 	}
 	
@@ -110,13 +122,15 @@ public abstract class Enemy extends HealthBarEntity{
 		gameScene.registerTouchArea(this);
 		gameScene.attachChild(typeIcon);
 		gameScene.attachChild(turnCountText);
-		gameScene.attachChild(target);
+		gameScene.attachChild(manual);
+		gameScene.attachChild(auto);
 	}
 	
 	public void setPosition(float pX, float pY){
 		start.set(pX, pY);
 		super.setPosition(pX, pY);
-		target.setPosition(pX, pY);
+		manual.setPosition(pX, pY);
+		auto.setPosition(pX, pY);
 		
 		healthBarText.setX(pX + (buffer.x));
 		healthBarText.setY(pY - (buffer.y + 20));
@@ -141,14 +155,14 @@ public abstract class Enemy extends HealthBarEntity{
 		if (pSceneTouchEvent.isActionUp()){
 			this.setColor(Color.WHITE);
 			if(isTarget){
-				this.clearEntityModifiers();
-				target.setVisible(false);
+				manual.setVisible(false);
+				this.setTarget();
 				this.isTarget = false;
 				return true;
 			}
 			resetTarget();
-			target.setVisible(true);
-			target.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1.5f, 0.95f, 1.05f), new ScaleModifier(1.5f, 1.05f, 0.95f))));
+			manual.setVisible(true);
+			auto.setVisible(false);
 			isTarget = true;
 	    } else if(pSceneTouchEvent.isActionDown()){
 			switch(this.getUserData().toString()){
@@ -166,15 +180,14 @@ public abstract class Enemy extends HealthBarEntity{
 				break;
 			}
 	    }
-		
 		return true;
     }
 	
 	private void resetTarget(){
 		for(Enemy enemy : Battleground.currentWave.getEnemies()){
-			enemy.clearEntityModifiers();
 			enemy.isTarget = false;
-			enemy.target.setVisible(false);
+			enemy.manual.setVisible(false);
+			enemy.auto.setVisible(false);
 		}
 	}
 	
@@ -217,5 +230,10 @@ public abstract class Enemy extends HealthBarEntity{
 	public void decrementCurrentTurnCount(){
 		if (currentTurnCount > 0)
 			currentTurnCount--;
+	}
+
+	public void setTarget() {
+		if(!Battleground.currentWave.enemies.isEmpty())
+			Battleground.currentWave.enemies.get(0).auto.setVisible(true);
 	}
 }

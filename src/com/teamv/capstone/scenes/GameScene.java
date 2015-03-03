@@ -23,8 +23,8 @@ import com.teamv.capstone.managers.SceneManager.SceneType;
 public class GameScene extends BaseScene
 {
 	///VARIABLES
-	private PhysicsWorld physicsWorld;
-	private Gemboard gemboard;
+	public PhysicsWorld physicsWorld;
+	public Gemboard gemboard;
 	public Battleground bg;
 	//private CameraScene mPauseScene;
 	private PauseMenuScene mPauseScene;
@@ -148,10 +148,10 @@ public class GameScene extends BaseScene
 	public void endGame(boolean winGame) {
 		PromptScene resultScene = null;
 		if(winGame){
-			resultScene = new PromptScene(600, 800, "You Lose", SceneType.SCENE_MENU);
+			resultScene = new PromptScene(600, 800, "You Win", SceneType.SCENE_MENU);
 		}
 		else{
-			resultScene = new PromptScene(600, 800, "You Win!", SceneType.SCENE_MENU);
+			resultScene = new PromptScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
 		}
 		this.setChildScene(resultScene, false, true, true);
 	}
