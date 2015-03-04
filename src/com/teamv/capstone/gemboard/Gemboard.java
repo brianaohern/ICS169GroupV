@@ -92,7 +92,9 @@ public class Gemboard{
 		Gemboard.setCurrentColor(ColorType.NONE);
 		Gemboard.setCurrentSpecial(ColorType.NONE);
 		if(minimumConnectedGems() || combo){
-			battleground.enterBattle(connectedGems);
+			if (!combo) {
+				battleground.enterBattle(connectedGems);
+			}
 			
 			ResourcesManager.getInstance().gemDestroySound.play();
 			
