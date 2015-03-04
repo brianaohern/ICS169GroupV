@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <levelset name = "robinrobinrobin" number = "16">
+    <level name = "Tutorial" type = "tutorial"/>
 	<level name = "Wolves"  type = "normal">    
 		<wave>
 			<enemy name = "wolfie" type ="normal" />

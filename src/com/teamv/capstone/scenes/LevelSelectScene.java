@@ -27,6 +27,7 @@ import com.teamv.capstone.game.ColorType;
 import com.teamv.capstone.game.Enemy;
 import com.teamv.capstone.game.GameActivity;
 import com.teamv.capstone.game.Level;
+import com.teamv.capstone.game.TutorialLevel;
 import com.teamv.capstone.game.Wave;
 import com.teamv.capstone.game.enemies.*;
 import com.teamv.capstone.managers.ResourcesManager;
@@ -185,9 +186,19 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 		levelLoader.registerEntityLoader("level", new IEntityLoader() {
 			@Override
 			public IEntity onLoadEntity(final String pEntityName, final Attributes pAttributes) {
-				final Level level = new Level(SAXUtils.getAttributeOrThrow(pAttributes, "name"));
-				//final String levelType = SAXUtils.getAttributeOrThrow(pAttributes, "type");
-				levels.add(level);
+				final String name = SAXUtils.getAttributeOrThrow(pAttributes, "name");
+				final String levelType = SAXUtils.getAttributeOrThrow(pAttributes, "type");
+				switch(levelType){
+				case "normal":
+					levels.add(new Level(name));
+					break;
+				case "tutorial":
+					levels.add(new TutorialLevel(name));
+					break;
+				default:
+					ResourcesManager.getInstance().activity.gameToast("LevelSelectScene.loadXMLData.default");
+				}
+				
 				return null;
 			}
 		});
