@@ -63,6 +63,7 @@ public class GameScene extends BaseScene
 
 		bg = new Battleground(this);
 		gemboard = new Gemboard(this, physicsWorld, bg);
+		ResourcesManager.getInstance().bgm.play();
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class GameScene extends BaseScene
 	@Override
 	public void disposeScene()
 	{
-
+		
 	}
 
 	///CREATE STUFF
@@ -147,6 +148,7 @@ public class GameScene extends BaseScene
 
 	public void endGame(boolean winGame) {
 		PromptScene resultScene = null;
+		ResourcesManager.getInstance().bgm.stop();
 		if(winGame){
 			resultScene = new PromptScene(600, 800, "You Win", SceneType.SCENE_MENU);
 		}

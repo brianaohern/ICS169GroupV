@@ -67,6 +67,7 @@ public class PauseMenuScene extends PopUpScene implements IOnMenuItemClickListen
 	        	System.exit(0);
 	            return true;
 	        case MENU_MENU:
+	        	ResourcesManager.getInstance().bgm.stop();
 	        	SceneManager.getInstance().setScene(SceneType.SCENE_MENU);
 	        	return true;
 	        default:
