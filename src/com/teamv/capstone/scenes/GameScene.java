@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.GameActivity;
 import com.teamv.capstone.game.Level;
+import com.teamv.capstone.game.tutorial.TutorialGemboard;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager.SceneType;
@@ -23,16 +24,16 @@ import com.teamv.capstone.managers.SceneManager.SceneType;
 public class GameScene extends BaseScene
 {
 	///VARIABLES
-	public PhysicsWorld physicsWorld;
-	public Gemboard gemboard;
-	public Battleground bg;
+	public static PhysicsWorld physicsWorld;
+	public static Gemboard gemboard;
+	public static Battleground arena;
 	//private CameraScene mPauseScene;
 	private PauseMenuScene mPauseScene;
 	private Level level;
 
 	public GameScene(Level level) {
 		super();
-		bg.enterLevel(level);
+		arena.enterLevel(level);
 		this.level = level;
 	}
 
@@ -61,8 +62,7 @@ public class GameScene extends BaseScene
 		this.attachChild(pauseButton);
 		this.registerTouchArea(pauseButton);
 
-		bg = new Battleground(this);
-		gemboard = new Gemboard(this, physicsWorld, bg);
+		arena = new Battleground(this);
 		ResourcesManager.getInstance().bgm.play();
 	}
 
@@ -156,5 +156,13 @@ public class GameScene extends BaseScene
 			resultScene = new PromptScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
 		}
 		this.setChildScene(resultScene, false, true, true);
+	}
+
+	public void loadTutorialBoard() {
+		gemboard = new TutorialGemboard(this, physicsWorld, arena);
+	}
+	
+	public void loadGemboard(){
+		gemboard = new Gemboard(this, physicsWorld, arena);
 	}
 }

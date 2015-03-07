@@ -8,7 +8,6 @@ import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.gemboard.Gem;
-import com.teamv.capstone.gemboard.gems.Potion;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
@@ -21,8 +20,8 @@ public class Battleground {
 	Player player;
 	VertexBufferObjectManager vbom;
 	boolean isFinished = false;
+
 	Enemy target;
-	private static int healAmount;
 
 	public Battleground(final BaseScene gameScene){
 		Battleground.gameScene = (GameScene) gameScene;
@@ -39,12 +38,6 @@ public class Battleground {
 		Enemy target = currentWave.getTarget();;
 		int damage = calculateDamage(gems, target);
 
-		// calculate heal
-		int healAmount = calculateHeal(gems);
-		player.heal(healAmount);
-//		player.heal(healAmount);
-//		healAmount = 0;
-		
 		// player attacks enemy
 		player.moveToEntityStartPosition(target);
 		//ResourcesManager.getInstance().meleeAttackSound.play();
@@ -96,7 +89,7 @@ public class Battleground {
 	}
 
 	public int calculateDamage(ArrayList<Gem> gems, Enemy enemy){
-		float green=0, blue=0, red=0, yellow=0, bomb=0, potion=0;
+		float green=0, blue=0, red=0, yellow=0, bomb=0;
 		for(Gem gem: gems){
 			switch((ColorType) gem.getUserData()){
 			case GREEN:
@@ -114,11 +107,8 @@ public class Battleground {
 			case BOMB:
 				bomb++;
 				break;
-			case POTION:
-				potion++;
-				break;
 			default:
-				// ResourcesManager.getInstance().activity.gameToast("Battleground: calculateDamage-default");
+				ResourcesManager.getInstance().activity.gameToast("Battleground: calculateDamage-default");
 				break;
 			}
 		}
@@ -151,9 +141,6 @@ public class Battleground {
 		case BOMB:
 			bomb += bomb; // hide warning o.o
 			break;
-		case POTION:
-			potion += potion; // hide warning :^)
-			break;
 		default:
 			break;
 	}
@@ -166,19 +153,4 @@ public class Battleground {
 		this.level = level;
 		level.nextBattle();
 	}
-	
-	public static int calculateHeal(ArrayList<Gem> gems) {
-		int healAmount = 0;
-		for(Gem gem : gems){
-			if(gem.getClass() == Potion.class){
-				healAmount += 5;
-			}
-		}
-		return healAmount;
-	}
-	
-//	public static int increaseHealAmount(){
-//		healAmount += 5;
-//		return healAmount;
-//	}
 }
