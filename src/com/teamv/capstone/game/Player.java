@@ -38,4 +38,13 @@ public class Player extends HealthBarEntity{
 	public void onDie(){
 		Battleground.gameScene.endGame(false);
 	}
+	
+	
+	public void heal(int amount){
+		currentHealth += amount;		
+		if(currentHealth > startHealth){
+			currentHealth = startHealth;
+		}
+		updateHealthBar();
+	}
 }

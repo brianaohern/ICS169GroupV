@@ -61,6 +61,7 @@ public class ResourcesManager
     public ITextureRegion green_gem;
     public ITextureRegion yellow_gem;
     public ITextureRegion bomb;
+    public ITextureRegion potion;
     private BitmapTextureAtlas gemsTextureAtlas;
     //game.enemies
     public ITextureRegion wolfie;
@@ -171,6 +172,7 @@ public class ResourcesManager
         yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "sun_yellow.png", 0, 244);
         green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "leaf_green.png", 240, 244);
         bomb = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas,  activity, "bomb.png", 0, 488);
+        potion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas,  activity, "potion.png", 470, 488);
         gemsTextureAtlas.load();    
         // end game.gems
         

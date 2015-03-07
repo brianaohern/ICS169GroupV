@@ -3,14 +3,21 @@ package com.teamv.capstone.gemboard;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.AlphaModifier;
+import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.primitive.Line;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
 
+import android.util.Log;
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.ColorType;
+import com.teamv.capstone.game.Enemy;
+import com.teamv.capstone.game.Player;
 import com.teamv.capstone.gemboard.gems.*;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
@@ -100,6 +107,10 @@ public class Gemboard{
 			
 			for(Gem gem : connectedGems){
 				if (gem.getClass() == Bomb.class) {
+					Log.d("MyActivity", "Adding bomb to special gems");
+					activatedGems.add((SpecialGem)gem);
+				} else if (gem.getClass() == Potion.class){
+					Log.d("MyActivity", "Adding potion to special gems");
 					activatedGems.add((SpecialGem)gem);
 				}
 				else {
@@ -113,29 +124,72 @@ public class Gemboard{
 		lines.clear();
 		//printAll();
 		
-		for (Gem gem : activatedGems) {
-			for (Gem adj : getAdjacentGems(gem)) {
-				if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
-						connectedGems.add(adj);
+		///////
+		///////
+		if (activatedGems.size() > 0) {
+			final float time = 2.0f;
+			
+			// update enemy turn count
+			ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
+			{
+				public void onTimePassed(final TimerHandler pTimerHandler) 
+				{
+					ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
+					
+					for (Gem gem : activatedGems) {
+						if(gem.getClass() == Bomb.class){
+							Log.d("MyActivity", "Bomb");
+							for (Gem adj : getAdjacentGems(gem)) {
+								if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
+									if (adj.getClass() == Bomb.class) {
+										Log.d("MyActivity", "Found adjacent bomb");
+									}
+									if (adj.getClass() == Potion.class){
+										Log.d("MyActivity", "Found adjacent potion");
+									}
+									connectedGems.add((Gem)adj); 
+								}
+							}
+							Log.d("MyActivity", "Dropped bomb");
+						}
+						else if(gem.getClass() == Potion.class){
+							Log.d("MyActivity", "Potion");
+							// Increase health by X amount
+							// Battleground.increaseHealAmount();
+							Log.d("MyActivity", "Dropped potion");
+						}
+						dropGem(gem);
+					}
+					
+					activatedGems.clear();
+					
+					if(hasNoMoreMoves()){
+						//System.out.println("NO MORE MOVES");
+						ResourcesManager.getInstance().activity.gameToast("No more moves");
+						resetBoard();
+					}
+					//drawGrid();
+					
+					if (connectedGems.size() > 0) {
+						Log.d("MyActivity", "Comboing. connectedGems size: " + connectedGems.size());
+						combo = true;
+						executeGems();
+					} else {
+						combo = false;
+					}
 				}
+			}));
+		}
+		///////
+		///////
+		else {
+			if(hasNoMoreMoves()){
+				//System.out.println("NO MORE MOVES");
+				ResourcesManager.getInstance().activity.gameToast("No more moves");
+				resetBoard();
 			}
-			dropGem(gem);
-		}
-		
-		activatedGems.clear();
-		
-		if(hasNoMoreMoves()){
-			//System.out.println("NO MORE MOVES");
-			ResourcesManager.getInstance().activity.gameToast("No more moves");
-			resetBoard();
-		}
-		//drawGrid();
-		
-		
-		if (connectedGems.size() > 0) {
-			combo = true;
-			executeGems();
-		} else {
+			//drawGrid();
+			
 			combo = false;
 		}
 	}
@@ -194,9 +248,12 @@ public class Gemboard{
 		}
 		
 		// add gems and whatnot in here
-		if (random.nextInt(20) < 1) {
+		if (random.nextInt(25) < 1) {
 			return new Bomb(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		} else if (random.nextInt(25) < 1) {
+			return new Potion(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		}
+		
 		switch(random.nextInt(4)){
 		case 0:
 			return new BlueGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
