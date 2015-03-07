@@ -3,14 +3,20 @@ package com.teamv.capstone.gemboard;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.AlphaModifier;
+import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.primitive.Line;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
 
+import android.util.Log;
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.ColorType;
+import com.teamv.capstone.game.Enemy;
 import com.teamv.capstone.gemboard.gems.*;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
@@ -113,29 +119,60 @@ public class Gemboard{
 		lines.clear();
 		//printAll();
 		
-		for (Gem gem : activatedGems) {
-			for (Gem adj : getAdjacentGems(gem)) {
-				if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
-						connectedGems.add(adj);
+		///////
+		///////
+		if (activatedGems.size() > 0) {
+			final float time = 2.0f;
+			
+			// update enemy turn count
+			ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
+			{
+				public void onTimePassed(final TimerHandler pTimerHandler) 
+				{
+					ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
+					
+					for (Gem gem : activatedGems) {
+						Log.d("MyActivity", "Bomb");
+						for (Gem adj : getAdjacentGems(gem)) {
+							if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
+								Log.d("MyActivity", "Not null, not in connectedGems, not an active bomb");
+								connectedGems.add(adj);
+							}
+						}
+						Log.d("MyAvtivity", "About to drop bomb");
+						dropGem(gem);
+						Log.d("MyAvtivity", "Dropped bomb");
+					}
+					
+					activatedGems.clear();
+					
+					if(hasNoMoreMoves()){
+						//System.out.println("NO MORE MOVES");
+						ResourcesManager.getInstance().activity.gameToast("No more moves");
+						resetBoard();
+					}
+					//drawGrid();
+					
+					if (connectedGems.size() > 0) {
+						Log.d("MyAcvtivity", "Comboing. connectedGems size: " + connectedGems.size());
+						combo = true;
+						executeGems();
+					} else {
+						combo = false;
+					}
 				}
+			}));
+		}
+		///////
+		///////
+		else {
+			if(hasNoMoreMoves()){
+				//System.out.println("NO MORE MOVES");
+				ResourcesManager.getInstance().activity.gameToast("No more moves");
+				resetBoard();
 			}
-			dropGem(gem);
-		}
-		
-		activatedGems.clear();
-		
-		if(hasNoMoreMoves()){
-			//System.out.println("NO MORE MOVES");
-			ResourcesManager.getInstance().activity.gameToast("No more moves");
-			resetBoard();
-		}
-		//drawGrid();
-		
-		
-		if (connectedGems.size() > 0) {
-			combo = true;
-			executeGems();
-		} else {
+			//drawGrid();
+			
 			combo = false;
 		}
 	}

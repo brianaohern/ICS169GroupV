@@ -131,7 +131,7 @@ public abstract class Gem extends Sprite{
     };
     
 	protected void drawLine(VertexBufferObjectManager vbom){
-		Log.d("MyActivity", "Current Color: " + Gemboard.getCurrentColor() + ", Current Special: " + Gemboard.getCurrentSpecial());
+		//Log.d("MyActivity", "Current Color: " + Gemboard.getCurrentColor() + ", Current Special: " + Gemboard.getCurrentSpecial());
 		
     	/* location is adjacent to gem, gem list is not empty
 		 * gem is matching colors, gem is not already in the chain */
