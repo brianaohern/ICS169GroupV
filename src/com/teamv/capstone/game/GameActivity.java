@@ -28,13 +28,14 @@ import android.widget.Toast;
  * @author www.matim-dev.com
  * @version 1.0
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB) public class GameActivity extends BaseGameActivity
+@TargetApi(Build.VERSION_CODES.KITKAT) public class GameActivity extends BaseGameActivity
 {
 	private Camera camera;
 	public static int WIDTH = 1080;
 	public static int HEIGHT = 1920;
 	@SuppressWarnings("unused")
 	private ResourcesManager resourcesManager;
+	private boolean mPowerButton = false;
 	
     public EngineOptions onCreateEngineOptions()
     {
@@ -73,6 +74,21 @@ import android.widget.Toast;
     
     public Engine onCreateEngine(EngineOptions pEngineOptions){
     	return new LimitedFPSEngine(pEngineOptions, 60);
+    }
+    
+    @Override
+    public void onPause() {
+        super.onPause();
+        ResourcesManager.getInstance().bgm.pause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        
+        if (!this.mPowerButton && ResourcesManager.getInstance().bgm != null) {
+        	ResourcesManager.getInstance().bgm.resume();
+        }
     }
     
     @Override

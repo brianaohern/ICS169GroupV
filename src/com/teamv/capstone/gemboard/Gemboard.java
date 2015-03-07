@@ -3,13 +3,21 @@ package com.teamv.capstone.gemboard;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.AlphaModifier;
+import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.primitive.Line;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
 
+import android.util.Log;
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.game.Battleground;
+import com.teamv.capstone.game.ColorType;
+import com.teamv.capstone.game.Enemy;
+import com.teamv.capstone.game.Player;
 import com.teamv.capstone.gemboard.gems.*;
 import com.teamv.capstone.gemboard.gems.special.BombGem;
 import com.teamv.capstone.gemboard.gems.special.RainbowGem;
@@ -30,8 +38,18 @@ public class Gemboard{
 	
 	// array of connected gems
 	public static ArrayList<Gem> connectedGems;
+	
+	// special gems that have been activated
+	public static ArrayList<SpecialGem> activatedGems;
+	
+	// denotes whether we're in the middle of a combo
+	private static boolean combo = false;
 
 	public static ArrayList<Line> lines;
+	
+	// Current move info
+	private static ColorType currentColor = null;
+	private static ColorType currentSpecial = null;
 	
 	private static int cols = 7;
 	private static int rows = 5;
@@ -52,6 +70,7 @@ public class Gemboard{
 		
 		connectedGems = new ArrayList<Gem>();
 		lines = new ArrayList<Line>();
+		activatedGems = new ArrayList<SpecialGem>();
 		
 		// while the gemboard has no possible moves, reset the board
 		while(hasNoMoreMoves())
@@ -79,35 +98,118 @@ public class Gemboard{
 	
 	public static void executeGems() {
 		Gemboard.unshadeBoard();
-		if(connectedGems.size() >= 3){
-			battleground.enterBattle(connectedGems);
+		Gemboard.setCurrentColor(ColorType.NONE);
+		Gemboard.setCurrentSpecial(ColorType.NONE);
+		if(minimumConnectedGems() || combo){
+			if (!combo) {
+				battleground.enterBattle(connectedGems);
+			}
 			
 			ResourcesManager.getInstance().gemDestroySound.play();
 			
 			for(Gem gem : connectedGems){
-				dropGem(gem);
+				if (gem.getClass() == Bomb.class) {
+					Log.d("MyActivity", "Adding bomb to special gems");
+					activatedGems.add((SpecialGem)gem);
+				} else if (gem.getClass() == Potion.class){
+					Log.d("MyActivity", "Adding potion to special gems");
+					activatedGems.add((SpecialGem)gem);
+				}
+				else {
+					dropGem(gem);
+				}
 			}
-			
-			ResourcesManager.getInstance().meleeAttackSound.play();
 		}
-		for(Line line : lines){
-			line.detachSelf();
-			line.dispose();
-			line = null;
-		}
+		eraseLines();
 		
 		connectedGems.clear();
 		lines.clear();
 		//printAll();
 		
-		if(hasNoMoreMoves()){
-			//System.out.println("NO MORE MOVES");
-			ResourcesManager.getInstance().activity.gameToast("No more moves");
-			resetBoard();
+		///////
+		///////
+		if (activatedGems.size() > 0) {
+			final float time = 2.0f;
+			
+			// update enemy turn count
+			ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
+			{
+				public void onTimePassed(final TimerHandler pTimerHandler) 
+				{
+					ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
+					
+					for (Gem gem : activatedGems) {
+						if(gem.getClass() == Bomb.class){
+							Log.d("MyActivity", "Bomb");
+							for (Gem adj : getAdjacentGems(gem)) {
+								if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
+									if (adj.getClass() == Bomb.class) {
+										Log.d("MyActivity", "Found adjacent bomb");
+									}
+									if (adj.getClass() == Potion.class){
+										Log.d("MyActivity", "Found adjacent potion");
+									}
+									connectedGems.add((Gem)adj); 
+								}
+							}
+							Log.d("MyActivity", "Dropped bomb");
+						}
+						else if(gem.getClass() == Potion.class){
+							Log.d("MyActivity", "Potion");
+							// Increase health by X amount
+							// Battleground.increaseHealAmount();
+							Log.d("MyActivity", "Dropped potion");
+						}
+						dropGem(gem);
+					}
+					
+					activatedGems.clear();
+					
+					if(hasNoMoreMoves()){
+						//System.out.println("NO MORE MOVES");
+						ResourcesManager.getInstance().activity.gameToast("No more moves");
+						resetBoard();
+					}
+					//drawGrid();
+					
+					if (connectedGems.size() > 0) {
+						Log.d("MyActivity", "Comboing. connectedGems size: " + connectedGems.size());
+						combo = true;
+						executeGems();
+					} else {
+						combo = false;
+					}
+				}
+			}));
 		}
-		//drawGrid();
+		///////
+		///////
+		else {
+			if(hasNoMoreMoves()){
+				//System.out.println("NO MORE MOVES");
+				ResourcesManager.getInstance().activity.gameToast("No more moves");
+				resetBoard();
+			}
+			//drawGrid();
+			
+			combo = false;
+		}
 	}
 	
+	// whether or not we have enough gems to comprise a valid move
+	private static boolean minimumConnectedGems() {
+		return connectedGems.size() >= 3;
+	}
+	
+	// erases each line connecting the gems in your move
+	private static void eraseLines() {
+		for(Line line : lines){
+			line.detachSelf();
+			line.dispose();
+			line = null;
+		}
+	}
+
 	// drops every gem above the parameter gem, then drop a new gem
 	private static void dropGem(Gem gem){
 		int col = gem.getCol();
@@ -148,8 +250,19 @@ public class Gemboard{
 		}
 		
 		// add gems and whatnot in here
+<<<<<<< HEAD
 		switch(random.nextInt(10)){
 		case 0 | 1:
+=======
+		if (random.nextInt(25) < 1) {
+			return new Bomb(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		} else if (random.nextInt(25) < 1) {
+			return new Potion(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		}
+		
+		switch(random.nextInt(4)){
+		case 0:
+>>>>>>> origin/master
 			return new BlueGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		case 2 | 3:
 			return new GreenGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
@@ -257,6 +370,87 @@ public class Gemboard{
 	
 	public void attachPhysics(){
 		
+	}
+	
+	private static ArrayList<Gem> getAdjacentGems(Gem gem){
+		ArrayList<Gem> adjacentGems = new ArrayList<Gem>();
+		// if the column is odd
+		if (gem.getCol() % 2 == 0) {
+			// if the gem is not all the way to the left 
+			if (gem.getCol() > 0) {
+				// if the gem is not at the top
+				if (gem.getRow() > 0) {
+					// add the gem to the top-left
+					adjacentGems.add(grid[gem.getCol()-1][gem.getRow()-1]);
+					// add the gem above
+					adjacentGems.add(grid[gem.getCol()][gem.getRow()-1]);
+				}
+				// if the gem is not at the bottom
+				if (gem.getRow() < 4) {
+					// add the gem to the bottom-left
+					adjacentGems.add(grid[gem.getCol()-1][gem.getRow()]);
+					// add the gem below
+					adjacentGems.add(grid[gem.getCol()][gem.getRow()+1]);
+				}
+			}
+			// if the gem is not all the way to the right
+			if (gem.getCol() < 6) {
+				if (gem.getRow() > 0) {
+					// add the gem to the top-right
+					adjacentGems.add(grid[gem.getCol()+1][gem.getRow()-1]);
+				}
+				if (gem.getRow() < 4) {
+					// add the gem to the bottom-right
+					adjacentGems.add(grid[gem.getCol()+1][gem.getRow()]);
+				}
+			}
+		}
+		// if the column is even
+		else {
+			// add the gem to the top-left
+			adjacentGems.add(grid[gem.getCol()-1][gem.getRow()]);
+			// add the gem to the bottom-left
+			adjacentGems.add(grid[gem.getCol()-1][gem.getRow()+1]);
+			// if the gem is not at the top
+			if (gem.getRow() > 0) {
+				// add the gem above
+				adjacentGems.add(grid[gem.getCol()][gem.getRow()-1]);
+			}
+			// if the gem is not at the bottom
+			if (gem.getRow() < 3) {
+				// add the gem below
+				adjacentGems.add(grid[gem.getCol()][gem.getRow()+1]);
+			}
+			// add the gem to the top-right
+			adjacentGems.add(grid[gem.getCol()+1][gem.getRow()]);
+			// add the gem to the bottom-right
+			adjacentGems.add(grid[gem.getCol()+1][gem.getRow()+1]);
+		}
+		return adjacentGems;
+	}
+	
+	public static ColorType getCurrentColor () {
+		return currentColor;
+	}
+	
+	public static void setCurrentColor(Gem gem) {
+		currentColor = (ColorType) gem.getUserData();
+	}
+	
+	public static void setCurrentColor(ColorType color) {
+		currentColor = color;
+	}
+	
+	public static ColorType getCurrentSpecial () {
+		return currentSpecial;
+	}
+	
+	public static void setCurrentSpecial(Gem gem) {
+		currentSpecial = (ColorType) gem.getUserData();
+	}
+	
+	public static void setCurrentSpecial(ColorType color) {
+		currentSpecial = color;
 	}
 	
 	public static Pointf getStartPoint(){

@@ -2,6 +2,8 @@ package com.teamv.capstone.managers;
 
 import java.io.IOException;
 
+import org.andengine.audio.music.Music;
+import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.Engine;
@@ -57,13 +59,23 @@ public class ResourcesManager
     public ITextureRegion red_gem;
     public ITextureRegion blue_gem;
     public ITextureRegion green_gem;
+<<<<<<< HEAD
     public ITextureRegion yellow_gem; 
     public ITextureRegion bomb_gem;
     public ITextureRegion rainbow_gem;
+=======
+    public ITextureRegion yellow_gem;
+    public ITextureRegion bomb;
+    public ITextureRegion potion;
+>>>>>>> origin/master
     private BitmapTextureAtlas gemsTextureAtlas;
     //game.enemies
+    public ITextureRegion wolfie;
     public ITextureRegion wolf;
-    private BitmapTextureAtlas wolfTextureAtlas;
+    public ITextureRegion direWolf;
+    public ITextureRegion imp;
+    public ITextureRegion zombie;
+    private BitmapTextureAtlas enemyTextureAtlas;
     //game.player
     public ITextureRegion mainCharacter;
     private BitmapTextureAtlas mainCharacterTextureAtlas;
@@ -75,11 +87,17 @@ public class ResourcesManager
     public ITextureRegion resumeButton;
     public ITextureRegion menuButton;
     public ITextureRegion creditsButton;
+    //game.hud
+    private BitmapTextureAtlas interfaceTextureAtlas;
+    public ITextureRegion targetManual;
+    public ITextureRegion targetAuto;
+    public ITextureRegion targetDefault;
     
     //audio
     public Sound gemSelectSound;
     public Sound gemDestroySound;
     public Sound meleeAttackSound;
+    public Music bgm;
     
     //---------------------------------------------
     // TEXTURES & TEXTURE REGIONS
@@ -154,6 +172,7 @@ public class ResourcesManager
     {
     	// game.gems
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/gems/");
+<<<<<<< HEAD
         gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 484, 488, TextureOptions.BILINEAR);
         gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 484, 734, TextureOptions.BILINEAR);
         red_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "fire_red.png", 0, 0);
@@ -162,14 +181,27 @@ public class ResourcesManager
         green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "leaf_green.png", 240, 244);   
         bomb_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "bomb.png", 0, 488);
         rainbow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "rainbow.png", 200, 488);
+=======
+        gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1000, 1000, TextureOptions.BILINEAR);
+        red_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "fire_red.png", 0, 0);
+        blue_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "water_blue.png", 228, 0);
+        yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "sun_yellow.png", 0, 244);
+        green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "leaf_green.png", 240, 244);
+        bomb = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas,  activity, "bomb.png", 0, 488);
+        potion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas,  activity, "potion.png", 470, 488);
+>>>>>>> origin/master
         gemsTextureAtlas.load();    
         // end game.gems        
         
         // game.enemies
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/enemies/");
-        wolfTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 400, 278, TextureOptions.BILINEAR);
-        wolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(wolfTextureAtlas, activity, "wolfie.png", 0, 0);
-        wolfTextureAtlas.load();
+        enemyTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1000, 1000, TextureOptions.BILINEAR);
+        wolfie = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "wolfie.png", 0, 0);
+        wolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "wolf.png", 250, 0);
+        direWolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "dire_wolf.png", 0, 250);
+        imp = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "imp.png", 250, 250);
+        zombie = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "zombie.png", 0, 500);
+        enemyTextureAtlas.load();
         //end game.enemies
         
         // game.player
@@ -178,6 +210,15 @@ public class ResourcesManager
         mainCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainCharacterTextureAtlas, activity, "player.png", 0, 0);
         mainCharacterTextureAtlas.load();
         //end game.player
+        
+        // game.hud?
+        BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+        interfaceTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 600, 200, TextureOptions.BILINEAR);
+        targetAuto=BitmapTextureAtlasTextureRegionFactory.createFromAsset(interfaceTextureAtlas, activity, "target_auto.png", 0, 0);
+        targetManual=BitmapTextureAtlasTextureRegionFactory.createFromAsset(interfaceTextureAtlas, activity, "target_manual.png", 200, 0);
+        targetDefault=BitmapTextureAtlasTextureRegionFactory.createFromAsset(interfaceTextureAtlas, activity, "target_red.png", 400, 0);
+        interfaceTextureAtlas.load();
+        // end game.hud
         
         //PAUSE MENU
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
@@ -191,7 +232,6 @@ public class ResourcesManager
         menuButton 		= buttons.getTextureRegion(4);
         creditsButton 	= buttons.getTextureRegion(5);
         pauseMenuTextureAtlas.load();
-        
     }
     
     private void loadGameFonts()
@@ -209,6 +249,8 @@ public class ResourcesManager
 			gemSelectSound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/gem_select.wav");
 			gemDestroySound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/gem_destroy.mp3");
 			meleeAttackSound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/melee_attack.wav");
+			bgm = MusicFactory.createMusicFromAsset(activity.getMusicManager(), activity.getApplicationContext(), "bgm/battle_music.mp3");
+			bgm.setLooping(true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

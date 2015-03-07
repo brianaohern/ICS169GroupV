@@ -11,10 +11,11 @@ public class Player extends HealthBarEntity{
 	
 	public Player(float x, float y, VertexBufferObjectManager vbo) {
 		super(x, y, ResourcesManager.getInstance().mainCharacter, vbo);
+		init();
 	}
 	
 	public void init(){
-		startHealth = 20;
+		startHealth = 25;
 		currentHealth = startHealth;
 		
 		healthBarPosY = 1920/2;
@@ -36,5 +37,14 @@ public class Player extends HealthBarEntity{
 	
 	public void onDie(){
 		Battleground.gameScene.endGame(false);
+	}
+	
+	
+	public void heal(int amount){
+		currentHealth += amount;		
+		if(currentHealth > startHealth){
+			currentHealth = startHealth;
+		}
+		updateHealthBar();
 	}
 }

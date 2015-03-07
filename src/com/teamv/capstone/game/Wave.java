@@ -21,10 +21,6 @@ public class Wave{
 		enemies = new ArrayList<Enemy>();
 	}
 	
-	public void parseLevel(){
-		
-	}
-	
 	public void initPlacement(){
 		switch(enemies.size()){
 		case 1:
@@ -40,8 +36,10 @@ public class Wave{
 			enemies.get(2).setPosition(600, 750);
 			break;
 		default:
-				
+			break;
 		}
+		// turn on indicator
+		enemies.get(0).auto.setVisible(true);
 	}
 	
 	public boolean isFinished(){

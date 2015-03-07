@@ -2,21 +2,26 @@ package com.teamv.capstone.game;
 
 import java.util.ArrayList;
 
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
+import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.scenes.GameScene;
 
 public class Level {
-	private ArrayList<Wave> level;
-	private String name = "";
-	private int currentBattle = 0;
-	private int size = 0;
+	protected ArrayList<Wave> level;
+	protected String name = "";
+	protected int currentBattle = 0;
+	protected int size = 0;
+	protected VertexBufferObjectManager vbom;
 	
 	public Level(){
 		level = new ArrayList<Wave>();
+		vbom = ResourcesManager.getInstance().vbom;
 	}
 	
 	public Level(String name){
-		level = new ArrayList<Wave>();
+		this();
 		this.name = name;
 	}
 
@@ -50,7 +55,11 @@ public class Level {
 		return name;
 	}
 	
-	public void setName(String name){
-		this.name = name;
+	public int getCurrentWaveCount(){
+		return currentBattle;
+	}
+	
+	public int getMaxWaveCount(){
+		return size;
 	}
 }
