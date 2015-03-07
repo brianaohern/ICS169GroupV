@@ -22,14 +22,14 @@ import com.teamv.capstone.utility.Pointf;
 
 public class Gemboard{
 	
-	private static Pointf start, end;
+	protected static Pointf start, end;
 	
 	// array of gems
-	private static Gem[][] grid;
-	private static BaseScene gameScene;
-	private static PhysicsWorld physicsWorld;
-	private static Random random;
-	private static Battleground battleground;
+	protected static Gem[][] grid;
+	protected static BaseScene gameScene;
+	protected static PhysicsWorld physicsWorld;
+	protected static Random random;
+	protected static Battleground battleground;
 	
 	// array of connected gems
 	public static ArrayList<Gem> connectedGems;
@@ -43,11 +43,11 @@ public class Gemboard{
 	public static ArrayList<Line> lines;
 	
 	// Current move info
-	private static ColorType currentColor = null;
-	private static ColorType currentSpecial = null;
+	protected static ColorType currentColor = null;
+	protected static ColorType currentSpecial = null;
 	
-	private static int cols = 7;
-	private static int rows = 5;
+	protected static int cols = 7;
+	protected static int rows = 5;
 	
 	// GEM variables
 	public static final int RADIUS 	= 1080/cols - 1080%cols;
@@ -74,7 +74,7 @@ public class Gemboard{
 		//drawGrid();
 	}
 	
-	public static void resetBoard(){
+	private static void resetBoard(){
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				// if odd and last row, don't add gem
@@ -206,7 +206,7 @@ public class Gemboard{
 	}
 
 	// drops every gem above the parameter gem, then drop a new gem
-	private static void dropGem(Gem gem){
+	protected static void dropGem(Gem gem){
 		int col = gem.getCol();
 		
 		for(int i = gem.getRow(); i > 0; i--){
@@ -223,21 +223,21 @@ public class Gemboard{
 		gem = null;
 	}
 	
-	private static void attachGem(Gem gem){
+	protected static void attachGem(Gem gem){
 		gameScene.attachChild(gem);
 		gem.registerEntityModifier(new AlphaModifier((float)0.2, 0, 1));
 //		gem.registerEntityModifier(new AlphaModifier(1, 0, 1));
 		gameScene.registerTouchArea(gem);
 	}
 	
-	private static void detachGem(Gem gem){
+	protected static void detachGem(Gem gem){
 		gameScene.unregisterTouchArea(gem);
 		destroyBody(gem);
 		gem.cleanUp();
 	}
 	
 	// return random gem
-	private static Gem randomGem(int col, int row){
+	protected static Gem randomGem(int col, int row){
 		float x = col * RADIUS;
 		float y = STARTY + row * (RADIUS);
 		if(col%2 != 0){
@@ -351,10 +351,6 @@ public class Gemboard{
 	
 	public static void startList(int c, int r){
 		connectedGems.add(grid[c][r]);
-	}
-	
-	public void attachPhysics(){
-		
 	}
 	
 	private static ArrayList<Gem> getAdjacentGems(Gem gem){
