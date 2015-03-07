@@ -106,6 +106,7 @@ public class Gemboard{
 			
 			for(Gem gem : connectedGems){
 				if (gem.getClass() == Bomb.class) {
+					Log.d("MyActivity", "Adding bomb to special gems");
 					activatedGems.add((SpecialGem)gem);
 				}
 				else {
@@ -135,13 +136,14 @@ public class Gemboard{
 						Log.d("MyActivity", "Bomb");
 						for (Gem adj : getAdjacentGems(gem)) {
 							if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
-								Log.d("MyActivity", "Not null, not in connectedGems, not an active bomb");
-								connectedGems.add(adj);
+								if (adj.getClass() == Bomb.class) {
+									Log.d("MyActivity", "Found adjacent bomb");
+								}
+								connectedGems.add(adj); 
 							}
 						}
-						Log.d("MyAvtivity", "About to drop bomb");
 						dropGem(gem);
-						Log.d("MyAvtivity", "Dropped bomb");
+						Log.d("MyActivity", "Dropped bomb");
 					}
 					
 					activatedGems.clear();
@@ -154,7 +156,7 @@ public class Gemboard{
 					//drawGrid();
 					
 					if (connectedGems.size() > 0) {
-						Log.d("MyAcvtivity", "Comboing. connectedGems size: " + connectedGems.size());
+						Log.d("MyActivity", "Comboing. connectedGems size: " + connectedGems.size());
 						combo = true;
 						executeGems();
 					} else {
