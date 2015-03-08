@@ -23,7 +23,7 @@ public class TutorialGemboard extends Gemboard{
 	private final int Y = 2; // YELLOW
 	private final int R = 3; // RED
 	private final int B = 4; // BLUE
-	private final int BB = 5;// BOMB
+	private final int BB= 5; // BOMB
 	private final int H = 6; // HEAL
 	
 	private int[] queue1 = {Y,R,G,Y,Y,B,R};
