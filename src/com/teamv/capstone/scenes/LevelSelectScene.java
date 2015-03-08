@@ -27,9 +27,9 @@ import com.teamv.capstone.game.ColorType;
 import com.teamv.capstone.game.Enemy;
 import com.teamv.capstone.game.GameActivity;
 import com.teamv.capstone.game.Level;
-import com.teamv.capstone.game.TutorialLevel;
 import com.teamv.capstone.game.Wave;
 import com.teamv.capstone.game.enemies.*;
+import com.teamv.capstone.game.tutorial.TutorialLevel;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.managers.SceneManager.SceneType;
@@ -145,7 +145,6 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 			}
 
 			this.registerTouchArea(box);
-
 			iLevel++;
 
 			if (iLevel > LEVELS)
@@ -166,7 +165,12 @@ public class LevelSelectScene extends BaseScene implements IScrollDetectorListen
 				public void run() {
 					iLevelClicked = -1;
 					camera.setCenter(GameActivity.WIDTH/2, GameActivity.HEIGHT/2);
-					SceneManager.getInstance().createGameScene(levels.get(index));
+					Level level = levels.get(index);
+					if(level instanceof TutorialLevel){
+						SceneManager.getInstance().createGameScene((TutorialLevel) level);
+					}else{
+						SceneManager.getInstance().createGameScene(levels.get(index));
+					}
 				}
 			});
 		}

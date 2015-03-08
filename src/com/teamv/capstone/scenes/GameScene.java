@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.GameActivity;
 import com.teamv.capstone.game.Level;
+import com.teamv.capstone.game.tutorial.TutorialGemboard;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager.SceneType;
@@ -23,16 +24,15 @@ import com.teamv.capstone.managers.SceneManager.SceneType;
 public class GameScene extends BaseScene
 {
 	///VARIABLES
-	public PhysicsWorld physicsWorld;
+	public static PhysicsWorld physicsWorld;
 	public Gemboard gemboard;
-	public Battleground bg;
-	//private CameraScene mPauseScene;
+	public static Battleground arena;
 	private PauseMenuScene mPauseScene;
 	private Level level;
 
 	public GameScene(Level level) {
 		super();
-		bg.enterLevel(level);
+		arena.enterLevel(level);
 		this.level = level;
 	}
 
@@ -61,8 +61,7 @@ public class GameScene extends BaseScene
 		this.attachChild(pauseButton);
 		this.registerTouchArea(pauseButton);
 
-		bg = new Battleground(this);
-		gemboard = new Gemboard(this, physicsWorld, bg);
+		arena = new Battleground(this);
 		ResourcesManager.getInstance().bgm.play();
 	}
 
@@ -99,21 +98,17 @@ public class GameScene extends BaseScene
 	{
 		final FPSCounter fpsCounter = new FPSCounter();
 		this.engine.registerUpdateHandler(fpsCounter);
-
 		IFont font = ResourcesManager.getInstance().font;
 		
+		final Text fpsText = new Text(40, 0, font, "FPS:", "FPS: XXXXX".length(), vbom);
 		final Text waveCount = new Text(40, 50, font, "Wave ", "Wave X of X".length(), vbom);
+		final Text numOfEnemies = new Text(40, 100, font, "Number of Enemies: ", "Number of Enemies: X".length(), vbom);
+		final Text gemChain = new Text(40, 150, font, "Gems Chained:", "Gems Chained: XXX".length(), vbom);
+	
 		this.attachChild(waveCount);
-		
-//		final Text fpsText = new Text(40, 50, font, "FPS:", "FPS: XXXXX".length(), vbom);
-//		final Text gemCount = new Text(40, 100, font, "# of Gems:", "# of Gems: XXX".length(), vbom);
-//		final Text gemChain = new Text(40, 150, font, "Gems Chained:", "Gems Chained: XXX".length(), vbom);
-//		final Text numOfEnemies = new Text(40, 200, font, "Number of Enemies: ", "Number of Enemies: X".length(), vbom);
-
-//		this.attachChild(fpsText);
-//		this.attachChild(gemCount);
-//		this.attachChild(gemChain);
-//		this.attachChild(numOfEnemies);
+		this.attachChild(fpsText);
+		this.attachChild(gemChain);
+		this.attachChild(numOfEnemies);
 
 		this.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback()
 		{
@@ -121,11 +116,9 @@ public class GameScene extends BaseScene
 			public void onTimePassed(final TimerHandler pTimerHandler)
 			{
 				waveCount.setText("Wave " + level.getCurrentWaveCount() + " of " + level.getMaxWaveCount());
-				
-//				fpsText.setText("FPS: " + (int)fpsCounter.getFPS());
-//				gemCount.setText("# of Gems: " + gemboard.getGemCount());
-//				gemChain.setText("Gems Chained: " + Gemboard.connectedGems.size());
-//				numOfEnemies.setText("Number of Enemies: " + bg.getNumOfEnemies());
+				fpsText.setText("FPS: " + (int)fpsCounter.getFPS());
+				gemChain.setText("Gems Chained: " + Gemboard.connectedGems.size());
+				numOfEnemies.setText("Number of Enemies: " + arena.getNumOfEnemies());
 			}
 		}));
 	}
@@ -140,7 +133,7 @@ public class GameScene extends BaseScene
 		super.onSceneTouchEvent(pSceneTouchEvent);
 
 		if (pSceneTouchEvent.isActionUp()){
-			Gemboard.executeGems();
+			gemboard.executeGems();
 			return true;
 		}
 		return false;
@@ -156,5 +149,13 @@ public class GameScene extends BaseScene
 			resultScene = new PromptScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
 		}
 		this.setChildScene(resultScene, false, true, true);
+	}
+
+	public void loadTutorialBoard() {
+		gemboard = new TutorialGemboard(this, physicsWorld, arena);
+	}
+	
+	public void loadGemboard(){
+		gemboard = new Gemboard(this, physicsWorld, arena);
 	}
 }

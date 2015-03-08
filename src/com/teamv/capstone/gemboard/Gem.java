@@ -123,7 +123,7 @@ public abstract class Gem extends Sprite{
 		    if (pSceneTouchEvent.isActionUp())
 		    {
 		    	drawLine(this.getVertexBufferObjectManager());
-		    	Gemboard.executeGems();
+		    	SceneManager.getInstance().getGameScene().gemboard.executeGems();
 		    }
 		}
         return true;

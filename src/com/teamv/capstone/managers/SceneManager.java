@@ -4,6 +4,7 @@ import org.andengine.engine.Engine;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
 import com.teamv.capstone.game.Level;
+import com.teamv.capstone.game.tutorial.TutorialLevel;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
 import com.teamv.capstone.scenes.LevelSelectScene;
@@ -102,6 +103,10 @@ public class SceneManager
         return currentScene;
     }
     
+    public GameScene getGameScene(){
+    	return (GameScene) gameScene;
+    }
+    
     
     ///////////////////////////////
     // CREATE AND DESTORY
@@ -135,6 +140,14 @@ public class SceneManager
     	ResourcesManager.getInstance().loadGameResources();
     	gameScene = new GameScene(level);
     	SceneManager.getInstance().setScene(gameScene);
+    	((GameScene) gameScene).loadGemboard();
+    }
+    
+    public void createGameScene(TutorialLevel level){
+    	ResourcesManager.getInstance().loadGameResources();
+    	gameScene = new GameScene(level);
+    	SceneManager.getInstance().setScene(gameScene);
+    	((GameScene) gameScene).loadTutorialBoard();
     }
     
     public void createLevelSelectScene(){

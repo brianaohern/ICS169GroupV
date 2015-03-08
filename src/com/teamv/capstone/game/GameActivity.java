@@ -125,7 +125,12 @@ import android.widget.Toast;
     }
     
     public void gameToast(final String msg) {
-        this.runOnUiThread(new Runnable() {
+        //toast(msg); // comment this to disable toasts
+    }
+    
+    @SuppressWarnings("unused")
+	private void toast(final String msg){
+    	this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                Toast.makeText(GameActivity.this, msg, Toast.LENGTH_SHORT).show();

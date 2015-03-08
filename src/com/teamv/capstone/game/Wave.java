@@ -38,6 +38,9 @@ public class Wave{
 		default:
 			break;
 		}
+		for(Enemy enemy : enemies){
+			enemy.initHealthContainer();
+		}
 		// turn on indicator
 		enemies.get(0).auto.setVisible(true);
 	}
