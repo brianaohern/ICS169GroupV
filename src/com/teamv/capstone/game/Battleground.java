@@ -8,7 +8,7 @@ import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.gemboard.Gem;
-import com.teamv.capstone.gemboard.gems.Potion;
+import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
@@ -21,8 +21,8 @@ public class Battleground {
 	Player player;
 	VertexBufferObjectManager vbom;
 	boolean isFinished = false;
+
 	Enemy target;
-	private static int healAmount;
 
 	public Battleground(final BaseScene gameScene){
 		Battleground.gameScene = (GameScene) gameScene;
@@ -39,12 +39,6 @@ public class Battleground {
 		Enemy target = currentWave.getTarget();;
 		int damage = calculateDamage(gems, target);
 
-		// calculate heal
-		int healAmount = calculateHeal(gems);
-		player.heal(healAmount);
-//		player.heal(healAmount);
-//		healAmount = 0;
-		
 		// player attacks enemy
 		player.moveToEntityStartPosition(target);
 		//ResourcesManager.getInstance().meleeAttackSound.play();
@@ -53,30 +47,32 @@ public class Battleground {
 
 		if(target.isDead){
 			gameScene.unregisterTouchArea(target);
-		}
+		}	
 		
-		final float time = 0.5f;
-		int count = 1;
-		
-		// update enemy turn count
-		for (final Enemy enemy : currentWave.getEnemies()){
-			enemy.decrementCurrentTurnCount();
-			if (enemy.getCurrentTurnCount() == 0) {
-				ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time*count, new ITimerCallback() 
-				{
-					public void onTimePassed(final TimerHandler pTimerHandler) 
+		// If a combo is occurring, enemies should not be able to attack. 
+		if(!Gemboard.isCombo()){
+			final float time = 0.5f;
+			int count = 1;
+			// update enemy turn count
+			for (final Enemy enemy : currentWave.getEnemies()){
+				enemy.decrementCurrentTurnCount();
+				if (enemy.getCurrentTurnCount() == 0) {
+					ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time*count, new ITimerCallback() 
 					{
-						ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
-						enemy.moveToEntityStartPosition(player);
-						player.takeDamage(enemy.getAttack());
-						ResourcesManager.getInstance().meleeAttackSound.play();
-					}
-				}));
-
-				enemy.resetCurrentTurnCount();
+						public void onTimePassed(final TimerHandler pTimerHandler) 
+						{
+							ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
+							enemy.moveToEntityStartPosition(player);
+							player.takeDamage(enemy.getAttack());
+							ResourcesManager.getInstance().meleeAttackSound.play();
+						}
+					}));
+	
+					enemy.resetCurrentTurnCount();
+				}
+				enemy.updateTurnCount();
+				count++;
 			}
-			enemy.updateTurnCount();
-			count++;
 		}
 
 		if(currentWave.isFinished()){
@@ -123,6 +119,8 @@ public class Battleground {
 			}
 		}
 		
+		player.heal(potion);
+		
 		switch((ColorType)enemy.getUserData()){
 		case RED:
 			red *= 2f;
@@ -151,9 +149,6 @@ public class Battleground {
 		case BOMB:
 			bomb += bomb; // hide warning o.o
 			break;
-		case POTION:
-			potion += potion; // hide warning :^)
-			break;
 		default:
 			break;
 	}
@@ -166,19 +161,4 @@ public class Battleground {
 		this.level = level;
 		level.nextBattle();
 	}
-	
-	public static int calculateHeal(ArrayList<Gem> gems) {
-		int healAmount = 0;
-		for(Gem gem : gems){
-			if(gem.getClass() == Potion.class){
-				healAmount += 5;
-			}
-		}
-		return healAmount;
-	}
-	
-//	public static int increaseHealAmount(){
-//		healAmount += 5;
-//		return healAmount;
-//	}
 }

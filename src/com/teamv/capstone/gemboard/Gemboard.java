@@ -6,7 +6,6 @@ import java.util.Random;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.AlphaModifier;
-import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.primitive.Line;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
@@ -16,11 +15,7 @@ import android.util.Log;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.ColorType;
-import com.teamv.capstone.game.Enemy;
-import com.teamv.capstone.game.Player;
 import com.teamv.capstone.gemboard.gems.*;
-import com.teamv.capstone.gemboard.gems.special.BombGem;
-import com.teamv.capstone.gemboard.gems.special.RainbowGem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Pointf;
@@ -101,9 +96,9 @@ public class Gemboard{
 		Gemboard.setCurrentColor(ColorType.NONE);
 		Gemboard.setCurrentSpecial(ColorType.NONE);
 		if(minimumConnectedGems() || combo){
-			if (!combo) {
+//			if (!combo) {
 				battleground.enterBattle(connectedGems);
-			}
+//			}
 			
 			ResourcesManager.getInstance().gemDestroySound.play();
 			
@@ -130,15 +125,14 @@ public class Gemboard{
 		///////
 		if (activatedGems.size() > 0) {
 			final float time = 2.0f;
-			
-			// update enemy turn count
+
 			ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
 			{
 				public void onTimePassed(final TimerHandler pTimerHandler) 
 				{
 					ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
 					
-					for (Gem gem : activatedGems) {
+					for (SpecialGem gem : activatedGems) {
 						if(gem.getClass() == Bomb.class){
 							Log.d("MyActivity", "Bomb");
 							for (Gem adj : getAdjacentGems(gem)) {
@@ -149,15 +143,13 @@ public class Gemboard{
 									if (adj.getClass() == Potion.class){
 										Log.d("MyActivity", "Found adjacent potion");
 									}
-									connectedGems.add((Gem)adj); 
+									connectedGems.add((Gem)adj);
 								}
 							}
 							Log.d("MyActivity", "Dropped bomb");
 						}
 						else if(gem.getClass() == Potion.class){
 							Log.d("MyActivity", "Potion");
-							// Increase health by X amount
-							// Battleground.increaseHealAmount();
 							Log.d("MyActivity", "Dropped potion");
 						}
 						dropGem(gem);
@@ -250,10 +242,6 @@ public class Gemboard{
 		}
 		
 		// add gems and whatnot in here
-<<<<<<< HEAD
-		switch(random.nextInt(10)){
-		case 0 | 1:
-=======
 		if (random.nextInt(25) < 1) {
 			return new Bomb(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		} else if (random.nextInt(25) < 1) {
@@ -262,20 +250,14 @@ public class Gemboard{
 		
 		switch(random.nextInt(4)){
 		case 0:
->>>>>>> origin/master
 			return new BlueGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case 2 | 3:
+		case 1:
 			return new GreenGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case 4 | 5:
+		case 2:
 			return new YellowGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case 6 | 7:
+		case 3:
 			return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case 8:
-			return new BombGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case 9:
-			return new RainbowGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		}
-		
 		return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
 	
@@ -461,6 +443,9 @@ public class Gemboard{
 		return end;
 	}
 	
+	public static boolean isCombo(){
+		return combo;
+	}
 	//////////////////////////////////////////////////
 	// DEBUG AND INFO methods
 	//////////////////////////////////////////////////

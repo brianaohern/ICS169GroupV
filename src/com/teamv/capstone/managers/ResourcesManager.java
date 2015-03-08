@@ -59,15 +59,9 @@ public class ResourcesManager
     public ITextureRegion red_gem;
     public ITextureRegion blue_gem;
     public ITextureRegion green_gem;
-<<<<<<< HEAD
-    public ITextureRegion yellow_gem; 
-    public ITextureRegion bomb_gem;
-    public ITextureRegion rainbow_gem;
-=======
     public ITextureRegion yellow_gem;
     public ITextureRegion bomb;
     public ITextureRegion potion;
->>>>>>> origin/master
     private BitmapTextureAtlas gemsTextureAtlas;
     //game.enemies
     public ITextureRegion wolfie;
@@ -172,16 +166,6 @@ public class ResourcesManager
     {
     	// game.gems
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/gems/");
-<<<<<<< HEAD
-        gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 484, 488, TextureOptions.BILINEAR);
-        gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 484, 734, TextureOptions.BILINEAR);
-        red_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "fire_red.png", 0, 0);
-        blue_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "water_blue.png", 228, 0);
-        yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "sun_yellow.png", 0, 244);
-        green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "leaf_green.png", 240, 244);   
-        bomb_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "bomb.png", 0, 488);
-        rainbow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "rainbow.png", 200, 488);
-=======
         gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1000, 1000, TextureOptions.BILINEAR);
         red_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "fire_red.png", 0, 0);
         blue_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "water_blue.png", 228, 0);
@@ -189,7 +173,6 @@ public class ResourcesManager
         green_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "leaf_green.png", 240, 244);
         bomb = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas,  activity, "bomb.png", 0, 488);
         potion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas,  activity, "potion.png", 470, 488);
->>>>>>> origin/master
         gemsTextureAtlas.load();    
         // end game.gems        
         
