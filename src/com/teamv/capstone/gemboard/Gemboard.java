@@ -21,34 +21,34 @@ import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Pointf;
 
 public class Gemboard{
-	
+
 	protected static Pointf start, end;
-	
+
 	// array of gems
 	protected static Gem[][] grid;
 	protected static BaseScene gameScene;
 	protected static PhysicsWorld physicsWorld;
 	protected static Random random;
 	protected static Battleground battleground;
-	
+
 	// array of connected gems
 	public static ArrayList<Gem> connectedGems;
-	
+
 	// special gems that have been activated
 	public static ArrayList<SpecialGem> activatedGems;
-	
+
 	// denotes whether we're in the middle of a combo
 	private static boolean combo = false;
 
 	public static ArrayList<Line> lines;
-	
+
 	// Current move info
 	protected static ColorType currentColor = null;
 	protected static ColorType currentSpecial = null;
-	
+
 	protected static int cols = 7;
 	protected static int rows = 5;
-	
+
 	// GEM variables
 	public static final int RADIUS 	= 1080/cols - 1080%cols;
 	public static final int STARTY	= 1920/2 + RADIUS;
@@ -58,28 +58,26 @@ public class Gemboard{
 	private static int red = 0;
 	private static int yellow = 0;
 	private static int bomb = 0;
-	
+
 	public Gemboard(BaseScene gameScene, PhysicsWorld physicsWorld, Battleground battleground){
 		Gemboard.gameScene = gameScene;
 		Gemboard.physicsWorld = physicsWorld;
 		Gemboard.battleground = battleground;
-		
+
 		grid = new Gem[cols][rows];
 		random = new Random();
 		start = new Pointf(0, 0);
 		end = new Pointf(0, 0);
-		
+
 		connectedGems = new ArrayList<Gem>();
 		lines = new ArrayList<Line>();
 		activatedGems = new ArrayList<SpecialGem>();
-		
+
 		// while the gemboard has no possible moves, reset the board
 		while(hasNoMoreMoves())
 			resetBoard();
-		
-		//drawGrid();
 	}
-	
+
 	private void resetBoard(){
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
@@ -96,13 +94,13 @@ public class Gemboard{
 			}
 		}
 	}
-	
+
 	public void handleMove() {
-		clearBoard();
-		
+		ClearBoard();
+
 		if(minimumConnectedGems() || combo){
 			DestroyGems();
-			
+
 			if (activatedGems.size() > 0) {
 				HandleActivatedGems();
 			}
@@ -111,25 +109,25 @@ public class Gemboard{
 			}
 		}
 	}
-	
+
 	// whether or not we have enough gems to comprise a valid move
 	private static boolean minimumConnectedGems() {
 		return connectedGems.size() >= 3;
 	}
-	
-	void clearBoard() {
+
+	void ClearBoard() {
 		Gemboard.unshadeBoard();
 		Gemboard.setCurrentColor(ColorType.NONE);
 		Gemboard.setCurrentSpecial(ColorType.NONE);
 		eraseLines();
 		lines.clear();
 	}
-	
+
 	void DestroyGems() {
 		tallyAttackColors(connectedGems);
-		
+
 		ResourcesManager.getInstance().gemDestroySound.play();
-		
+
 		for(Gem gem : connectedGems){
 			if (gem.getClass() == Bomb.class) {
 				Log.d("MyActivity", "Adding bomb to special gems");
@@ -142,19 +140,18 @@ public class Gemboard{
 				dropGem(gem);
 			}
 		}
-		
 		connectedGems.clear();
 	}
-	
+
 	void HandleActivatedGems() {
 		final float time = 2.0f;
-		
+
 		ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
 		{
 			public void onTimePassed(final TimerHandler pTimerHandler) 
 			{
 				ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
-				
+
 				for (Gem gem : activatedGems) {
 					if(gem.getClass() == Bomb.class){
 						for (Gem adj : getAdjacentGems(gem)) {
@@ -163,70 +160,40 @@ public class Gemboard{
 							}
 						}
 					}
-<<<<<<< HEAD
 					else if(gem.getClass() == Potion.class){
 						Log.d("MyActivity", "Potion");
 						// Increase health by X amount
 						// Battleground.increaseHealAmount();
 						Log.d("MyActivity", "Dropped potion");
-=======
-					
-					activatedGems.clear();
-					
-					if(hasNoMoreMoves()){
-						ResourcesManager.getInstance().activity.gameToast("No more moves");
-						resetBoard();
-					}
-					//drawGrid();
-					
-					if (connectedGems.size() > 0) {
-						Log.d("MyActivity", "Comboing. connectedGems size: " + connectedGems.size());
-						combo = true;
-						executeGems();
-					} else {
-						combo = false;
->>>>>>> robin-popup
 					}
 					dropGem(gem);
 				}
-				
 				activatedGems.clear();
-				
+
 				if (connectedGems.size() > 0) {
 					combo = true;
 					handleMove();
 				} else {
 					SendAttack();
 				}
-<<<<<<< HEAD
-=======
-			}));
-		}
-		///////
-		///////
-		else {
-			if(hasNoMoreMoves()){
-				ResourcesManager.getInstance().activity.gameToast("No more moves");
-				resetBoard();
->>>>>>> robin-popup
 			}
 		}));
 	}
-	
+
 	void SendAttack(){
 		if(hasNoMoreMoves()){
 			ResourcesManager.getInstance().activity.gameToast("No more moves");
 			resetBoard();
 		}
 		combo = false;
-		
+
 		if (!combo) {
 			battleground.enterBattle(green, blue, red, yellow, bomb);
 		}
-		
+
 		green = 0; blue = 0; red = 0; yellow = 0;
 	}
-	
+
 	public void tallyAttackColors (ArrayList<Gem> gemsToAdd) {
 		for(Gem gem : gemsToAdd) {
 			switch((ColorType) gem.getUserData()){
@@ -252,7 +219,7 @@ public class Gemboard{
 		}
 	}
 
-	
+
 	// erases each line connecting the gems in your move
 	private static void eraseLines() {
 		for(Line line : lines){
@@ -265,33 +232,33 @@ public class Gemboard{
 	// drops every gem above the parameter gem, then drop a new gem
 	protected void dropGem(Gem gem){
 		int col = gem.getCol();
-		
+
 		for(int i = gem.getRow(); i > 0; i--){
 			grid[col][i] = grid[col][i - 1];
 			grid[col][i].drop();
 		}
-		
+
 		grid[col][0] = randomGem(col, 0);
 		//grid[col][0] = new RandGem(col, 0, col * RADIUS, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		
+
 		attachGem(grid[col][0]);
-		
+
 		detachGem(gem);
 		gem = null;
 	}
-	
+
 	protected static void attachGem(Gem gem){
 		gameScene.attachChild(gem);
 		gem.registerEntityModifier(new AlphaModifier(0.2f, 0, 1));
 		gameScene.registerTouchArea(gem);
 	}
-	
+
 	protected static void detachGem(Gem gem){
 		gameScene.unregisterTouchArea(gem);
 		destroyBody(gem);
 		gem.cleanUp();
 	}
-	
+
 	// return random gem
 	protected static Gem randomGem(int col, int row){
 		float x = col * RADIUS;
@@ -299,7 +266,7 @@ public class Gemboard{
 		if(col%2 != 0){
 			y += RADIUS/2;
 		}
-		
+
 		// add gems and whatnot in here
 		// changed to if 2% bomb, 2%health vs. 4% bomb, if fail 4% health
 		if (random.nextInt(25) < 1) {
@@ -310,7 +277,7 @@ public class Gemboard{
 				return new Potion(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 			}
 		}
-		
+
 		switch(random.nextInt(4)){
 		case 0:
 			return new BlueGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
@@ -323,19 +290,19 @@ public class Gemboard{
 		}
 		return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
-	
+
 	private static boolean hasNoMoreMoves(){
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				if(grid[x][y] != null){
 					int count = 0;
 					Object userData = grid[x][y].getUserData();
-					
+
 					count += checkGem(x, y+1, userData);
 					count += checkGem(x, y-1, userData);
 					count += checkGem(x+1, y, userData);
 					count += checkGem(x-1, y, userData);
-					
+
 					if(x%2 == 0){
 						count += checkGem(x-1, y-1, userData);
 						count += checkGem(x+1, y-1, userData);
@@ -343,7 +310,7 @@ public class Gemboard{
 						count += checkGem(x-1, y+1, userData);
 						count += checkGem(x+1, y+1, userData);
 					}
-					
+
 					if(count >= 2){
 						return false;
 					}
@@ -352,7 +319,7 @@ public class Gemboard{
 		}
 		return true;
 	}
-	
+
 	// USED BY GAME ENTITIES; MOVED FROM Gem.java
 	public static ArrayList<String> getDamageType(){
 		ArrayList<String> damageType = new ArrayList<String>();
@@ -361,7 +328,7 @@ public class Gemboard{
 		}
 		return damageType;	
 	}
-	
+
 	private static int checkGem(int c, int r, Object userData){
 		if(		(c < 0 || r < 0) ||
 				(c >= cols || r >= rows)){
@@ -375,7 +342,7 @@ public class Gemboard{
 		}
 		return 0;
 	}
-	
+
 	private static void destroyBody(final Gem gem)
 	{
 		ResourcesManager.getInstance().activity.runOnUpdateThread(new Runnable(){
@@ -388,7 +355,7 @@ public class Gemboard{
 			}});
 
 	}
-	
+
 	public static void shadeBoard(Gem gem) {
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
@@ -400,7 +367,7 @@ public class Gemboard{
 			}
 		}
 	}
-	
+
 	public static void unshadeBoard() {
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
@@ -410,11 +377,11 @@ public class Gemboard{
 			}
 		}
 	}
-	
+
 	public static void startList(int c, int r){
 		connectedGems.add(grid[c][r]);
 	}
-	
+
 	private static ArrayList<Gem> getAdjacentGems(Gem gem){
 		ArrayList<Gem> adjacentGems = new ArrayList<Gem>();
 		// if the column is odd
@@ -471,49 +438,49 @@ public class Gemboard{
 		}
 		return adjacentGems;
 	}
-	
+
 	public static ColorType getCurrentColor () {
 		return currentColor;
 	}
-	
+
 	public static void setCurrentColor(Gem gem) {
 		currentColor = (ColorType) gem.getUserData();
 	}
-	
+
 	public static void setCurrentColor(ColorType color) {
 		currentColor = color;
 	}
-	
+
 	public static ColorType getCurrentSpecial () {
 		return currentSpecial;
 	}
-	
+
 	public static void setCurrentSpecial(Gem gem) {
 		currentSpecial = (ColorType) gem.getUserData();
 	}
-	
+
 	public static void setCurrentSpecial(ColorType color) {
 		currentSpecial = color;
 	}
-	
+
 	public static Pointf getStartPoint(){
 		return start;
 	}
-	
+
 	public static Pointf getEndPoint(){
 		return end;
 	}
-	
+
 	//////////////////////////////////////////////////
 	// DEBUG AND INFO methods
 	//////////////////////////////////////////////////
-	
+
 	@SuppressWarnings("unused")
 	private static void printAll(){
 		printBoardSize();
 		printBoard();
 	}
-	
+
 	private static void printBoard() {
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
@@ -529,11 +496,11 @@ public class Gemboard{
 			}
 		}
 	}
-	
+
 	private static void printBoardSize(){
 		System.out.println("Gemboard.java -- gem size: " + gemboardSize());
 	}
-	
+
 	private static int gemboardSize(){
 		int gems = 0;
 		for(int x = 0; x < cols; x++){
@@ -546,25 +513,25 @@ public class Gemboard{
 		}
 		return gems;
 	}
-	
+
 	public int getGemCount(){
 		return gemboardSize();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void drawGrid(){
 		for(int y = 0; y <= rows; y++){
 			Line line = new Line(0, STARTY + y * RADIUS, 1080, STARTY + y * RADIUS, ResourcesManager.getInstance().vbom);
-	    	line.setLineWidth(10f);
-	    	line.setColor(Color.WHITE);
-	        gameScene.attachChild(line);
+			line.setLineWidth(10f);
+			line.setColor(Color.WHITE);
+			gameScene.attachChild(line);
 		}
 		for(int x = 0; x <= cols; x++){
 			Line line = new Line(x * RADIUS, 0, x * RADIUS, 1920, ResourcesManager.getInstance().vbom);
-	    	line.setLineWidth(10f);
-	    	line.setColor(Color.WHITE);
-	        gameScene.attachChild(line);
+			line.setLineWidth(10f);
+			line.setColor(Color.WHITE);
+			gameScene.attachChild(line);
 		}
-		
+
 	}
 }

@@ -1,12 +1,10 @@
 package com.teamv.capstone.game.tutorial;
 
-import java.util.ArrayList;
 
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 
 import com.teamv.capstone.game.Battleground;
-import com.teamv.capstone.gemboard.Gem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.scenes.BaseScene;
@@ -17,8 +15,8 @@ public class TutorialBattleground extends Battleground{
 		super(gameScene);
 	}
 	
-	public void enterBattle(ArrayList<Gem> gems){
-		super.enterBattle(gems);
+	public void enterBattle(int green, int blue, int red, int yellow, int bomb){
+		super.enterBattle(green, blue, red, yellow, bomb);
 		if(showInstructions){
 			switch(this.level.getCurrentWaveCount()){
 			case 1:

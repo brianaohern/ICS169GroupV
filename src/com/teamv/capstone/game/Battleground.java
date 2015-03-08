@@ -1,13 +1,10 @@
 package com.teamv.capstone.game;
 
-import java.util.ArrayList;
-
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import com.teamv.capstone.gemboard.Gem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.scenes.GameScene;
@@ -116,12 +113,8 @@ public class Battleground {
 			break;
 		default:
 			break;
-<<<<<<< HEAD
-	}
-=======
 		}
 		ResourcesManager.getInstance().activity.gameToast("damage: "+(int)(red+blue+green+yellow));
->>>>>>> robin-popup
 		return (int)(red+blue+green+yellow);
 	}
 
