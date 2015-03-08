@@ -38,7 +38,7 @@ public class Level {
 			currentWave++;
 		}
 		else{
-			((GameScene) SceneManager.getInstance().getCurrentScene()).endGame(true);
+			((GameScene) SceneManager.getInstance().getCurrentScene()).enterEndScene(true);
 		}
 	}
 	

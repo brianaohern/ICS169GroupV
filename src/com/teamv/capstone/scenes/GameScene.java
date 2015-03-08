@@ -138,24 +138,29 @@ public class GameScene extends BaseScene
 		}
 		return false;
 	}
-
-	public void endGame(boolean winGame) {
-		PromptScene resultScene = null;
-		ResourcesManager.getInstance().bgm.stop();
-		if(winGame){
-			resultScene = new PromptScene(600, 800, "You Win", SceneType.SCENE_MENU);
-		}
-		else{
-			resultScene = new PromptScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
-		}
-		this.setChildScene(resultScene, false, true, true);
-	}
-
+	
 	public void loadTutorialBoard() {
 		gemboard = new TutorialGemboard(this, physicsWorld, arena);
 	}
 	
 	public void loadGemboard(){
 		gemboard = new Gemboard(this, physicsWorld, arena);
+	}
+
+	public void enterEndScene(boolean winGame) {
+		ResultScene resultScene = null;
+		ResourcesManager.getInstance().bgm.stop();
+		if(winGame){
+			resultScene = new ResultScene(600, 800, "You Win", SceneType.SCENE_MENU);
+		}
+		else{
+			resultScene = new ResultScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
+		}
+		this.setChildScene(resultScene, false, true, true);
+	}
+	
+	public void enterInstructionScene(String instruction, boolean shouldResetBoard, int boardType){
+		InstructionScene instructions = new InstructionScene(1080, 200, instruction, shouldResetBoard, boardType);
+		this.setChildScene(instructions, false, true, true);
 	}
 }

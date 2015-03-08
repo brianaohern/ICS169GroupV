@@ -128,7 +128,7 @@ public class TutorialGemboard extends Gemboard{
 		gem = null;
 	}
 	
-	private static void clearBoard(){
+	private void clearBoard(){
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				// if odd and last row, don't add gem

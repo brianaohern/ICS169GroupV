@@ -90,8 +90,12 @@ public abstract class Gem extends Sprite{
 	
 	// what happens when gem dies, cleans up
 	public void cleanUp(){
-		this.detachSelf();
-		this.dispose();
+		if(!this.isDisposed()){
+			this.dispose();
+		}
+		if(this.hasParent()){
+			this.detachSelf();
+		}
 	}
 	
 	@Override

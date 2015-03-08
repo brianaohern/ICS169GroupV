@@ -1,8 +1,12 @@
 package com.teamv.capstone.game.tutorial;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
+
 import com.teamv.capstone.game.Level;
 import com.teamv.capstone.game.Wave;
 import com.teamv.capstone.game.enemies.*;
+import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 
 public class TutorialLevel extends Level{
@@ -27,9 +31,21 @@ public class TutorialLevel extends Level{
 	
 	public void nextWave(){
 		if(currentWave == 1){
-			((TutorialGemboard)SceneManager.getInstance().getGameScene().gemboard).loadTutorial(2);
+			ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(0.9f, new ITimerCallback() 
+			{
+				public void onTimePassed(final TimerHandler pTimerHandler) 
+				{
+					SceneManager.getInstance().getGameScene().enterInstructionScene("Match the gem type to do extra damage", true, 2);
+				}
+			}));
 		}else if(currentWave == 2){
-			((TutorialGemboard)SceneManager.getInstance().getGameScene().gemboard).loadTutorial(3);
+			ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(0.9f, new ITimerCallback() 
+			{
+				public void onTimePassed(final TimerHandler pTimerHandler) 
+				{
+					SceneManager.getInstance().getGameScene().enterInstructionScene("Use the bomb", true, 3);
+				}
+			}));
 		}
 		super.nextWave();
 	}
