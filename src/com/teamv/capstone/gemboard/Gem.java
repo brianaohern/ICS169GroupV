@@ -14,8 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.teamv.capstone.game.ColorType;
-import com.teamv.capstone.gemboard.gems.Bomb;
-import com.teamv.capstone.gemboard.gems.Potion;
+import com.teamv.capstone.gemboard.gems.SpecialGem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.utility.Pointf;
@@ -218,7 +217,7 @@ public abstract class Gem extends Sprite{
 	
 	// determines if the gem is a special gem
 	protected boolean isSpecial(Gem gem) {
-		return this.getClass() == Bomb.class || this.getClass() == Potion.class;
+		return (gem instanceof SpecialGem);
 	}
 	
 	// used for drawing lines; the basic math

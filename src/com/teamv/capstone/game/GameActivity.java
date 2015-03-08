@@ -125,10 +125,9 @@ import android.widget.Toast;
     }
     
     public void gameToast(final String msg) {
-        //toast(msg); // comment this to disable toasts
+        toast(msg); // comment this to disable toasts
     }
     
-    @SuppressWarnings("unused")
 	private void toast(final String msg){
     	this.runOnUiThread(new Runnable() {
             @Override

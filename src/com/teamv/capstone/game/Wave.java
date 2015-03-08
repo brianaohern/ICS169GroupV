@@ -22,18 +22,19 @@ public class Wave{
 	}
 	
 	public void initPlacement(){
+		int x = 750;
 		switch(enemies.size()){
 		case 1:
-			enemies.get(0).setPosition(600, 600);
+			enemies.get(0).setPosition(x, 600);
 			break;
 		case 2:
-			enemies.get(0).setPosition(600, 400);
-			enemies.get(1).setPosition(600, 700);
+			enemies.get(0).setPosition(x, 400);
+			enemies.get(1).setPosition(x, 700);
 			break;
 		case 3:
-			enemies.get(0).setPosition(600, 200);
-			enemies.get(1).setPosition(600, 475);
-			enemies.get(2).setPosition(600, 750);
+			enemies.get(0).setPosition(x, 200);
+			enemies.get(1).setPosition(x, 475);
+			enemies.get(2).setPosition(x, 750);
 			break;
 		default:
 			break;

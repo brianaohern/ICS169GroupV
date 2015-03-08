@@ -161,7 +161,6 @@ public class Gemboard{
 					activatedGems.clear();
 					
 					if(hasNoMoreMoves()){
-						//System.out.println("NO MORE MOVES");
 						ResourcesManager.getInstance().activity.gameToast("No more moves");
 						resetBoard();
 					}
@@ -181,7 +180,6 @@ public class Gemboard{
 		///////
 		else {
 			if(hasNoMoreMoves()){
-				//System.out.println("NO MORE MOVES");
 				ResourcesManager.getInstance().activity.gameToast("No more moves");
 				resetBoard();
 			}
@@ -225,8 +223,7 @@ public class Gemboard{
 	
 	protected static void attachGem(Gem gem){
 		gameScene.attachChild(gem);
-		gem.registerEntityModifier(new AlphaModifier((float)0.2, 0, 1));
-//		gem.registerEntityModifier(new AlphaModifier(1, 0, 1));
+		gem.registerEntityModifier(new AlphaModifier(0.2f, 0, 1));
 		gameScene.registerTouchArea(gem);
 	}
 	
@@ -245,10 +242,14 @@ public class Gemboard{
 		}
 		
 		// add gems and whatnot in here
+		// changed to if 2% bomb, 2%health vs. 4% bomb, if fail 4% health
 		if (random.nextInt(25) < 1) {
-			return new Bomb(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		} else if (random.nextInt(25) < 1) {
-			return new Potion(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+			switch(random.nextInt(2)){
+			case 0:
+				return new Bomb(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+			case 1:
+				return new Potion(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+			}
 		}
 		
 		switch(random.nextInt(4)){
@@ -310,6 +311,9 @@ public class Gemboard{
 		else if(grid[c][r] != null && grid[c][r].getUserData().equals(userData)){
 			return 1;
 		}
+		else if(grid[c][r] != null && grid[c][r] instanceof SpecialGem){
+			return 1;
+		}
 		return 0;
 	}
 	
@@ -319,7 +323,6 @@ public class Gemboard{
 
 			@Override
 			public void run() {
-
 				final Body body = gem.body;
 				physicsWorld.unregisterPhysicsConnector(physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(gem));
 				physicsWorld.destroyBody(body);

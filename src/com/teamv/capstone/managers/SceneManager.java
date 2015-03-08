@@ -140,14 +140,14 @@ public class SceneManager
     	ResourcesManager.getInstance().loadGameResources();
     	gameScene = new GameScene(level);
     	SceneManager.getInstance().setScene(gameScene);
-    	((GameScene) gameScene).loadGemboard();
+    	((GameScene) gameScene).loadGame();
     }
     
     public void createGameScene(TutorialLevel level){
     	ResourcesManager.getInstance().loadGameResources();
     	gameScene = new GameScene(level);
     	SceneManager.getInstance().setScene(gameScene);
-    	((GameScene) gameScene).loadTutorialBoard();
+    	((GameScene) gameScene).loadTutorial();
     }
     
     public void createLevelSelectScene(){

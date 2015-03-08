@@ -1,0 +1,59 @@
+package com.teamv.capstone.game.tutorial;
+
+import java.util.ArrayList;
+
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
+
+import com.teamv.capstone.game.Battleground;
+import com.teamv.capstone.gemboard.Gem;
+import com.teamv.capstone.managers.ResourcesManager;
+import com.teamv.capstone.managers.SceneManager;
+import com.teamv.capstone.scenes.BaseScene;
+
+public class TutorialBattleground extends Battleground{
+	boolean showInstructions = true;
+	public TutorialBattleground(BaseScene gameScene) {
+		super(gameScene);
+	}
+	
+	public void enterBattle(ArrayList<Gem> gems){
+		super.enterBattle(gems);
+		if(showInstructions){
+			switch(this.level.getCurrentWaveCount()){
+			case 1:
+				ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(0.9f, new ITimerCallback() 
+				{
+					public void onTimePassed(final TimerHandler pTimerHandler) 
+					{
+						SceneManager.getInstance().getGameScene().enterInstructionScene("Good job, now finish it off!", false, 0);
+					}
+				}));
+				break;
+			case 2:
+				ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(0.9f, new ITimerCallback() 
+				{
+					public void onTimePassed(final TimerHandler pTimerHandler) 
+					{
+						SceneManager.getInstance().getGameScene().enterInstructionScene("Great! Now try these blue gems!", false, 0);
+					}
+				}));
+				break;
+			case 3:
+				ResourcesManager.getInstance().activity.gameToast("tutorial3 instructions health");
+				ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(0.9f, new ITimerCallback() 
+				{
+					public void onTimePassed(final TimerHandler pTimerHandler) 
+					{
+						SceneManager.getInstance().getGameScene().enterInstructionScene("Use the potion to restore your health", false, 0);
+					}
+				}));
+				//showInstructions = false;
+				break;
+			default:
+				ResourcesManager.getInstance().activity.gameToast("TutorialBattleground.enterBattle.default");
+			}
+		}
+		
+	}
+}
