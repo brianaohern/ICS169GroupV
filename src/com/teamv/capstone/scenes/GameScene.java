@@ -133,7 +133,7 @@ public class GameScene extends BaseScene
 		super.onSceneTouchEvent(pSceneTouchEvent);
 
 		if (pSceneTouchEvent.isActionUp()){
-			gemboard.executeGems();
+			gemboard.handleMove();
 			return true;
 		}
 		return false;

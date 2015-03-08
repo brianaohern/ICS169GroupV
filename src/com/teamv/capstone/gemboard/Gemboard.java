@@ -52,6 +52,12 @@ public class Gemboard{
 	// GEM variables
 	public static final int RADIUS 	= 1080/cols - 1080%cols;
 	public static final int STARTY	= 1920/2 + RADIUS;
+
+	private static int green = 0;
+	private static int blue = 0;
+	private static int red = 0;
+	private static int yellow = 0;
+	private static int bomb = 0;
 	
 	public Gemboard(BaseScene gameScene, PhysicsWorld physicsWorld, Battleground battleground){
 		Gemboard.gameScene = gameScene;
@@ -91,14 +97,15 @@ public class Gemboard{
 		}
 	}
 	
-	public void executeGems() {
+	public void handleMove() {
 		Gemboard.unshadeBoard();
 		Gemboard.setCurrentColor(ColorType.NONE);
 		Gemboard.setCurrentSpecial(ColorType.NONE);
+		eraseLines();
+		lines.clear();
+		
 		if(minimumConnectedGems() || combo){
-			if (!combo) {
-				battleground.enterBattle(connectedGems);
-			}
+			tallyAttackColors(connectedGems);
 			
 			ResourcesManager.getInstance().gemDestroySound.play();
 			
@@ -114,19 +121,15 @@ public class Gemboard{
 					dropGem(gem);
 				}
 			}
-		}
-		eraseLines();
+		
 		
 		connectedGems.clear();
-		lines.clear();
-		//printAll();
 		
 		///////
 		///////
 		if (activatedGems.size() > 0) {
 			final float time = 2.0f;
 			
-			// update enemy turn count
 			ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
 			{
 				public void onTimePassed(final TimerHandler pTimerHandler) 
@@ -135,19 +138,11 @@ public class Gemboard{
 					
 					for (Gem gem : activatedGems) {
 						if(gem.getClass() == Bomb.class){
-							Log.d("MyActivity", "Bomb");
 							for (Gem adj : getAdjacentGems(gem)) {
 								if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
-									if (adj.getClass() == Bomb.class) {
-										Log.d("MyActivity", "Found adjacent bomb");
-									}
-									if (adj.getClass() == Potion.class){
-										Log.d("MyActivity", "Found adjacent potion");
-									}
 									connectedGems.add((Gem)adj); 
 								}
 							}
-							Log.d("MyActivity", "Dropped bomb");
 						}
 						else if(gem.getClass() == Potion.class){
 							Log.d("MyActivity", "Potion");
@@ -160,19 +155,21 @@ public class Gemboard{
 					
 					activatedGems.clear();
 					
-					if(hasNoMoreMoves()){
-						//System.out.println("NO MORE MOVES");
-						ResourcesManager.getInstance().activity.gameToast("No more moves");
-						resetBoard();
-					}
-					//drawGrid();
-					
 					if (connectedGems.size() > 0) {
-						Log.d("MyActivity", "Comboing. connectedGems size: " + connectedGems.size());
 						combo = true;
-						executeGems();
+						handleMove();
 					} else {
+						if(hasNoMoreMoves()){
+							ResourcesManager.getInstance().activity.gameToast("No more moves");
+							resetBoard();
+						}
 						combo = false;
+						
+						if (!combo) {
+							battleground.enterBattle(green, blue, red, yellow, bomb);
+						}
+						
+						green = 0; blue = 0; red = 0; yellow = 0;
 					}
 				}
 			}));
@@ -181,13 +178,18 @@ public class Gemboard{
 		///////
 		else {
 			if(hasNoMoreMoves()){
-				//System.out.println("NO MORE MOVES");
 				ResourcesManager.getInstance().activity.gameToast("No more moves");
 				resetBoard();
 			}
-			//drawGrid();
 			
 			combo = false;
+			
+			if (!combo) {
+				battleground.enterBattle(green, blue, red, yellow, bomb);
+			}
+			
+			green = 0; blue = 0; red = 0; yellow = 0;
+		}
 		}
 	}
 	
@@ -195,6 +197,32 @@ public class Gemboard{
 	private static boolean minimumConnectedGems() {
 		return connectedGems.size() >= 3;
 	}
+	
+	public void tallyAttackColors (ArrayList<Gem> gemsToAdd) {
+		for(Gem gem : gemsToAdd) {
+			switch((ColorType) gem.getUserData()){
+			case GREEN:
+				green++;
+				break;
+			case BLUE:
+				blue++;
+				break;
+			case RED:
+				red++;
+				break;
+			case YELLOW:
+				yellow++;
+				break;
+			case BOMB:
+				bomb++;
+				break;
+			default:
+				ResourcesManager.getInstance().activity.gameToast("Battleground: calculateDamage-default");
+				break;
+			}
+		}
+	}
+
 	
 	// erases each line connecting the gems in your move
 	private static void eraseLines() {

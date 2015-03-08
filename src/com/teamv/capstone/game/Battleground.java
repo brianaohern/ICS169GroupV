@@ -29,18 +29,17 @@ public class Battleground {
 		player = new Player(1080/40, 1920/4, vbom);
 		player.attachToScene(gameScene);
 	}
-
-	public void enterBattle(ArrayList<Gem> gems){
+	
+	public void enterBattle(int green, int blue, int red, int yellow, int bomb){
 		if(currentWave.getEnemies().size() <= 0)
 			return;
 
 		// get target and attack
 		Enemy target = currentWave.getTarget();;
-		int damage = calculateDamage(gems, target);
+		int damage = calculateDamage(green, blue, red, yellow, bomb, target);
 
 		// player attacks enemy
 		player.moveToEntityStartPosition(target);
-		//ResourcesManager.getInstance().meleeAttackSound.play();
 		target.registerEntityModifier(new DelayModifier(5f));
 		target.takeDamage(damage);
 
@@ -87,32 +86,8 @@ public class Battleground {
 	public int getNumOfEnemies() {
 		return currentWave.getEnemies().size();
 	}
-
-	public int calculateDamage(ArrayList<Gem> gems, Enemy enemy){
-		float green=0, blue=0, red=0, yellow=0, bomb=0;
-		for(Gem gem: gems){
-			switch((ColorType) gem.getUserData()){
-			case GREEN:
-				green++;
-				break;
-			case BLUE:
-				blue++;
-				break;
-			case RED:
-				red++;
-				break;
-			case YELLOW:
-				yellow++;
-				break;
-			case BOMB:
-				bomb++;
-				break;
-			default:
-				ResourcesManager.getInstance().activity.gameToast("Battleground: calculateDamage-default");
-				break;
-			}
-		}
-		
+	
+	public int calculateDamage(int green, int blue, int red, int yellow, int bomb, Enemy enemy){
 		switch((ColorType)enemy.getUserData()){
 		case RED:
 			red *= 2f;
@@ -144,8 +119,6 @@ public class Battleground {
 		default:
 			break;
 	}
-		
-		//ResourcesManager.getInstance().activity.gameToast("damage: "+(int)(red+blue+green+yellow));
 		return (int)(red+blue+green+yellow);
 	}
 
