@@ -39,7 +39,7 @@ public class Battleground {
 		player.moveToEntityStartPosition(target);
 		target.registerEntityModifier(new DelayModifier(5f));
 		target.takeDamage(damage);
-
+		
 		if(target.isDead){
 			gameScene.unregisterTouchArea(target);
 		}
@@ -61,6 +61,7 @@ public class Battleground {
 						ResourcesManager.getInstance().meleeAttackSound.play();
 					}
 				}));
+
 				enemy.resetCurrentTurnCount();
 			}
 			enemy.updateTurnCount();
@@ -70,6 +71,7 @@ public class Battleground {
 		if(currentWave.isFinished()){
 			level.nextWave();
 		}
+
 	}
 
 	public static void attachEnemies(){
@@ -108,14 +110,15 @@ public class Battleground {
 			green *= 1f;
 			yellow *= 2f;
 			break;
-		case BOMB:
-			bomb += bomb; // hide warning o.o
-			break;
 		default:
 			break;
 		}
 		ResourcesManager.getInstance().activity.gameToast("damage: "+(int)(red+blue+green+yellow));
 		return (int)(red+blue+green+yellow);
+	}
+	
+	public void healPlayer(float potionCount){
+		player.heal(potionCount);
 	}
 
 	public void enterLevel(Level level) {

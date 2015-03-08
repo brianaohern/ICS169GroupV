@@ -8,6 +8,7 @@ import com.teamv.capstone.managers.ResourcesManager;
 public class Player extends HealthBarEntity{
 	
 	int healthBarBufferY, healthBarPosY;
+	final float POTION_HEAL_AMOUNT = 5;
 	
 	public Player(float x, float y, VertexBufferObjectManager vbo) {
 		super(x, y, ResourcesManager.getInstance().mainCharacter, vbo);
@@ -40,7 +41,8 @@ public class Player extends HealthBarEntity{
 	}
 	
 	
-	public void heal(int amount){
+	public void heal(float amount){
+		amount *= POTION_HEAL_AMOUNT;
 		currentHealth += amount;		
 		if(currentHealth > startHealth){
 			currentHealth = startHealth;
