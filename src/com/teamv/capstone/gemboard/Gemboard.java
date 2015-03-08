@@ -98,104 +98,104 @@ public class Gemboard{
 	}
 	
 	public void handleMove() {
-		Gemboard.unshadeBoard();
-		Gemboard.setCurrentColor(ColorType.NONE);
-		Gemboard.setCurrentSpecial(ColorType.NONE);
-		eraseLines();
-		lines.clear();
+		clearBoard();
 		
 		if(minimumConnectedGems() || combo){
-			tallyAttackColors(connectedGems);
+			DestroyGems();
 			
-			ResourcesManager.getInstance().gemDestroySound.play();
-			
-			for(Gem gem : connectedGems){
-				if (gem.getClass() == Bomb.class) {
-					Log.d("MyActivity", "Adding bomb to special gems");
-					activatedGems.add((SpecialGem)gem);
-				} else if (gem.getClass() == Potion.class){
-					Log.d("MyActivity", "Adding potion to special gems");
-					activatedGems.add((SpecialGem)gem);
-				}
-				else {
-					dropGem(gem);
-				}
+			if (activatedGems.size() > 0) {
+				HandleActivatedGems();
 			}
-		
-		
-		connectedGems.clear();
-		
-		///////
-		///////
-		if (activatedGems.size() > 0) {
-			final float time = 2.0f;
-			
-			ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
-			{
-				public void onTimePassed(final TimerHandler pTimerHandler) 
-				{
-					ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
-					
-					for (Gem gem : activatedGems) {
-						if(gem.getClass() == Bomb.class){
-							for (Gem adj : getAdjacentGems(gem)) {
-								if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
-									connectedGems.add((Gem)adj); 
-								}
-							}
-						}
-						else if(gem.getClass() == Potion.class){
-							Log.d("MyActivity", "Potion");
-							// Increase health by X amount
-							// Battleground.increaseHealAmount();
-							Log.d("MyActivity", "Dropped potion");
-						}
-						dropGem(gem);
-					}
-					
-					activatedGems.clear();
-					
-					if (connectedGems.size() > 0) {
-						combo = true;
-						handleMove();
-					} else {
-						if(hasNoMoreMoves()){
-							ResourcesManager.getInstance().activity.gameToast("No more moves");
-							resetBoard();
-						}
-						combo = false;
-						
-						if (!combo) {
-							battleground.enterBattle(green, blue, red, yellow, bomb);
-						}
-						
-						green = 0; blue = 0; red = 0; yellow = 0;
-					}
-				}
-			}));
-		}
-		///////
-		///////
-		else {
-			if(hasNoMoreMoves()){
-				ResourcesManager.getInstance().activity.gameToast("No more moves");
-				resetBoard();
+			else {
+				SendAttack();
 			}
-			
-			combo = false;
-			
-			if (!combo) {
-				battleground.enterBattle(green, blue, red, yellow, bomb);
-			}
-			
-			green = 0; blue = 0; red = 0; yellow = 0;
-		}
 		}
 	}
 	
 	// whether or not we have enough gems to comprise a valid move
 	private static boolean minimumConnectedGems() {
 		return connectedGems.size() >= 3;
+	}
+	
+	void clearBoard() {
+		Gemboard.unshadeBoard();
+		Gemboard.setCurrentColor(ColorType.NONE);
+		Gemboard.setCurrentSpecial(ColorType.NONE);
+		eraseLines();
+		lines.clear();
+	}
+	
+	void DestroyGems() {
+		tallyAttackColors(connectedGems);
+		
+		ResourcesManager.getInstance().gemDestroySound.play();
+		
+		for(Gem gem : connectedGems){
+			if (gem.getClass() == Bomb.class) {
+				Log.d("MyActivity", "Adding bomb to special gems");
+				activatedGems.add((SpecialGem)gem);
+			} else if (gem.getClass() == Potion.class){
+				Log.d("MyActivity", "Adding potion to special gems");
+				activatedGems.add((SpecialGem)gem);
+			}
+			else {
+				dropGem(gem);
+			}
+		}
+		
+		connectedGems.clear();
+	}
+	
+	void HandleActivatedGems() {
+		final float time = 2.0f;
+		
+		ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
+		{
+			public void onTimePassed(final TimerHandler pTimerHandler) 
+			{
+				ResourcesManager.getInstance().engine.unregisterUpdateHandler(pTimerHandler);
+				
+				for (Gem gem : activatedGems) {
+					if(gem.getClass() == Bomb.class){
+						for (Gem adj : getAdjacentGems(gem)) {
+							if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
+								connectedGems.add((Gem)adj); 
+							}
+						}
+					}
+					else if(gem.getClass() == Potion.class){
+						Log.d("MyActivity", "Potion");
+						// Increase health by X amount
+						// Battleground.increaseHealAmount();
+						Log.d("MyActivity", "Dropped potion");
+					}
+					dropGem(gem);
+				}
+				
+				activatedGems.clear();
+				
+				if (connectedGems.size() > 0) {
+					combo = true;
+					handleMove();
+				} else {
+					SendAttack();
+				}
+			}
+		}));
+	}
+	
+	void SendAttack(){
+		if(hasNoMoreMoves()){
+			ResourcesManager.getInstance().activity.gameToast("No more moves");
+			resetBoard();
+		}
+		combo = false;
+		
+		if (!combo) {
+			battleground.enterBattle(green, blue, red, yellow, bomb);
+		}
+		
+		green = 0; blue = 0; red = 0; yellow = 0;
 	}
 	
 	public void tallyAttackColors (ArrayList<Gem> gemsToAdd) {
