@@ -8,66 +8,106 @@ import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.gemboard.Gem;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.gemboard.gems.BlueGem;
+import com.teamv.capstone.gemboard.gems.Bomb;
 import com.teamv.capstone.gemboard.gems.GreenGem;
+import com.teamv.capstone.gemboard.gems.Potion;
 import com.teamv.capstone.gemboard.gems.RedGem;
 import com.teamv.capstone.gemboard.gems.YellowGem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.scenes.BaseScene;
 
 public class TutorialGemboard extends Gemboard{
-
-	private final int GREEN = 1;
-	private final int YELLOW = 2;
-	private final int RED = 3;
-	private final int BLUE = 4;
 	
-	private ArrayList<Integer> queue;
+	// BAD NAMING SO IT'S EASIER TO HARDCODE
+	private final int G = 1; // GREEN
+	private final int Y = 2; // YELLOW
+	private final int R = 3; // RED
+	private final int B = 4; // BLUE
+	private final int BB = 5;// BOMB
+	private final int H = 6; // HEAL
+	
+	private int[] queue1 = {Y,R,G,Y,Y,B,R};
+	private int[] queue2 = {Y,G,G,G,B,B};
+	private int[] queue3 = {G,B,G,R,G,B,Y,B,Y,B,H,Y,R,G,G};
+	
+	private static ArrayList<Integer> queue;
 	
 	private int[][] tutorial1 = {
-			{1,2,3,4,2},
-			{3,1,2,1},
-			{4,3,1,3,2},
-			{2,2,1,4},
-			{1,3,4,3,1},
-			{4,1,4,2},
-			{4,1,3,1,2}
+			{G,Y,R,B,Y},
+			{R,G,Y,G},
+			{B,R,G,R,Y},
+			{Y,Y,G,B},
+			{G,R,B,R,G},
+			{B,G,B,Y},
+			{B,G,R,G,Y}
 	};
-//	private int[][] tutorial2 = {1};
-//	private int[][] tutorial3 = {1};
+	
+	private int[][] tutorial2 = {
+			{G,Y,R,B,Y},
+			{R,G,Y,G},
+			{B,R,G,R,Y},
+			{Y,Y,R,B},
+			{R,R,B,R,G},
+			{B,G,B,Y},
+			{B,G,R,G,Y}
+	};
+	
+	private int[][] tutorial3 = {
+			{G,Y,R,B,R},
+			{R,G,Y,Y},
+			{Y,B,R,BB,G},
+			{Y,G,Y,Y},
+			{B,G,R,R,G},
+			{R,B,G,Y},
+			{B,G,R,G,Y}
+	};
 	
 	public TutorialGemboard(BaseScene gameScene, PhysicsWorld physicsWorld, Battleground battleground) {
 		super(gameScene, physicsWorld, battleground);
 		queue = new ArrayList<Integer>();
-		loadTutorial1();
+		loadTutorial(1);
 	}
 	
-	// HARDCODED GEMBOARD
-	public void loadTutorial1(){
-		resetBoard();
-		queue.clear();
-		
+	public void loadTutorial(int tutorial){
+		switch(tutorial){
+		case 1:
+			loadBoard(tutorial1);
+			loadQueue(queue1);
+			break;
+		case 2:
+			loadBoard(tutorial2);
+			loadQueue(queue2);
+			break;
+		case 3:
+			loadBoard(tutorial3);
+			loadQueue(queue3);
+			break;
+		default:
+			ResourcesManager.getInstance().activity.gameToast("TutorialGemboard.loadTutorial.default");	
+		}
+	}
+	
+	private void loadBoard(int[][] colors){
+		clearBoard();
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				if(x%2 != 0 && y == rows - 1){
 					break;
 				}
-				grid[x][y] = customGem(x, y, tutorial1[x][y]);
+				grid[x][y] = customGem(x, y, colors[x][y]);
 				attachGem(grid[x][y]);
 			}
 		}
 	}
 	
-	public void loadTutorial2(){
-		resetBoard();
+	private void loadQueue(int[] colors){
 		queue.clear();
+		for(int i = 0; i < colors.length-1; i++){
+			queue.add(colors[i]);
+		}
 	}
 	
-	public void loadTutorial3(){
-		resetBoard();
-		queue.clear();
-	}
-	
-	protected static void dropGem(Gem gem){
+	protected void dropGem(Gem gem){
 		int col = gem.getCol();
 		
 		for(int i = gem.getRow(); i > 0; i--){
@@ -75,15 +115,20 @@ public class TutorialGemboard extends Gemboard{
 			grid[col][i].drop();
 		}
 		
-		grid[col][0] = randomGem(col, 0); // NEED TO MODIFY
-		
+		if(queue.isEmpty()){
+			grid[col][0] = randomGem(col, 0);
+		}
+		else{
+			grid[col][0] = customGem(col, 0, queue.get(0));
+			queue.remove(0);
+		}
 		attachGem(grid[col][0]);
 		
 		detachGem(gem);
 		gem = null;
 	}
 	
-	private static void resetBoard(){
+	private static void clearBoard(){
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				// if odd and last row, don't add gem
@@ -105,15 +150,21 @@ public class TutorialGemboard extends Gemboard{
 			y += RADIUS/2;
 		
 		switch(color){
-		case BLUE:
+		case B:
 			return new BlueGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case GREEN:
+		case G:
 			return new GreenGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case YELLOW:
+		case Y:
 			return new YellowGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
-		case RED:
+		case R:
 			return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		case BB:
+			return new Bomb(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
+		case H:
+			return new Potion(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 		}
 		return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
+	
+
 }

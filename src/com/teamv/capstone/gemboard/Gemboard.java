@@ -74,7 +74,7 @@ public class Gemboard{
 		//drawGrid();
 	}
 	
-	private static void resetBoard(){
+	private void resetBoard(){
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				// if odd and last row, don't add gem
@@ -91,7 +91,7 @@ public class Gemboard{
 		}
 	}
 	
-	public static void executeGems() {
+	public void executeGems() {
 		Gemboard.unshadeBoard();
 		Gemboard.setCurrentColor(ColorType.NONE);
 		Gemboard.setCurrentSpecial(ColorType.NONE);
@@ -206,7 +206,7 @@ public class Gemboard{
 	}
 
 	// drops every gem above the parameter gem, then drop a new gem
-	protected static void dropGem(Gem gem){
+	protected void dropGem(Gem gem){
 		int col = gem.getCol();
 		
 		for(int i = gem.getRow(); i > 0; i--){

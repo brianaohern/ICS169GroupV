@@ -90,8 +90,10 @@ public abstract class Gem extends Sprite{
 	
 	// what happens when gem dies, cleans up
 	public void cleanUp(){
-		this.detachSelf();
-		this.dispose();
+		if(!this.isDisposed()){
+			this.detachSelf();
+			this.dispose();
+		}
 	}
 	
 	@Override
@@ -123,7 +125,7 @@ public abstract class Gem extends Sprite{
 		    if (pSceneTouchEvent.isActionUp())
 		    {
 		    	drawLine(this.getVertexBufferObjectManager());
-		    	Gemboard.executeGems();
+		    	SceneManager.getInstance().getGameScene().gemboard.executeGems();
 		    }
 		}
         return true;

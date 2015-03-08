@@ -25,7 +25,7 @@ public class GameScene extends BaseScene
 {
 	///VARIABLES
 	public static PhysicsWorld physicsWorld;
-	public static Gemboard gemboard;
+	public Gemboard gemboard;
 	public static Battleground arena;
 	//private CameraScene mPauseScene;
 	private PauseMenuScene mPauseScene;
@@ -140,7 +140,7 @@ public class GameScene extends BaseScene
 		super.onSceneTouchEvent(pSceneTouchEvent);
 
 		if (pSceneTouchEvent.isActionUp()){
-			Gemboard.executeGems();
+			gemboard.executeGems();
 			return true;
 		}
 		return false;

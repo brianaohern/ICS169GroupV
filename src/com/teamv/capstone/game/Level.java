@@ -11,7 +11,7 @@ import com.teamv.capstone.scenes.GameScene;
 public class Level {
 	protected ArrayList<Wave> level;
 	protected String name = "";
-	protected int currentBattle = 0;
+	protected int currentWave = 0;
 	protected int size = 0;
 	protected VertexBufferObjectManager vbom;
 	
@@ -25,17 +25,17 @@ public class Level {
 		this.name = name;
 	}
 
-	public void nextBattle(Wave wave){
+	public void nextWave(Wave wave){
 		//set up next battle
 		wave.initPlacement();
 		Battleground.currentWave = wave;
 		Battleground.attachEnemies();
 	}
 
-	public void nextBattle(){
-		if(currentBattle < level.size()){
-			nextBattle(level.get(currentBattle));
-			currentBattle++;
+	public void nextWave(){
+		if(currentWave < level.size()){
+			nextWave(level.get(currentWave));
+			currentWave++;
 		}
 		else{
 			((GameScene) SceneManager.getInstance().getCurrentScene()).endGame(true);
@@ -56,7 +56,7 @@ public class Level {
 	}
 	
 	public int getCurrentWaveCount(){
-		return currentBattle;
+		return currentWave;
 	}
 	
 	public int getMaxWaveCount(){
