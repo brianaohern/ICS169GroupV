@@ -92,7 +92,7 @@ public class Battleground {
 	}
 
 	public int calculateDamage(ArrayList<Gem> gems, Enemy enemy){
-		float green=0, blue=0, red=0, yellow=0, bomb=0;
+		float green=0, blue=0, red=0, yellow=0, bomb=0, potion=0;
 		for(Gem gem: gems){
 			switch((ColorType) gem.getUserData()){
 			case GREEN:
@@ -109,6 +109,9 @@ public class Battleground {
 				break;
 			case BOMB:
 				bomb++;
+				break;
+			case POTION:
+				potion++;
 				break;
 			default:
 				ResourcesManager.getInstance().activity.gameToast("Battleground: calculateDamage-default");
