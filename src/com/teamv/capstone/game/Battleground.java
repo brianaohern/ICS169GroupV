@@ -73,7 +73,7 @@ public class Battleground {
 		}
 
 		if(currentWave.isFinished()){
-			level.nextBattle();
+			level.nextWave();
 		}
 
 	}
@@ -151,6 +151,6 @@ public class Battleground {
 
 	public void enterLevel(Level level) {
 		this.level = level;
-		level.nextBattle();
+		level.nextWave();
 	}
 }
