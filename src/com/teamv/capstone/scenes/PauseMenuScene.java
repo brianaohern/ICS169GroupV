@@ -74,5 +74,4 @@ public class PauseMenuScene extends PopUpScene implements IOnMenuItemClickListen
 	            return false;
 	    }
 	}
-	
 }

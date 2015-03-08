@@ -18,6 +18,7 @@ import com.teamv.capstone.scenes.BaseScene;
 
 public class TutorialGemboard extends Gemboard{
 	
+	public static int currentTutorial = 0;
 	// BAD NAMING SO IT'S EASIER TO HARDCODE
 	private final int G = 1; // GREEN
 	private final int Y = 2; // YELLOW
@@ -69,6 +70,7 @@ public class TutorialGemboard extends Gemboard{
 	}
 	
 	public void loadTutorial(int tutorial){
+		currentTutorial = tutorial;
 		switch(tutorial){
 		case 1:
 			loadBoard(tutorial1);
@@ -128,7 +130,7 @@ public class TutorialGemboard extends Gemboard{
 		gem = null;
 	}
 	
-	private static void clearBoard(){
+	private void clearBoard(){
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				// if odd and last row, don't add gem
@@ -165,6 +167,4 @@ public class TutorialGemboard extends Gemboard{
 		}
 		return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
-	
-
 }

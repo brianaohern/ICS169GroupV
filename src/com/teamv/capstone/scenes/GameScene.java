@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.GameActivity;
 import com.teamv.capstone.game.Level;
+import com.teamv.capstone.game.tutorial.TutorialBattleground;
 import com.teamv.capstone.game.tutorial.TutorialGemboard;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.managers.ResourcesManager;
@@ -26,13 +27,12 @@ public class GameScene extends BaseScene
 	///VARIABLES
 	public static PhysicsWorld physicsWorld;
 	public Gemboard gemboard;
-	public static Battleground arena;
+	public Battleground arena;
 	private PauseMenuScene mPauseScene;
 	private Level level;
 
 	public GameScene(Level level) {
 		super();
-		arena.enterLevel(level);
 		this.level = level;
 	}
 
@@ -61,7 +61,6 @@ public class GameScene extends BaseScene
 		this.attachChild(pauseButton);
 		this.registerTouchArea(pauseButton);
 
-		arena = new Battleground(this);
 		ResourcesManager.getInstance().bgm.play();
 	}
 
@@ -86,10 +85,6 @@ public class GameScene extends BaseScene
 	///CREATE STUFF
 	private void createBackground()
 	{
-		//    	float r = 99.0f	/255;
-		//    	float g = 33.0f	/255;
-		//    	float b = 10.0f	/255;
-		//      setBackground(new Background(r, g, b));
 		setBackground(new Background(Color.BLACK));
 	}
 
@@ -102,13 +97,15 @@ public class GameScene extends BaseScene
 		
 		final Text fpsText = new Text(40, 0, font, "FPS:", "FPS: XXXXX".length(), vbom);
 		final Text waveCount = new Text(40, 50, font, "Wave ", "Wave X of X".length(), vbom);
-		final Text numOfEnemies = new Text(40, 100, font, "Number of Enemies: ", "Number of Enemies: X".length(), vbom);
-		final Text gemChain = new Text(40, 150, font, "Gems Chained:", "Gems Chained: XXX".length(), vbom);
+		final Text numOfEnemies = new Text(40, 100, font, "# of Enemies: ", "Number of Enemies: X".length(), vbom);
+		final Text gemChain = new Text(40, 150, font, "Gems Chained: ", "Gems Chained: XXX".length(), vbom);
+		final Text bodyCount = new Text(40, 200, font, "# of bodies: ", "# of bodies: XXX".length(), vbom);
 	
 		this.attachChild(waveCount);
 		this.attachChild(fpsText);
 		this.attachChild(gemChain);
 		this.attachChild(numOfEnemies);
+		this.attachChild(bodyCount);
 
 		this.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback()
 		{
@@ -119,6 +116,7 @@ public class GameScene extends BaseScene
 				fpsText.setText("FPS: " + (int)fpsCounter.getFPS());
 				gemChain.setText("Gems Chained: " + Gemboard.connectedGems.size());
 				numOfEnemies.setText("Number of Enemies: " + arena.getNumOfEnemies());
+				bodyCount.setText("# of bodies: " + physicsWorld.getBodyCount());
 			}
 		}));
 	}
@@ -138,24 +136,34 @@ public class GameScene extends BaseScene
 		}
 		return false;
 	}
+	
+	public void loadTutorial() {
+		arena = new TutorialBattleground(this);
+		gemboard = new TutorialGemboard(this, physicsWorld, arena);
+		this.enterInstructionScene("Match gems to do damage to the enemy", false, 0); 
+		arena.enterLevel(level);
+	}
+	
+	public void loadGame(){
+		arena = new Battleground(this);
+		gemboard = new Gemboard(this, physicsWorld, arena);
+		arena.enterLevel(level);
+	}
 
-	public void endGame(boolean winGame) {
-		PromptScene resultScene = null;
+	public void enterEndScene(boolean winGame) {
+		ResultScene resultScene = null;
 		ResourcesManager.getInstance().bgm.stop();
 		if(winGame){
-			resultScene = new PromptScene(600, 800, "You Win", SceneType.SCENE_MENU);
+			resultScene = new ResultScene(600, 800, "You Win", SceneType.SCENE_MENU);
 		}
 		else{
-			resultScene = new PromptScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
+			resultScene = new ResultScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
 		}
 		this.setChildScene(resultScene, false, true, true);
 	}
-
-	public void loadTutorialBoard() {
-		gemboard = new TutorialGemboard(this, physicsWorld, arena);
-	}
 	
-	public void loadGemboard(){
-		gemboard = new Gemboard(this, physicsWorld, arena);
+	public void enterInstructionScene(String instruction, boolean shouldResetBoard, int boardType){
+		InstructionScene instructions = new InstructionScene(1080, 200, instruction, shouldResetBoard, boardType);
+		this.setChildScene(instructions, false, true, true);
 	}
 }

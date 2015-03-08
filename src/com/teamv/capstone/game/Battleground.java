@@ -15,8 +15,8 @@ import com.teamv.capstone.scenes.GameScene;
 public class Battleground {
 
 	static GameScene gameScene;
-	static Wave currentWave;
-	Level level;
+	protected static Wave currentWave;
+	protected Level level;
 	Player player;
 	VertexBufferObjectManager vbom;
 	boolean isFinished = false;
@@ -64,7 +64,6 @@ public class Battleground {
 						ResourcesManager.getInstance().meleeAttackSound.play();
 					}
 				}));
-
 				enemy.resetCurrentTurnCount();
 			}
 			enemy.updateTurnCount();
@@ -74,7 +73,6 @@ public class Battleground {
 		if(currentWave.isFinished()){
 			level.nextWave();
 		}
-
 	}
 
 	public static void attachEnemies(){
@@ -118,7 +116,12 @@ public class Battleground {
 			break;
 		default:
 			break;
+<<<<<<< HEAD
 	}
+=======
+		}
+		ResourcesManager.getInstance().activity.gameToast("damage: "+(int)(red+blue+green+yellow));
+>>>>>>> robin-popup
 		return (int)(red+blue+green+yellow);
 	}
 
