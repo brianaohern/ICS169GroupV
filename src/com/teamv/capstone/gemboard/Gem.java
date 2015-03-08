@@ -200,10 +200,7 @@ public abstract class Gem extends Sprite{
 	
 	// determines if the gems are the same
 	protected boolean sameColor(Gem gem) {
-		//return(this.getUserData().equals(gem.getUserData()) || this.getUserData().equals(ColorType.BOMB));
-		return(this.getUserData().equals(Gemboard.getCurrentColor())
-				|| this.getUserData().equals(ColorType.BOMB) 
-				|| this.getUserData().equals(ColorType.POTION));
+		return(this.getUserData().equals(Gemboard.getCurrentColor()) || this.isSpecial(gem));
 	}
 	
 	// determines if the move is possible
