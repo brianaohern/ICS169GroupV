@@ -146,7 +146,7 @@ public class Gemboard{
 	}
 	
 	private void HandleActivatedGems() {
-		final float time = 2.0f;
+		final float time = 1.0f;
 		
 		ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
 		{
