@@ -33,9 +33,7 @@ import android.widget.Toast;
 	private Camera camera;
 	public static int WIDTH = 1080;
 	public static int HEIGHT = 1920;
-	@SuppressWarnings("unused")
 	private ResourcesManager resourcesManager;
-	private boolean mPowerButton = false;
 	
     public EngineOptions onCreateEngineOptions()
     {
@@ -77,17 +75,23 @@ import android.widget.Toast;
     }
     
     @Override
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
-        ResourcesManager.getInstance().bgm.pause();
+        if (this.isGameLoaded()) {
+        	if (resourcesManager.bgm != null) {
+        		ResourcesManager.getInstance().bgm.pause();
+        	}
+        }
     }
 
     @Override
-    public void onResume() {
+    protected synchronized void onResume() {
         super.onResume();
-        
-        if (!this.mPowerButton && ResourcesManager.getInstance().bgm != null) {
-        	ResourcesManager.getInstance().bgm.resume();
+        System.gc();
+        if (this.isGameLoaded()) {
+        	if (resourcesManager.bgm != null) {
+        		ResourcesManager.getInstance().bgm.resume();
+        	}
         }
     }
     
@@ -95,7 +99,9 @@ import android.widget.Toast;
     protected void onDestroy()
     {
     	super.onDestroy();
-        System.exit(0);	
+    	if (this.isGameLoaded()) {
+    		System.exit(0);	
+    	}
     }
     
     @Override

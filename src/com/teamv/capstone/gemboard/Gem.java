@@ -184,7 +184,7 @@ public abstract class Gem extends Sprite{
 				Gemboard.connectedGems.remove(i);
 				
 				// Store the line
-				Line line = Gemboard.lines.get(i-1);
+				Line line = Gemboard.lines.get(Gemboard.lines.size()-1);
 				
 				// Remove the line from lines ArrayList
 				Gemboard.lines.remove(i-1);
