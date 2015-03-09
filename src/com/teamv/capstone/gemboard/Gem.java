@@ -107,10 +107,10 @@ public abstract class Gem extends Sprite{
 		    {
 		    	ResourcesManager.getInstance().gemSelectSound.play();
 		    	start.set(mX + Gemboard.RADIUS/2, mY + Gemboard.RADIUS/2);
-		    	Gemboard.setCurrentColor(this);
-		    	Gemboard.setCurrentSpecial(ColorType.NONE);
+	    		Gemboard.setCurrentColor(this);
+	    		Gemboard.setCurrentSpecial(ColorType.NONE);
 		    	
-		    	Gemboard.connectedGems.add(this);
+	    		Gemboard.connectedGems.add(this);
 		    	highlightGem();
 		    	Gemboard.shadeBoard(this);
 //		    	System.out.println("Added " + this.getUserData());
@@ -125,6 +125,9 @@ public abstract class Gem extends Sprite{
 		    // when finger releases gem
 		    if (pSceneTouchEvent.isActionUp())
 		    {
+		    	if (Gemboard.connectedGems.size() < 3){
+		    		Gemboard.connectedGems.clear();
+		    	}
 		    	drawLine(this.getVertexBufferObjectManager());
 		    	SceneManager.getInstance().getGameScene().gemboard.handleMove();
 		    }

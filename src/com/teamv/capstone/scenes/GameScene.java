@@ -107,7 +107,7 @@ public class GameScene extends BaseScene
 		this.attachChild(numOfEnemies);
 		this.attachChild(bodyCount);
 
-		this.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback()
+		this.registerUpdateHandler(new TimerHandler(0.05f, true, new ITimerCallback()
 		{
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler)
