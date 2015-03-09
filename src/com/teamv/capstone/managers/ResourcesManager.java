@@ -190,8 +190,8 @@ public class ResourcesManager
         
         // game.player
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/player/");
-        mainCharacterTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 300, 500, TextureOptions.BILINEAR);
-        mainCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainCharacterTextureAtlas, activity, "player.png", 0, 0);
+        mainCharacterTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 322, 401, TextureOptions.BILINEAR);
+        mainCharacter = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainCharacterTextureAtlas, activity, "character_sprite_Painting.png", 0, 0);
         mainCharacterTextureAtlas.load();
         //end game.player
         
