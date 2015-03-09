@@ -14,8 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.teamv.capstone.game.ColorType;
-import com.teamv.capstone.gemboard.gems.Bomb;
-import com.teamv.capstone.gemboard.gems.Potion;
+import com.teamv.capstone.gemboard.gems.SpecialGem;
 import com.teamv.capstone.managers.ResourcesManager;
 import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.utility.Pointf;
@@ -90,8 +89,12 @@ public abstract class Gem extends Sprite{
 	
 	// what happens when gem dies, cleans up
 	public void cleanUp(){
-		this.detachSelf();
-		this.dispose();
+		if(!this.isDisposed()){
+			this.dispose();
+		}
+		if(this.hasParent()){
+			this.detachSelf();
+		}
 	}
 	
 	@Override
@@ -199,8 +202,7 @@ public abstract class Gem extends Sprite{
 	protected boolean sameColor(Gem gem) {
 		//return(this.getUserData().equals(gem.getUserData()) || this.getUserData().equals(ColorType.BOMB));
 		return(this.getUserData().equals(Gemboard.getCurrentColor())
-				|| this.getUserData().equals(ColorType.BOMB) 
-				|| this.getUserData().equals(ColorType.POTION));
+				|| isSpecial(gem));
 	}
 	
 	// determines if the move is possible
@@ -214,7 +216,7 @@ public abstract class Gem extends Sprite{
 	
 	// determines if the gem is a special gem
 	protected boolean isSpecial(Gem gem) {
-		return this.getClass() == Bomb.class || this.getClass() == Potion.class;
+		return this instanceof SpecialGem;
 	}
 	
 	// used for drawing lines; the basic math
