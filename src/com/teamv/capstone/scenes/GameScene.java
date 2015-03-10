@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.GameActivity;
 import com.teamv.capstone.game.Level;
+import com.teamv.capstone.game.tutorial.InstructionScene;
 import com.teamv.capstone.game.tutorial.TutorialBattleground;
 import com.teamv.capstone.game.tutorial.TutorialGemboard;
 import com.teamv.capstone.gemboard.Gemboard;
@@ -40,7 +41,7 @@ public class GameScene extends BaseScene
 	public void createScene()
 	{
 		createBackground();
-		createDebuggerHUD();
+		//createDebuggerHUD();
 		createPhysics();
 
 		mPauseScene = new PauseMenuScene(this);

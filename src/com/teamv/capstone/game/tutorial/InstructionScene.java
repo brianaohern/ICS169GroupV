@@ -1,4 +1,4 @@
-package com.teamv.capstone.scenes;
+package com.teamv.capstone.game.tutorial;
 
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.ScaleModifier;
@@ -11,8 +11,8 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.util.color.Color;
 
 import com.teamv.capstone.game.GameActivity;
-import com.teamv.capstone.game.tutorial.TutorialGemboard;
 import com.teamv.capstone.managers.SceneManager;
+import com.teamv.capstone.scenes.PopUpScene;
 
 public class InstructionScene extends PopUpScene{
 	
