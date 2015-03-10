@@ -12,7 +12,7 @@ import com.teamv.capstone.managers.SceneManager.SceneType;
 
 public class ResultScene extends PopUpScene{
 	
-	Rectangle popup;
+	Sprite popup;
 	
 	public ResultScene(){
 		super();
@@ -25,13 +25,15 @@ public class ResultScene extends PopUpScene{
 	
 	public void setUp(int width, int height, String text, final SceneType type){
 		
-		popup = new Rectangle(GameActivity.WIDTH/2 - width/2, GameActivity.HEIGHT/2-height/2, width, height, vbom);
+		popup = new Sprite(GameActivity.WIDTH/2 - width/2, GameActivity.HEIGHT/2-height/2, rs.bgBox, vbom);
+		popup.setWidth(width);
+		popup.setHeight(height);
 		this.attachChild(popup);
 		
-		final Text message= new Text(40, 200, rs.font, text, text.length(), vbom);
+		final Text message= new Text(GameActivity.WIDTH/2 - width/2 + text.length()/2, GameActivity.HEIGHT/2 - 100, rs.font, text, text.length(), vbom);
 		message.setScale(1.5f);
 		message.setX(message.getX()*1.5f);
-		this.popup.attachChild(message);
+		this.attachChild(message);
 		
 		final Sprite button = new Sprite(0, 0, rs.menuButton, this.vbom){
 
@@ -45,8 +47,8 @@ public class ResultScene extends PopUpScene{
 		};
 		button.setScale(2f);
 		button.setColor(Color.BLUE);
-		button.setPosition(popup);
-		popup.attachChild(button);
+		button.setPosition(GameActivity.WIDTH/2 - button.getWidth()/2, GameActivity.HEIGHT/2 + button.getHeight());
+		this.attachChild(button);
 		this.registerTouchArea(button);
 	}
 }

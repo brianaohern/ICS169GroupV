@@ -3,7 +3,6 @@ package com.teamv.capstone.game.tutorial;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.AutoWrap;
@@ -17,7 +16,7 @@ import com.teamv.capstone.scenes.PopUpScene;
 
 public class InstructionScene extends PopUpScene{
 	
-	Rectangle popup;
+	Sprite popup;
 	
 	public InstructionScene(){
 		super();
@@ -33,10 +32,12 @@ public class InstructionScene extends PopUpScene{
 	}
 	
 	public void setUp(int width, int height, String text, boolean shouldResetBoard, int boardType){
-		popup = new Rectangle(GameActivity.WIDTH/2 - width/2, GameActivity.HEIGHT/2-height/2, width, height, vbom);
+		popup = new Sprite(GameActivity.WIDTH/2 - width/2, GameActivity.HEIGHT/2-height/2, rs.bgBox, vbom);
+		popup.setWidth(width);
+		popup.setHeight(height);
 		this.attachChild(popup);
 	
-		Text message= new Text(0, 0, rs.font, text, text.length(), vbom);
+		Text message= new Text(40, 0, rs.font, text, text.length(), vbom);
 		message.setAutoWrap(AutoWrap.WORDS);
 		message.setAutoWrapWidth(1080f);
 		message.setColor(Color.BLACK);

@@ -91,6 +91,7 @@ public class ResourcesManager
     public ITextureRegion targetAuto;
     public ITextureRegion targetDefault;
     public ITextureRegion checkButton;
+    public ITextureRegion bgBox;
     
     //audio
     public Sound gemSelectSound;
@@ -207,11 +208,12 @@ public class ResourcesManager
         
         // game.hud?
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-        interfaceTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 800, 200, TextureOptions.BILINEAR);
+        interfaceTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1400, 400, TextureOptions.BILINEAR);
         targetAuto=BitmapTextureAtlasTextureRegionFactory.createFromAsset(interfaceTextureAtlas, activity, "target_auto.png", 0, 0);
         targetManual=BitmapTextureAtlasTextureRegionFactory.createFromAsset(interfaceTextureAtlas, activity, "target_manual.png", 200, 0);
         targetDefault=BitmapTextureAtlasTextureRegionFactory.createFromAsset(interfaceTextureAtlas, activity, "target_red.png", 400, 0);
         checkButton=BitmapTextureAtlasTextureRegionFactory.createFromAsset(interfaceTextureAtlas, activity, "YellowCheck.png", 600, 0);
+        bgBox=BitmapTextureAtlasTextureRegionFactory.createFromAsset(interfaceTextureAtlas, activity, "background_box.png", 800, 0);
         interfaceTextureAtlas.load();
         // end game.hud
         

@@ -163,7 +163,7 @@ public class GameScene extends BaseScene
 		ResultScene resultScene = null;
 		ResourcesManager.getInstance().bgm.stop();
 		if(winGame){
-			resultScene = new ResultScene(600, 800, "You Win", SceneType.SCENE_MENU);
+			resultScene = new ResultScene(600, 800, "You Win!!!", SceneType.SCENE_MENU);
 		}
 		else{
 			resultScene = new ResultScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
