@@ -73,6 +73,7 @@ public class ResourcesManager
     public ITextureRegion direWolf;
     public ITextureRegion imp;
     public ITextureRegion zombie;
+    public ITextureRegion alphaWolf;
     private BitmapTextureAtlas enemyTextureAtlas;
     //game.player
     public ITextureRegion mainCharacter;
@@ -190,12 +191,13 @@ public class ResourcesManager
         
         // game.enemies
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/enemies/");
-        enemyTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1000, 1000, TextureOptions.BILINEAR);
+        enemyTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1000, 1250, TextureOptions.BILINEAR);
         wolfie = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "wolfie.png", 0, 0);
         wolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "wolf.png", 250, 0);
         direWolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "dire_wolf.png", 0, 250);
         imp = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "imp.png", 250, 250);
         zombie = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "zombie.png", 0, 500);
+        alphaWolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "alphaWolf.png", 250, 500);
         enemyTextureAtlas.load();
         //end game.enemies
         
