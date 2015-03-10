@@ -3,6 +3,7 @@ package com.teamv.capstone.game;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.DelayModifier;
+import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.teamv.capstone.managers.ResourcesManager;
@@ -17,6 +18,7 @@ public class Battleground {
 	Player player;
 	VertexBufferObjectManager vbom;
 	boolean isFinished = false;
+	public static Text waveCount;
 
 	Enemy target;
 
@@ -25,6 +27,8 @@ public class Battleground {
 		vbom = ResourcesManager.getInstance().vbom;
 		player = new Player(1080/40, 1920/4, vbom);
 		player.attachToScene(gameScene);
+		waveCount = new Text(40, 50, ResourcesManager.getInstance().font, "Wave", "Wave X of X".length(), vbom);
+		gameScene.attachChild(waveCount);
 	}
 	
 	public void enterBattle(int green, int blue, int red, int yellow, int bomb){
@@ -67,7 +71,7 @@ public class Battleground {
 			enemy.updateTurnCount();
 			count++;
 		}
-
+		
 		if(currentWave.isFinished()){
 			level.nextWave();
 		}

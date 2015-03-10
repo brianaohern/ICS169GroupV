@@ -4,6 +4,7 @@ import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.AutoWrap;
 import org.andengine.entity.text.Text;
@@ -28,6 +29,7 @@ public class InstructionScene extends PopUpScene{
 		if(shouldResetBoard){
 			((TutorialGemboard)SceneManager.getInstance().getGameScene().gemboard).loadTutorial(boardType);
 		}
+		setBackground(new Background(Color.BLACK));
 	}
 	
 	public void setUp(int width, int height, String text, boolean shouldResetBoard, int boardType){

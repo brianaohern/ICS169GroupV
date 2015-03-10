@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
 import com.teamv.capstone.game.Battleground;
+import com.teamv.capstone.game.ColorType;
 import com.teamv.capstone.gemboard.Gem;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.gemboard.gems.BlueGem;
@@ -29,7 +30,7 @@ public class TutorialGemboard extends Gemboard{
 	
 	private int[] queue1 = {Y,R,G,Y,Y,B,R};
 	private int[] queue2 = {Y,G,G,G,B,B};
-	private int[] queue3 = {G,B,G,R,G,B,Y,B,Y,B,H,Y,R,G,G};
+	private int[] queue3 = {G,B,B,Y,G,R,B,Y,R,B,H,Y,R,G,G};
 	
 	private static ArrayList<Integer> queue;
 	
@@ -75,18 +76,23 @@ public class TutorialGemboard extends Gemboard{
 		case 1:
 			loadBoard(tutorial1);
 			loadQueue(queue1);
+//			Gemboard.currentColor = ColorType.GREEN;
 			break;
 		case 2:
 			loadBoard(tutorial2);
 			loadQueue(queue2);
+//			Gemboard.currentColor = ColorType.RED;
 			break;
 		case 3:
 			loadBoard(tutorial3);
 			loadQueue(queue3);
+//			Gemboard.currentColor = ColorType.YELLOW;
 			break;
 		default:
 			ResourcesManager.getInstance().activity.gameToast("TutorialGemboard.loadTutorial.default");	
 		}
+//		setCurrentSpecial(ColorType.NONE);
+//		shadeBoard();
 	}
 	
 	private void loadBoard(int[][] colors){
@@ -122,6 +128,7 @@ public class TutorialGemboard extends Gemboard{
 		}
 		else{
 			grid[col][0] = customGem(col, 0, queue.get(0));
+//			grid[col][0].shadeGem();
 			queue.remove(0);
 		}
 		attachGem(grid[col][0]);
@@ -167,4 +174,24 @@ public class TutorialGemboard extends Gemboard{
 		}
 		return new RedGem(col, row, x, y, ResourcesManager.getInstance().vbom, physicsWorld);
 	}
+	
+//	public void shadeBoard(){
+//		super.shadeBoard(grid[2][2]);
+//	}
+//	
+//	public void unshadeBoard() {
+//		//no unshading
+//	}
+//	
+//	public void UnshadeBoard(){
+//		super.unshadeBoard();
+//	}
+//	
+//	public void setCurrentColor(ColorType color) {
+//		// DO NOTHING currentColor = color;
+//	}
+//	
+//	public void overrideColor(ColorType color){
+//		super.setCurrentColor(color);
+//	}
 }

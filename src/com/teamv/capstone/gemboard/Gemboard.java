@@ -116,10 +116,10 @@ public class Gemboard{
 		return connectedGems.size() >= 3;
 	}
 	
-	private void ClearBoard() {
-		Gemboard.unshadeBoard();
-		Gemboard.setCurrentColor(ColorType.NONE);
-		Gemboard.setCurrentSpecial(ColorType.NONE);
+	public void ClearBoard() {
+		this.unshadeBoard();
+		setCurrentColor(ColorType.NONE);
+		setCurrentSpecial(ColorType.NONE);
 		eraseLines();
 		lines.clear();
 	}
@@ -230,7 +230,7 @@ public class Gemboard{
 	}
 	
 	// erases each line connecting the gems in your move
-	private static void eraseLines() {
+	protected static void eraseLines() {
 		for(Line line : lines){
 			line.detachSelf();
 			line.dispose();
@@ -366,7 +366,7 @@ public class Gemboard{
 
 	}
 	
-	public static void shadeBoard(Gem gem) {
+	public void shadeBoard(Gem gem) {
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				if(grid[x][y] != null) {
@@ -378,7 +378,7 @@ public class Gemboard{
 		}
 	}
 	
-	public static void unshadeBoard() {
+	public void unshadeBoard() {
 		for(int x = 0; x < cols; x++){
 			for(int y = 0; y < rows; y++){
 				if(grid[x][y] != null) {
@@ -457,7 +457,7 @@ public class Gemboard{
 		currentColor = (ColorType) gem.getUserData();
 	}
 	
-	public static void setCurrentColor(ColorType color) {
+	public void setCurrentColor(ColorType color) {
 		currentColor = color;
 	}
 	
@@ -465,7 +465,7 @@ public class Gemboard{
 		return currentSpecial;
 	}
 	
-	public static void setCurrentSpecial(Gem gem) {
+	public void setCurrentSpecial(Gem gem) {
 		currentSpecial = (ColorType) gem.getUserData();
 	}
 	

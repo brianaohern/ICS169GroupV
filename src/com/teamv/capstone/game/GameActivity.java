@@ -131,7 +131,7 @@ import android.widget.Toast;
     }
     
     public void gameToast(final String msg) {
-        toast(msg); // comment this to disable toasts
+        //toast(msg); // comment this to disable toasts
     }
     
 	private void toast(final String msg){

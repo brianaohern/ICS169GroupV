@@ -36,6 +36,7 @@ public class Level {
 		if(currentWave < level.size()){
 			nextWave(level.get(currentWave));
 			currentWave++;
+			Battleground.waveCount.setText("Wave " + this.getCurrentWaveCount() + " of " + this.getMaxWaveCount());
 		}
 		else{
 			((GameScene) SceneManager.getInstance().getCurrentScene()).enterEndScene(true);

@@ -149,7 +149,7 @@ public class GameScene extends BaseScene
 	public void loadTutorial() {
 		arena = new TutorialBattleground(this);
 		gemboard = new TutorialGemboard(this, physicsWorld, arena);
-		this.enterInstructionScene("Match gems to do damage to the enemy", false, 0); 
+		this.enterInstructionScene("Match 3 or more gems to do damage to the enemy.", false, 0); 
 		arena.enterLevel(level);
 	}
 	

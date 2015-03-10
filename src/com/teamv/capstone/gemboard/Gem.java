@@ -112,7 +112,7 @@ public abstract class Gem extends Sprite{
 		    	
 	    		Gemboard.connectedGems.add(this);
 		    	highlightGem();
-		    	Gemboard.shadeBoard(this);
+		    	SceneManager.getInstance().getGameScene().gemboard.shadeBoard(this);
 //		    	System.out.println("Added " + this.getUserData());
 //	        	System.out.println(start.x + " " + start.y);
 		    }
@@ -184,7 +184,11 @@ public abstract class Gem extends Sprite{
 				Gemboard.connectedGems.remove(i);
 				
 				// Store the line
-				Line line = Gemboard.lines.get(Gemboard.lines.size()-1);
+				Line line = null;
+				if(Gemboard.lines.size() - 1 <= 0)
+					line = Gemboard.lines.get(0);
+				else
+					line = Gemboard.lines.get(Gemboard.lines.size()-1);
 				
 				// Remove the line from lines ArrayList
 				Gemboard.lines.remove(i-1);
@@ -202,7 +206,7 @@ public abstract class Gem extends Sprite{
 	}
 	
 	// determines if the gems are the same
-	protected boolean sameColor(Gem gem) {
+	public boolean sameColor(Gem gem) {
 		return(this.getUserData().equals(Gemboard.getCurrentColor())
 				|| this.getUserData().equals(ColorType.BOMB) 
 				|| this.getUserData().equals(ColorType.POTION));
@@ -237,7 +241,7 @@ public abstract class Gem extends Sprite{
 		return isAdjacent(start.x, end.x, start.y, end.y);
 	}
 	
-	private void highlightGem() {
+	public void highlightGem() {
 		this.setColor(Color.YELLOW);
 		ResourcesManager.getInstance().gemSelectSound.play();
 	}

@@ -35,7 +35,7 @@ public class TutorialLevel extends Level{
 			{
 				public void onTimePassed(final TimerHandler pTimerHandler) 
 				{
-					SceneManager.getInstance().getGameScene().enterInstructionScene("Match the gem type to do extra damage", true, 2);
+					SceneManager.getInstance().getGameScene().enterInstructionScene("Match the gem type to do extra damage.", true, 2);
 				}
 			}));
 		}else if(currentWave == 2){
