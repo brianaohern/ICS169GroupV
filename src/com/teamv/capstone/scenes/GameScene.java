@@ -1,8 +1,10 @@
 package com.teamv.capstone.scenes;
 
+import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSCounter;
@@ -10,6 +12,7 @@ import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.font.IFont;
+import org.andengine.opengl.util.GLState;
 import org.andengine.util.color.Color;
 
 import com.badlogic.gdx.math.Vector2;
@@ -86,7 +89,15 @@ public class GameScene extends BaseScene
 	///CREATE STUFF
 	private void createBackground()
 	{
-		setBackground(new Background(Color.BLACK));
+		attachChild(new Sprite(0, 0, resourcesManager.background, vbom)
+		{
+    		@Override
+            protected void preDraw(GLState pGLState, Camera pCamera) 
+    		{
+                super.preDraw(pGLState, pCamera);
+                pGLState.enableDither();
+            }
+		});
 	}
 
 	// DEBUGGER HUD

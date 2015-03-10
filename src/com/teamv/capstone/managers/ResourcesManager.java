@@ -55,6 +55,10 @@ public class ResourcesManager
     public BitmapTextureAtlas lsTextureAtlas;
     public ITextureRegion level_region;
     
+    //backgrounds
+    public BitmapTextureAtlas backgroundTextureAtlas;
+    public ITextureRegion background;
+    
     //game.gems
     public ITextureRegion red_gem;
     public ITextureRegion blue_gem;
@@ -165,6 +169,12 @@ public class ResourcesManager
 
     private void loadGameGraphics()
     {
+    	// Backgrounds
+    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/backgrounds/");
+    	backgroundTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1080, 1920, TextureOptions.BILINEAR);
+    	background = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, activity, "background.png", 0, 0);
+    	backgroundTextureAtlas.load();
+    	
     	// game.gems
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/gems/");
         gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1000, 1000, TextureOptions.BILINEAR);
