@@ -70,12 +70,12 @@ public abstract class Gem extends Sprite{
 	        {
 	            super.onUpdate(pSecondsElapsed);
 	            
-//	            if(mY >= targetY){
-//            		isDropping = false;
-//            	}
+	            if(mY >= targetY){
+            		isDropping = false;
+            	}
 	            if(isDropping){
 	            	body.setLinearVelocity(new Vector2(0, 50f));
-	            	isDropping = false;
+//	            	isDropping = false;
 	            } else{
 	            	body.setLinearVelocity(new Vector2(0, 0));
 	            	alignGem();
