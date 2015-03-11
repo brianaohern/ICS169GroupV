@@ -143,6 +143,10 @@ public abstract class Enemy extends HealthBarEntity{
 		
 		turnCountText.setX(pX + healthBarWidth+buffer.x);
 		turnCountText.setY(pY - (buffer.y + 20));
+		l1.setPosition(start.x+buffer.x, start.y-buffer.y);
+		l2.setPosition(start.x+buffer.x, start.y-buffer.y);
+		l3.setPosition(start.x+buffer.x,start.y-buffer.y+healthBar.getHeight());
+		l4.setPosition(start.x+buffer.x+healthBar.getWidth(), start.y-buffer.y);
 	}
 	
 	public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y) 
