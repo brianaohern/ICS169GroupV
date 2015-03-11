@@ -48,10 +48,11 @@ import android.widget.Toast;
     {
     	ResourcesManager.prepareManager(mEngine, this, camera, getVertexBufferObjectManager());
         resourcesManager = ResourcesManager.getInstance();
+        
         pOnCreateResourcesCallback.onCreateResourcesFinished();
     }
 
-    public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws IOException
+	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws IOException
     {
         SceneManager.getInstance().createSplashScene(pOnCreateSceneCallback);
     }

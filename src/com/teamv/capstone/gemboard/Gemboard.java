@@ -6,10 +6,20 @@ import java.util.Random;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.modifier.AlphaModifier;
+import org.andengine.entity.particle.SpriteParticleSystem;
+import org.andengine.entity.particle.emitter.PointParticleEmitter;
+import org.andengine.entity.particle.initializer.BlendFunctionParticleInitializer;
+import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
+import org.andengine.entity.particle.modifier.AlphaParticleModifier;
+import org.andengine.entity.particle.modifier.ColorParticleModifier;
+import org.andengine.entity.particle.modifier.ExpireParticleInitializer;
+import org.andengine.entity.particle.modifier.ScaleParticleModifier;
 import org.andengine.entity.primitive.Line;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
 
+import android.opengl.GLES20;
 import android.util.Log;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -17,6 +27,7 @@ import com.teamv.capstone.game.Battleground;
 import com.teamv.capstone.game.ColorType;
 import com.teamv.capstone.gemboard.gems.*;
 import com.teamv.capstone.managers.ResourcesManager;
+import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.scenes.BaseScene;
 import com.teamv.capstone.utility.Pointf;
 
@@ -133,6 +144,7 @@ public class Gemboard{
 			if (gem.getClass() == Bomb.class) {
 				Log.d("MyActivity", "Adding bomb to special gems");
 				activatedGems.add((SpecialGem)gem);
+				particleExplode(gem.getCol(),gem.getRow());
 			} else if (gem.getClass() == Potion.class){
 				Log.d("MyActivity", "Adding potion to special gems");
 				activatedGems.add((SpecialGem)gem);
@@ -239,7 +251,7 @@ public class Gemboard{
 
 	// drops every gem above the parameter gem, then drop a new gem
 	protected void dropGem(Gem gem){
-		int col = gem.getCol();
+		final int col = gem.getCol();
 		
 		for(int i = gem.getRow(); i > 0; i--){
 			grid[col][i] = grid[col][i - 1];
@@ -253,6 +265,40 @@ public class Gemboard{
 		
 		detachGem(gem);
 		gem = null;
+	}
+	
+	private void particleExplode(int col, int row) {
+		float x = col * RADIUS + (RADIUS/2);
+		float y = STARTY + row * (RADIUS) + (RADIUS/2);
+		if(col%2 != 0){
+			y += RADIUS/2;
+		}
+		Log.d("MyActivity", x + ", " + y);
+		
+		PointParticleEmitter mEmitter;
+		final SpriteParticleSystem mSystem;
+				
+		mEmitter = new PointParticleEmitter(x,y);
+		mSystem = new SpriteParticleSystem(mEmitter, 500.0f, 600.0f, 600, ResourcesManager.getInstance().particle, grid[0][0].getVertexBufferObjectManager());
+		mSystem.addParticleInitializer(new ExpireParticleInitializer<Sprite>(0.9f, 1.1f));
+		mSystem.addParticleInitializer(new VelocityParticleInitializer<Sprite>(-200.0f, 200.0f, -200.0f, 200.0f));
+		mSystem.addParticleInitializer(new BlendFunctionParticleInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA));
+		mSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(0.0f, 6.99f, 1.0f, 0.5f));
+		mSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.51f, 0.0f, 0.0f));
+		mSystem.addParticleModifier(new ColorParticleModifier<Sprite>(1.0f, 2.0f, 1.0f, 0.50f, 0.51f, 0.50f, 0.0f, 0.50f));
+		mSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0.0f, 6.99f, 1.0f, 0.50f));
+		
+		SceneManager.getInstance().getCurrentScene().attachChild(mSystem);
+				
+		final float time = 1.0f;
+		
+		ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(time, new ITimerCallback() 
+		{
+			public void onTimePassed(final TimerHandler pTimerHandler) 
+			{
+				mSystem.detachSelf();
+			}
+		}));
 	}
 	
 	protected static void attachGem(Gem gem){
@@ -334,7 +380,7 @@ public class Gemboard{
 		for(Gem gem : connectedGems){
 			damageType.add((String)gem.getUserData());
 		}
-		return damageType;	
+		return damageType;
 	}
 	
 	private static int checkGem(int c, int r, Object userData){

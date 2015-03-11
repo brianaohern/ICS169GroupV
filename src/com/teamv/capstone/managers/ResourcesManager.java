@@ -59,6 +59,10 @@ public class ResourcesManager
     public BitmapTextureAtlas backgroundTextureAtlas;
     public ITextureRegion background;
     
+    //particles
+    public BitmapTextureAtlas particleTextureAtlas;
+    public ITextureRegion particle;
+    
     //game.gems
     public ITextureRegion red_gem;
     public ITextureRegion blue_gem;
@@ -179,9 +183,16 @@ public class ResourcesManager
     	background = BitmapTextureAtlasTextureRegionFactory.createFromAsset(backgroundTextureAtlas, activity, "background.png", 0, 0);
     	backgroundTextureAtlas.load();
     	
+    	// game.particles
+    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+    	particleTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 53, 53, TextureOptions.BILINEAR);
+    	particle = BitmapTextureAtlasTextureRegionFactory.createFromAsset(particleTextureAtlas, activity, "particle.png", 0, 0);
+    	particleTextureAtlas.load();
+    	// emd game.particles
+    	
     	// game.gems
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/gems/");
-        gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1000, 1000, TextureOptions.BILINEAR);
+        gemsTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), 1000, 1000, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
         red_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "fire_red.png", 0, 0);
         blue_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "water_blue.png", 228, 0);
         yellow_gem = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gemsTextureAtlas, activity, "sun_yellow.png", 0, 244);
