@@ -279,14 +279,11 @@ public class Gemboard{
 		final SpriteParticleSystem mSystem;
 				
 		mEmitter = new PointParticleEmitter(x,y);
-		mSystem = new SpriteParticleSystem(mEmitter, 500.0f, 600.0f, 600, ResourcesManager.getInstance().particle, grid[0][0].getVertexBufferObjectManager());
+		mSystem = new SpriteParticleSystem(mEmitter, 300.0f, 400.0f, 500, ResourcesManager.getInstance().particle, grid[0][0].getVertexBufferObjectManager());
 		mSystem.addParticleInitializer(new ExpireParticleInitializer<Sprite>(0.9f, 1.1f));
 		mSystem.addParticleInitializer(new VelocityParticleInitializer<Sprite>(-200.0f, 200.0f, -200.0f, 200.0f));
-		mSystem.addParticleInitializer(new BlendFunctionParticleInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA));
-		mSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(0.0f, 6.99f, 1.0f, 0.5f));
 		mSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.51f, 0.0f, 0.0f));
 		mSystem.addParticleModifier(new ColorParticleModifier<Sprite>(1.0f, 2.0f, 1.0f, 0.50f, 0.51f, 0.50f, 0.0f, 0.50f));
-		mSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0.0f, 6.99f, 1.0f, 0.50f));
 		
 		SceneManager.getInstance().getCurrentScene().attachChild(mSystem);
 				

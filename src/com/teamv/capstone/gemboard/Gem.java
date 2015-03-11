@@ -1,16 +1,5 @@
 package com.teamv.capstone.gemboard;
 
-import org.andengine.engine.handler.timer.ITimerCallback;
-import org.andengine.engine.handler.timer.TimerHandler;
-import org.andengine.entity.particle.SpriteParticleSystem;
-import org.andengine.entity.particle.emitter.PointParticleEmitter;
-import org.andengine.entity.particle.emitter.RectangleParticleEmitter;
-import org.andengine.entity.particle.initializer.BlendFunctionParticleInitializer;
-import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
-import org.andengine.entity.particle.modifier.AlphaParticleModifier;
-import org.andengine.entity.particle.modifier.ColorParticleModifier;
-import org.andengine.entity.particle.modifier.ExpireParticleInitializer;
-import org.andengine.entity.particle.modifier.ScaleParticleModifier;
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
@@ -20,9 +9,6 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
-
-import android.opengl.GLES20;
-import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
