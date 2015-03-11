@@ -22,7 +22,7 @@ public class Wave{
 	}
 	
 	public void initPlacement(){
-		int x = 750;
+		int x = 725;
 		switch(enemies.size()){
 		case 1:
 			enemies.get(0).setPosition(x, 600);

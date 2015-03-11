@@ -11,7 +11,7 @@ public class AlphaWolf extends Enemy{
 	final static int 		ALPHA_WOLF_HEALTH = 40;
 	final static int		ALPHA_WOLF_ATTACK = 10;
 	final static int 		ALPHA_WOLF_START_TURN_COUNT = 4;
-	final static float		ALPHA_WOLF_SCALE = 0.75f;
+	final static float		ALPHA_WOLF_SCALE = 1f;
 	private ColorType 		alpha_wolf_type = ColorType.RED;
 
 	public AlphaWolf(float x, float y, VertexBufferObjectManager vbom) {

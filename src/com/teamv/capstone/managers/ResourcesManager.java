@@ -197,7 +197,7 @@ public class ResourcesManager
         direWolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "dire_wolf.png", 0, 250);
         imp = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "imp.png", 250, 250);
         zombie = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "zombie.png", 0, 500);
-        alphaWolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "alphaWolf.png", 250, 500);
+        alphaWolf = BitmapTextureAtlasTextureRegionFactory.createFromAsset(enemyTextureAtlas, activity, "alphaWolf.png", 115, 500);
         enemyTextureAtlas.load();
         //end game.enemies
         
