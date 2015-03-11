@@ -30,4 +30,10 @@ public class Wolf extends Enemy{
 		this.setUserData(type);
 		this.setType(type);
 	}
+	
+	public Wolf(VertexBufferObjectManager vbom, int health, int attack, int startTurnCount){
+		this(0, 0, vbom);
+		this.setup(health, attack, startTurnCount, wolf_type, WOLF_SCALE);
+		this.init();
+	}
 }

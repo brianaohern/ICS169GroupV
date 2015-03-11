@@ -30,4 +30,10 @@ public class DireWolf extends Enemy{
 		this.setUserData(type);
 		this.setType(type);
 	}
+	
+	public DireWolf(VertexBufferObjectManager vbom, int health, int attack, int startTurnCount){
+		this(0, 0, vbom);
+		this.setup(health, attack, startTurnCount, dire_wolf_type, DIRE_WOLF_SCALE);
+		this.init();
+	}
 }

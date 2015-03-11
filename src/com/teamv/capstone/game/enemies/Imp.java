@@ -30,4 +30,10 @@ public class Imp extends Enemy{
 		this.setUserData(type);
 		this.setType(type);
 	}
+	
+	public Imp(VertexBufferObjectManager vbom, int health, int attack, int startTurnCount){
+		this(0, 0, vbom);
+		this.setup(health, attack, startTurnCount, imp_type, IMP_SCALE);
+		this.init();
+	}
 }

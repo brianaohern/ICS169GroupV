@@ -17,12 +17,13 @@ public class TutorialLevel extends Level{
 		final Wave w2 = new Wave();
 		final Wave w3 = new Wave();
 		
-		w1.add(new Wolf(this.vbom));
-		w2.add(new Wolf(this.vbom));
-		w2.add(new DireWolf(this.vbom));
-		w3.add(new Imp(this.vbom));
-		w3.add(new DireWolf(this.vbom));
-		w3.add(new Wolf(this.vbom));
+		// Tutorial enemies
+		w1.add(new Wolf(this.vbom, 4, 3, 3));
+		w2.add(new Wolf(this.vbom, 4, 3, 3));
+		w2.add(new DireWolf(this.vbom, 6, 3, 2));
+		w3.add(new Imp(this.vbom, 10, 5, 4));
+		w3.add(new DireWolf(this.vbom, 6, 3, 1));
+		w3.add(new Wolf(this.vbom, 4, 3, 3));
 		
 		this.addWave(w1);
 		this.addWave(w2);
