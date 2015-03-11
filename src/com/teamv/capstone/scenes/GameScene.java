@@ -21,6 +21,7 @@ import com.teamv.capstone.game.tutorial.TutorialBattleground;
 import com.teamv.capstone.game.tutorial.TutorialGemboard;
 import com.teamv.capstone.gemboard.Gemboard;
 import com.teamv.capstone.managers.ResourcesManager;
+import com.teamv.capstone.managers.SceneManager;
 import com.teamv.capstone.managers.SceneManager.SceneType;
 
 public class GameScene extends BaseScene
@@ -159,16 +160,24 @@ public class GameScene extends BaseScene
 		arena.enterLevel(level);
 	}
 
-	public void enterEndScene(boolean winGame) {
-		ResultScene resultScene = null;
+	public void enterEndScene(final boolean winGame) {
 		ResourcesManager.getInstance().bgm.stop();
-		if(winGame){
-			resultScene = new ResultScene(600, 800, "You Win!!!", SceneType.SCENE_MENU);
-		}
-		else{
-			resultScene = new ResultScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
-		}
-		this.setChildScene(resultScene, false, true, true);
+		this.registerUpdateHandler(new TimerHandler(0.9f, true, new ITimerCallback()
+		{
+			@Override
+			public void onTimePassed(final TimerHandler pTimerHandler)
+			{
+				ResultScene resultScene = null;
+				if(winGame){
+					resultScene = new ResultScene(600, 800, "You Win!!!", SceneType.SCENE_MENU);
+				}
+				else{
+					resultScene = new ResultScene(600, 800, "You Lose!", SceneType.SCENE_MENU);
+				}
+				SceneManager.getInstance().getGameScene().setChildScene(resultScene, false, true, true);
+			}
+		}));
+	
 	}
 	
 	public void enterInstructionScene(String instruction, boolean shouldResetBoard, int boardType){

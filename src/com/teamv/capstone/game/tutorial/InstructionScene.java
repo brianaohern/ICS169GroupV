@@ -28,7 +28,7 @@ public class InstructionScene extends PopUpScene{
 		if(shouldResetBoard){
 			((TutorialGemboard)SceneManager.getInstance().getGameScene().gemboard).loadTutorial(boardType);
 		}
-		setBackground(new Background(Color.BLACK));
+		//setBackground(new Background(Color.BLACK));
 	}
 	
 	public void setUp(int width, int height, String text, boolean shouldResetBoard, int boardType){

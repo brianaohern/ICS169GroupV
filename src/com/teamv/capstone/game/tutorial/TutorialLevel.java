@@ -44,7 +44,7 @@ public class TutorialLevel extends Level{
 			{
 				public void onTimePassed(final TimerHandler pTimerHandler) 
 				{
-					SceneManager.getInstance().getGameScene().enterInstructionScene("The bomb will consume surrounding gems, adding power to your attack.", true, 3);
+					SceneManager.getInstance().getGameScene().enterInstructionScene("The bomb will consume surrounding gems, adding power to your attack. Potions will recover health. ", true, 3);
 				}
 			}));
 		}

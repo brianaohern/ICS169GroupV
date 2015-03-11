@@ -42,12 +42,12 @@ public class TutorialBattleground extends Battleground{
 				}));
 				break;
 			case 3:
-				ResourcesManager.getInstance().activity.gameToast("tutorial3 instructions health");
+				//ResourcesManager.getInstance().activity.gameToast("tutorial3 instructions health");
 				ResourcesManager.getInstance().engine.registerUpdateHandler(new TimerHandler(0.9f, new ITimerCallback() 
 				{
 					public void onTimePassed(final TimerHandler pTimerHandler) 
 					{
-						SceneManager.getInstance().getGameScene().enterInstructionScene("Use the potion to restore your health.", false, 0);
+						SceneManager.getInstance().getGameScene().enterInstructionScene("Use this potion to restore your health.", false, 0);
 //						((TutorialGemboard)SceneManager.getInstance().getGameScene().gemboard).overrideColor(ColorType.BLUE);
 					}
 				}));
