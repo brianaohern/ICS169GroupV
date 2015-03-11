@@ -156,6 +156,7 @@ public class Gemboard{
 				
 				for (SpecialGem gem : activatedGems) {
 					if(gem.getClass() == Bomb.class){
+						ResourcesManager.getInstance().bombDestroySound.play();
 						for (Gem adj : getAdjacentGems(gem)) {
 							if (adj != null && !connectedGems.contains(adj) && !activatedGems.contains(adj)) {
 								connectedGems.add((Gem)adj); 
@@ -163,10 +164,8 @@ public class Gemboard{
 						}
 					}
 					else if(gem.getClass() == Potion.class){
-						Log.d("MyActivity", "Potion");
-						// Increase health by X amount
+						ResourcesManager.getInstance().potionDestroySound.play();
 						potion++;
-						Log.d("MyActivity", "Dropped potion");
 					}
 					dropGem(gem);
 				}

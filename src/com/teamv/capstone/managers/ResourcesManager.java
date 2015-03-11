@@ -98,6 +98,8 @@ public class ResourcesManager
     public Sound gemSelectSound;
     public Sound gemDestroySound;
     public Sound meleeAttackSound;
+    public Sound bombDestroySound;
+    public Sound potionDestroySound;
     public Music bgm;
     
     //---------------------------------------------
@@ -248,6 +250,8 @@ public class ResourcesManager
 			gemSelectSound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/gem_select.wav");
 			gemDestroySound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/gem_destroy.mp3");
 			meleeAttackSound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/melee_attack.wav");
+			bombDestroySound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/bomb_sample.mp3");
+			potionDestroySound = SoundFactory.createSoundFromAsset(activity.getSoundManager(), activity.getApplicationContext(), "sfx/potion.mp3");
 			bgm = MusicFactory.createMusicFromAsset(activity.getMusicManager(), activity.getApplicationContext(), "bgm/battle_music.mp3");
 			bgm.setLooping(true);
 		} catch (IOException e) {
