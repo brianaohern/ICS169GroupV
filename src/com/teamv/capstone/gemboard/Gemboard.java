@@ -264,7 +264,7 @@ public class Gemboard{
 	
 	protected static void detachGem(Gem gem){
 		gameScene.unregisterTouchArea(gem);
-		destroyBody(gem);
+		//destroyBody(gem);
 		gem.cleanUp();
 	}
 	

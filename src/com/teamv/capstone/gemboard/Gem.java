@@ -185,19 +185,22 @@ public abstract class Gem extends Sprite{
 				Gemboard.connectedGems.remove(i);
 				
 				// Store the line
-				Line line = null;
-				if(Gemboard.lines.size() - 1 <= 0)
-					line = Gemboard.lines.get(0);
-				else
-					line = Gemboard.lines.get(Gemboard.lines.size()-1);
-				
-				// Remove the line from lines ArrayList
-				Gemboard.lines.remove(i-1);
-				
-				// Eliminate the line
-				line.detachSelf();
-				line.dispose();
-				line = null;
+				if(Gemboard.lines.size() >= 0){
+					Line line = null;
+					if(Gemboard.lines.size() - 1 == 0)
+						line = Gemboard.lines.get(0);
+					else
+						line = Gemboard.lines.get(Gemboard.lines.size()-1);
+					
+					// Remove the line from lines ArrayList
+					Gemboard.lines.remove(i-1);
+					
+					// Eliminate the line
+					line.detachSelf();
+					line.dispose();
+					line = null;
+				}
+			
 				
 				// set point to middle of gem
 	            start.setX(getX() + Gemboard.RADIUS/2);

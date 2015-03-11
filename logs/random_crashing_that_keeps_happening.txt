@@ -1,0 +1,4 @@
+03-10 22:08:33.614: V/AndEngine(2369): org.andengine.input.touch.TouchEvent$TouchEventPool<TouchEvent> was exhausted, with 1 item not yet recycled. Allocated 1 more.
+03-10 22:08:33.614: V/AndEngine(2369): org.andengine.util.adt.pool.PoolUpdateHandler$1<TouchEventRunnablePoolItem> was exhausted, with 1 item not yet recycled. Allocated 1 more.
+03-10 22:08:34.535: A/libc(2369): /Users/ngramlich/Workspace/gdk/graphic_engines/AndEngine/AndEnginePhysicsBox2DExtension/jni/Box2D/Dynamics/b2Body.cpp:275: void b2Body::ResetMassData(): assertion "m_type == b2_dynamicBody" failed
+03-10 22:08:34.535: A/libc(2369): Fatal signal 6 (SIGABRT) at 0x00000941 (code=-6), thread 2384 (UpdateThread)
