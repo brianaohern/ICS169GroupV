@@ -8,8 +8,8 @@ import com.teamv.capstone.managers.ResourcesManager;
 
 public class Wolf extends Enemy{
 	
-	final static int 		WOLF_HEALTH = 5;
-	final static int		WOLF_ATTACK = 3;
+	final static int 		WOLF_HEALTH = 8;
+	final static int		WOLF_ATTACK = 6;
 	final static int 		WOLF_START_TURN_COUNT = 3;
 	final static float		WOLF_SCALE = 1f;
 	private ColorType 		wolf_type = ColorType.RED;

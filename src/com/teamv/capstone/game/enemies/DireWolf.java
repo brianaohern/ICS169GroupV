@@ -8,8 +8,8 @@ import com.teamv.capstone.managers.ResourcesManager;
 
 public class DireWolf extends Enemy{
 	
-	final static int 		DIRE_WOLF_HEALTH = 6;
-	final static int		DIRE_WOLF_ATTACK = 3;
+	final static int 		DIRE_WOLF_HEALTH = 12;
+	final static int		DIRE_WOLF_ATTACK = 6;
 	final static int 		DIRE_WOLF_START_TURN_COUNT = 2;
 	final static float		DIRE_WOLF_SCALE = 1f;
 	private ColorType 		dire_wolf_type = ColorType.BLUE;
